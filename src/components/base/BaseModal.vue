@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="modal.isOpen"
-    class="fixed inset-0 bg-[#222] bg-opacity-50 flex items-center justify-center"
+    class="fixed inset-0 z-50 bg-[#222] bg-opacity-50 flex items-center justify-center"
   >
     <div
       class="bg-[#77D1CC] bg-opacity-60 rounded-[12px] shadow-md w-[300px] h-[220px] max-w-sm text-center"
