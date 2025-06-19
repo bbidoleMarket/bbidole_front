@@ -42,7 +42,7 @@
               >내가 산(←>염기) 물품</router-link
             >
             <router-link
-              to="me/chats"
+              to="/me/chats"
               class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
               >채팅방 목록</router-link
             >
