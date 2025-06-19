@@ -23,27 +23,27 @@
           <ul class="text-[#2E383A] text-lg mt-8">
             <router-link
               to="/me"
-              class="block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
               >내 정보 보기</router-link
             >
             <router-link
               to="/me/edit"
-              class="block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
               >내 정보 수정</router-link
             >
             <router-link
               to="/me/posts"
-              class="block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
               >내가 쓴(←>달달한) 글</router-link
             >
             <router-link
               to="/me/buy"
-              class="block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
               >내가 산(←>염기) 물품</router-link
             >
             <router-link
               to="me/chats"
-              class="block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
               >채팅방 목록</router-link
             >
           </ul>
@@ -63,7 +63,9 @@
       />
     </BaseButton>
     <div class="flex w-full h-full justify-center items-center">
-      <h1 class="text-3xl font-bold text-[#2E383A] ml-auto">삐돌이 마켓</h1>
+      <h1 class="font-jua text-3xl font-bold text-[#2E383A] ml-auto">
+        삐돌이 마켓
+      </h1>
       <!-- 로그인 버튼 -->
       <BaseButton
         class="ml-auto mr-4 p-4 bg-[#43A8A5] text-lg text-white font-bold flex items-center justify-center"
