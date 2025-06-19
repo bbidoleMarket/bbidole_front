@@ -66,7 +66,7 @@
       <h1 class="text-3xl font-bold text-[#2E383A] ml-auto">삐돌이 마켓</h1>
       <!-- 로그인 버튼 -->
       <BaseButton
-        class="ml-auto mr-4 w-20 p-4 bg-[#43A8A5] text-lg text-white font-bold flex items-center justify-center"
+        class="ml-auto mr-4 p-4 bg-[#43A8A5] text-lg text-white font-bold flex items-center justify-center"
         @click="goLogin"
       >
         로그인
