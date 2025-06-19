@@ -24,26 +24,31 @@
             <router-link
               to="/me"
               class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              @click="isHamburger = false"
               >내 정보 보기</router-link
             >
             <router-link
               to="/me/edit"
               class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              @click="isHamburger = false"
               >내 정보 수정</router-link
             >
             <router-link
               to="/me/posts"
               class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              @click="isHamburger = false"
               >내가 쓴(←>달달한) 글</router-link
             >
             <router-link
               to="/me/buy"
               class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              @click="isHamburger = false"
               >내가 산(←>염기) 물품</router-link
             >
             <router-link
               to="/me/chats"
               class="font-jua block hover:bg-[#319B9A] p-2 m-4 rounded-[12px]"
+              @click="isHamburger = false"
               >채팅방 목록</router-link
             >
           </ul>
