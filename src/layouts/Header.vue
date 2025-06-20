@@ -67,7 +67,7 @@
       <img src="../assets/bbidole.svg" alt="삐돌이 마켓 로고" class="w-44" />
     </BaseButton>
     <div class="flex w-full h-full justify-center items-center">
-      <h1 class="font-jua text-4xl font-bold text-[#2E383A] ml-auto">
+      <h1 class="font-jua text-4xl font-normal text-[#2E383A] ml-auto">
         삐돌이 마켓
       </h1>
       <!-- 로그인 버튼 -->
