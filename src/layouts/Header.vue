@@ -61,7 +61,7 @@
   >
     <!-- 로고 겸 홈으로 버튼 -->
     <BaseButton
-      class="m-0 p-0 bg-transparent hover:bg-transparent"
+      class="m-0 xl:p-0 bg-transparent hover:bg-transparent"
       @click="goHome"
     >
       <img
@@ -83,7 +83,11 @@
       </BaseButton>
       <!-- 햄버거 메뉴 버튼 -->
       <BaseButton class="" @click="isHamburger = !isHamburger">
-        <img src="../assets/hamburger.svg" alt="햄버거 메뉴" class="p-1 h-7" />
+        <img
+          src="../assets/hamburger.svg"
+          alt="햄버거 메뉴"
+          class="p-1 xl:p-0 h-7"
+        />
       </BaseButton>
     </div>
   </header>
