@@ -8,6 +8,11 @@ export const useMyPageApi = () => {
       passwordConfirm,
     });
   };
+  const profileImageUpdate = async (id) => {
+    return await async.post(`/api/users/${id}/profile-image`, {
+      profileimage,
+    });
+  };
   return {
     useInfoUpdate,
   };
