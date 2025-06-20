@@ -57,15 +57,14 @@
     </div>
   </transition>
   <header
-    class="fixed top-0 right-0 left-0 flex w-full h-[80px] bg-[#FFFCEF] shadow-md p-4"
+    class="sticky top-0 z-50 flex w-full h-[80px] bg-[#FFFCEF] shadow-md p-2"
   >
     <!-- 로고 겸 홈으로 버튼 -->
-    <BaseButton class="bg-transparent hover:bg-transparent" @click="goHome">
-      <img
-        src="../assets/bbidole.svg"
-        alt="삐돌이 마켓 로고"
-        class="h-40 fixed top-0"
-      />
+    <BaseButton
+      class="m-0 p-0 bg-transparent hover:bg-transparent"
+      @click="goHome"
+    >
+      <img src="../assets/bbidole.svg" alt="삐돌이 마켓 로고" class="w-44" />
     </BaseButton>
     <div class="flex w-full h-full justify-center items-center">
       <h1 class="font-jua text-4xl font-bold text-[#2E383A] ml-auto">
