@@ -6,7 +6,7 @@
       $attrs.class,
       'placeholder:text-gray-500',
     ]"
-    :value="inputValue"
+    :value="modelValue"
     @input="
       $emit('update:modelValue', $event.target.value);
       $emit('input', $event);
