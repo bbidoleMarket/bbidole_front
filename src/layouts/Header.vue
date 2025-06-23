@@ -94,7 +94,7 @@ const isHamburger = ref(false); // 햄버거 메뉴 상태
 
 const goHome = () => {
   // 홈으로 이동하는 함수
-  router.push("/");
+  window.location.href = "/";
 };
 const goLogin = () => {
   // 로그인 페이지로 이동하는 함수

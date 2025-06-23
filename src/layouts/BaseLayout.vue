@@ -1,7 +1,7 @@
 <template>
   <Header />
-  <main>
-    <router-view />
+  <main class="pb-[70px]">
+    <slot></slot>
   </main>
   <Footer />
 </template>
