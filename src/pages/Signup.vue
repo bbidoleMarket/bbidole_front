@@ -215,7 +215,7 @@ async function handleSubmit() {
             nickname.value
         );
         console.log("회원가입 성공 : " + JSON.stringify(res));
-        if (res.data.status == 200) {
+        if (res.status == 200) {
             alert("회원가입 성공");
             router.push("/login");
         }
