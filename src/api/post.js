@@ -1,7 +1,16 @@
 import axios from "@/api/axiosInstance";
 
 export const useUserApi = () => {
-  // 사용자의 상세 정보 요청
+  /**
+   * 사용자의 상세 정보 요청
+   * @param {path} sellerId
+   * @returns {
+   *    long userId;
+   *    String nickname;
+   *    String imageUrl;
+   *    String imageUrl;
+   * }
+   */
   const getUserDetail = async (sellerId) => {
     return await axios.get(`/api/user/seller/${sellerId}}`);
     /*
@@ -19,14 +28,38 @@ export const useUserApi = () => {
 };
 
 export const usePostApi = () => {
-  // 게시글 상세 정보 요청
+  /**
+   * 게시글 상세 정보 요청
+   * @param {path} postId
+   * @returns {
+   *    long postId;
+   *    String title;
+   *    int price;
+   *    String description;
+   *    String imageUrl;
+   *
+   *    long writerId;
+   *    String writerNickname;
+   *    String writerImageUrl;
+   *    Double writerTotalRating;
+   * }
+   */
   const getPostDetail = async (postId) => {
     return await axios.get(`/api/post/${postId}`);
   };
 
-  // 게시글 수정 요청
+  //
+  /**
+   * 게시글 수정 요청
+   * @param {body} postId
+   * @param {body} title
+   * @param {body} description
+   * @param {body} price
+   * @param {body} userId
+   * @param {body} image
+   * @returns
+   */
   const updatePost = async (
-    postId,
     postId,
     title,
     description,
@@ -58,6 +91,27 @@ export const usePostApi = () => {
     });
   };
 
+  /**
+   * 판매자가 작성한 게시글 목록 요청(Pagenation)
+   * @param {path} userId
+   * @param {query} page
+   * @param {query} size
+   * @returns {
+   *    List<T> content;      // 현재 페이지의 데이터 리스트
+   *    int pageNumber;       // 현재 페이지 위치
+   *    int pageSize;         // 각 페이지 크기
+   *    int totalPages;       // 전페 페이지 수
+   *    Long totalElements;   // 전체 데이터 수
+   *    boolean last;         // 마지막 페이지인지
+   * }
+   *
+   * content: {
+   *    long id;
+   *    String title;
+   *    int price;
+   *    String imageUrl;
+   * }
+   */
   const getPostListByPage = async (userId, page, size) => {
     return await axios.get(
       `/api/post/seller/${userId}?page=${page}&size=${size}`
@@ -68,6 +122,26 @@ export const usePostApi = () => {
 };
 
 export const useReviewApi = () => {
+  /**
+   * 리뷰 목록 요청(Pagenation)
+   * @param {path} userId
+   * @param {query} page
+   * @param {query} size
+   * @returns {
+   *    List<T> content;      // 현재 페이지의 데이터 리스트
+   *    int pageNumber;       // 현재 페이지 위치
+   *    int pageSize;         // 각 페이지 크기
+   *    int totalPages;       // 전페 페이지 수
+   *    Long totalElements;   // 전체 데이터 수
+   *    boolean last;         // 마지막 페이지인지
+   * }
+   *
+   * content: {
+   *    String writerNickname;
+   *    String content;
+   *    int rating;
+   * }
+   */
   const getReviewListByPage = async (userId, page, size) => {
     return await axios.get(`/api/review/${userId}?page=${page}&size=${size}`);
   };
@@ -76,6 +150,15 @@ export const useReviewApi = () => {
 };
 
 export const useChatRoomApi = () => {
+  /**
+   * 채팅방 시작 요청
+   * @param {body} productId
+   * @param {body} sellerId
+   * @param {body} buyerId
+   * @returns {
+   *   long chatRoomId;
+   * }
+   */
   const startChat = async (productId, sellerId, buyerId) => {
     return await axios.post(`/api/chat-room/`, {
       productId: productId,
