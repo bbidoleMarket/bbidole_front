@@ -4,17 +4,17 @@
     class="fixed inset-0 z-50 bg-[#222] bg-opacity-50 flex items-center justify-center"
   >
     <div
-      class="bg-[#77D1CC] bg-opacity-60 rounded-[12px] shadow-md w-[300px] h-[220px] max-w-sm text-center"
+      class="font-noto bg-[#77D1CC] bg-opacity-60 rounded-[12px] shadow-md w-[60%] max-w-sm text-center"
     >
       <h2
         class="m-0 text-lg bg-[#FFFCEF] rounded-[12px] text-[#2E383A] font-bold p-4"
       >
         {{ modal.title }}
       </h2>
-      <p class="mt-6 text-[#2E383A] p-2">{{ modal.message }}</p>
+      <p class="mt-6 text-[#2E383A] p-4">{{ modal.message }}</p>
       <div class="flex justify-center items-center mt-10">
         <BaseButton
-          class="flex items-center justify-center h-10 shadow-md"
+          class="flex items-center justify-center h-10 shadow-md mb-4"
           @click="modal.close"
         >
           확인
