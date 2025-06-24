@@ -3,9 +3,11 @@ import App from "./App.vue";
 import { createPinia } from "pinia";
 import "./assets/tailwind.css";
 import router from "./router";
+// import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 const app = createApp(App);
 const pinia = createPinia();
+// pinia.use(piniaPluginPersistedstate);
 app.use(pinia); // Pinia 등록
 app.use(router); // Vue Router 등록
 app.mount("#app"); // index.html의 app에 마운트

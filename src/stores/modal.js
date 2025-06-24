@@ -16,4 +16,5 @@ export const useModalStore = defineStore("modal", {
       this.isOpen = false;
     },
   },
+  // persist: true,
 });
