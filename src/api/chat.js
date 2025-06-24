@@ -5,5 +5,15 @@ export const useChatApi = () => {
     return await axios.get("api/chat/list");
   };
 
-  return { getChatList };
+  const getChatMessages = async (chatId) => {
+    return await axios.get(`api/chat/${chatId}`);
+  };
+
+  const setSold = async (chatId) => {
+    return await axios.patch(`api/chat/sold`, null, {
+      params: { id: chatId },
+    });
+  };
+
+  return { getChatList, getChatMessages, setSold };
 };

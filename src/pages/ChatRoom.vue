@@ -10,9 +10,12 @@
         class="text-black bg-transparent hover:bg-transparent lg:text-2xl lg:mr-10 mr-2 ml-auto"
         >{{ sellerName }}</BaseButton
       >
-      <BaseButton class="lg:text-xl">{{
-        isCompleted ? "판매 완료" : "판매 중"
-      }}</BaseButton>
+      <BaseButton
+        class="lg:text-xl disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
+        @click="clickSold"
+        :disabled="isCompleted"
+        >{{ isCompleted ? "판매 완료" : "판매 중" }}</BaseButton
+      >
     </div>
     <div
       class="flex flex-1 flex-col bg-[#FFFCEF] shadow-lg overflow-y-auto"
@@ -45,120 +48,19 @@
 <script setup>
 import router from "../router";
 import { onMounted, watch, ref, nextTick } from "vue";
-import { reactive } from "vue";
 import { useRoute } from "vue-router";
 import BaseButton from "../components/base/BaseButton.vue";
 import ChatMessage from "../components/ChatMessage.vue";
 import BaseInput from "../components/base/BaseInput.vue";
+import { useChatApi } from "../api/chat";
+import { useModalStore } from "../stores/modal";
+
+const modal = useModalStore();
+const { getChatMessages, setSold } = useChatApi();
 const newMessage = ref(""); // 새로운 메시지 입력을 위한 ref
 const chatContainer = ref(null); // 채팅 메시지 컨테이너를 참조하기 위한 ref
 const route = useRoute();
-const messages = reactive([
-  {
-    id: "msg1",
-    sender: "me",
-    content: "안녕하세요! 상품에 대해 문의드려요.",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg2",
-    sender: "other",
-    content: "안녕하세요! 어떤 부분이 궁금하신가요?",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg3",
-    sender: "me",
-    content: "상품 상태와 가격을 알고 싶어요.",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg4",
-    sender: "other",
-    content: "상품은 새것이고 가격은 10,000원입니다.",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg5",
-    sender: "me",
-    content: "좋아요! 구매하고 싶어요.",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg6",
-    sender: "other",
-    content: "감사합니다! 거래를 진행하겠습니다.",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg7",
-    sender: "me",
-    content: "거래 완료 후 리뷰 남길게요!",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg8",
-    sender: "other",
-    content: "네, 감사합니다! 리뷰 기다릴게요.",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg9",
-    sender: "me",
-    content:
-      "거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg10",
-    sender: "other",
-    content:
-      "네, 감사합니다! 리뷰 기다릴게요.네, 감사합니다! 리뷰 기다릴게요.네, 감사합니다! 리뷰 기다릴게요.네, 감사합니다! 리뷰 기다릴게요.네, 감사합니다! 리뷰 기다릴게요.네, 감사합니다! 리뷰 기다릴게요.네, 감사합니다! 리뷰 기다릴게요.네, 감사합니다! 리뷰 기다릴게요.",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg11",
-    sender: "me",
-    content: "거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg12",
-    sender: "other",
-    content: "네, 감사합니다! 리뷰 기다릴게요!",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg13",
-    sender: "me",
-    content: "거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg14",
-    sender: "other",
-    content: "네, 감사합니다! 리뷰 기다릴게요!",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg15",
-    sender: "me",
-    content: "거래 완료 후 리뷰 남길게요!거래 완료 후 리뷰 남길게요!",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg16",
-    sender: "other",
-    content: "네, 감사합니다! 리뷰 기다릴게요!",
-    sendAt: new Date().toISOString(),
-  },
-  {
-    id: "msg17",
-    sender: "me",
-    content: "거래 완!",
-    sendAt: new Date().toISOString(),
-  },
-]);
+
 const chatId = route.params.chatId;
 const {
   title,
@@ -186,6 +88,19 @@ onMounted(async () => {
   if (chatContainer.value) {
     chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
   }
+  // 채팅 메시지 불러오기
+  getChatMessages(chatId)
+    .then((data) => {
+      console.log("채팅 메시지:", data);
+      messages.value = data.data.data; // 채팅 메시지 데이터를 messages에 할당
+    })
+    .catch((error) => {
+      modal.open({
+        title: "채팅 메시지 가져오기 실패",
+        message: "채팅 메시지를 가져오는 데 실패했습니다. 다시 시도해주세요.",
+      });
+      console.error("채팅 메시지 가져오기 실패:", error);
+    });
 });
 
 const sendMessage = () => {
@@ -199,6 +114,25 @@ const sendMessage = () => {
     sendAt: new Date().toISOString(),
   });
   newMessage.value = ""; // 메시지 입력 필드 초기화
+};
+
+const clickSold = () => {
+  // 판매 완료 상태로 변경
+  setSold(chatId)
+    .then(() => {
+      modal.open({
+        title: "판매 완료",
+        message: "채팅방이 판매 완료 상태로 변경되었습니다.",
+      });
+    })
+    .catch((error) => {
+      modal.open({
+        title: "판매 완료 실패",
+        message:
+          "채팅방을 판매 완료 상태로 변경하는 데 실패했습니다. 다시 시도해주세요.",
+      });
+      console.error("판매 완료 실패:", error);
+    });
 };
 
 watch(
