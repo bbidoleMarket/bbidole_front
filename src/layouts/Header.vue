@@ -61,25 +61,33 @@
   >
     <!-- 로고 겸 홈으로 버튼 -->
     <BaseButton
-      class="m-0 p-0 bg-transparent hover:bg-transparent"
+      class="m-0 xl:p-0 bg-transparent hover:bg-transparent"
       @click="goHome"
     >
-      <img src="../assets/bbidole.svg" alt="삐돌이 마켓 로고" class="w-44" />
+      <img
+        src="../assets/bbidole.svg"
+        alt="삐돌이 마켓 로고"
+        class="w-24 lg:w-44"
+      />
     </BaseButton>
     <div class="flex w-full h-full justify-center items-center">
-      <h1 class="font-jua text-4xl font-normal text-[#2E383A] ml-auto">
+      <h1 class="font-jua lg:text-4xl lg:font-normal text-[#2E383A] ml-auto">
         삐돌이 마켓
       </h1>
       <!-- 로그인 버튼 -->
       <BaseButton
-        class="ml-auto mr-4 p-4 bg-[#43A8A5] text-lg text-white font-bold flex items-center justify-center"
+        class="ml-auto mr-4 lg:text-lg lg:font-bold flex items-center justify-center"
         @click="goLogin"
       >
         로그인
       </BaseButton>
       <!-- 햄버거 메뉴 버튼 -->
-      <BaseButton class="p-4 bg-[#43A8A5]" @click="isHamburger = !isHamburger">
-        <img src="../assets/hamburger.svg" alt="햄버거 메뉴" class="h-7" />
+      <BaseButton class="" @click="isHamburger = !isHamburger">
+        <img
+          src="../assets/hamburger.svg"
+          alt="햄버거 메뉴"
+          class="p-1 xl:p-0 h-7"
+        />
       </BaseButton>
     </div>
   </header>
