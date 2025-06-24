@@ -3,6 +3,7 @@ import { useAuthStore } from "../stores/auth";
 import Login from "../pages/Login.vue";
 import Signup from "../pages/Signup.vue";
 import Home from "../pages/Home.vue";
+import MeChats from "../pages/MeChats.vue";
 
 const routes = [
     {
@@ -22,6 +23,10 @@ const routes = [
         name: "Signup",
         component: Signup,
         meta: { requiresGuest: true, hideLayout: true },
+    },
+    {
+        path: "/me/chats",
+        component: MeChats,
     },
 ];
 
@@ -46,13 +51,13 @@ router.beforeEach(async (to, from, next) => {
         // 액세스 토큰이 없거나 만료된 경우 - 자동 재발급 시도
         if (!authStore.accessToken || authStore.isAccessTokenExpired) {
             try {
-                console.log('액세스 토큰이 없거나 만료됨. 자동 재발급 시도...');
+                console.log("액세스 토큰이 없거나 만료됨. 자동 재발급 시도...");
                 await authStore.refreshAuthTokens();
-                console.log('토큰 재발급 성공!');
+                console.log("토큰 재발급 성공!");
                 next();
                 return;
             } catch (error) {
-                console.error('토큰 재발급 실패:', error);
+                console.error("토큰 재발급 실패:", error);
                 authStore.logout();
                 next("/login");
                 return;
