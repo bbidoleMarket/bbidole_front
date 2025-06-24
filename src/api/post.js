@@ -2,7 +2,7 @@ import axios from "@/api/axiosInstance";
 
 export const useUserApi = () => {
   /**
-   * 사용자의 상세 정보 요청
+   * 판매자의 상세 정보 요청
    * @param {path} sellerId
    * @returns {
    *    long userId;
@@ -24,7 +24,15 @@ export const useUserApi = () => {
         */
   };
 
-  return { getUserDetail };
+  /**
+   * 내 상세 정보 요청
+   * @returns
+   */
+  const getMyDetail = async () => {
+    return await axios.get(`/api/user/seller/1`); // TODO: JWT 합치고 수정하기
+  };
+
+  return { getUserDetail, getMyDetail };
 };
 
 export const usePostApi = () => {
