@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 w-[70%] justify-center mx-auto">
+  <div class="p-4 lg:w-[70%] justify-center mx-auto">
     <ChatItem
       v-for="chat in chats"
       :key="chat.id"
@@ -32,7 +32,7 @@ const onChatClick = (chat) => {
       sellerName: chat.sellerName,
       buyerId: chat.buyerId,
       buyerName: chat.buyerName,
-      isCompleted: chat.isCompleted,
+      isCompleted: chat.completed,
     },
   });
 };
@@ -40,8 +40,8 @@ const onChatClick = (chat) => {
 onMounted(() => {
   getChatList()
     .then((data) => {
-      console.log("채팅 목록:", data);
-      chats.value = data; // 채팅 목록을 실제 데이터로 업데이트
+      chats.value = data.data.data;
+      console.log("채팅 목록:", chats.value);
     })
     .catch((error) => {
       modal.open({
