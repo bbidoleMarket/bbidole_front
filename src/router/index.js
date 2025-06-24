@@ -31,4 +31,14 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    next({ path: "/login" }); // TODO 수정 필요(로그인 페이지의 경로에 따라서)
+  } else {
+    next();
+  }
+});
+
 export default router;
