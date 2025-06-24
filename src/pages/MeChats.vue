@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 w-[70%] justify-center mx-auto">
+  <div class="p-4">
     <ChatItem
       v-for="chat in chats"
       :key="chat.id"
