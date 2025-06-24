@@ -6,9 +6,13 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 
 ## 시작하기
 
-````bash
-npm install
-npm run dev
+```bash
+npm install                 # 라이브러리 설치
+npm run dev                 # 실행
+# or
+yarn install
+yarn dev
+```
 
 ## 폴더 구조
 
@@ -34,9 +38,11 @@ my-vue-app/
 ├── .gitignore
 ├── package.json
 └── vite.config.js          # 빌드/개발 서버 설정
+```
 
 ## 주요 기술
+
 - Vue 3
 - Vite
 - Tailwind CSS
-````
+- Pinia(전역 상태 관리)
