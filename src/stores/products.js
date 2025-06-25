@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { getPostList, searchPosts } from '../api/postapi';
+import { getPostList, searchPosts } from '../api/productapi';
 
 export const useProductsStore = defineStore('products', () => {
   const products = ref([]);
@@ -22,13 +22,6 @@ export const useProductsStore = defineStore('products', () => {
     error.value = null;
     
     try {
-      console.log('API 요청 정보:', { 
-        페이지: currentPage.value,
-        키워드: keyword.value,
-        판매중필터: onlySelling.value,
-        정렬: sortOption.value // 로그에 정렬 옵션 추가
-      });
-      
       const response = await getPostList({
         keyword: keyword.value,
         onlySelling: onlySelling.value,
@@ -93,13 +86,16 @@ export const useProductsStore = defineStore('products', () => {
     fetchProducts(true);
   }
 
-  function resetFilters(keepSellingState = false) {
-    keyword.value = '';
-    if (!keepSellingState) {
-      onlySelling.value = true;
-    }
-    fetchProducts(true);
+function resetFilters(keepSellingState = false) {
+  keyword.value = '';
+  // keepSellingState가 true면 onlySelling 값을 유지
+  if (!keepSellingState) {
+    onlySelling.value = true;
   }
+  // 현재 페이지 초기화
+  currentPage.value = 0;
+  fetchProducts(true);
+}
 
   return {
     products,

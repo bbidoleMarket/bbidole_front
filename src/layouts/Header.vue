@@ -1,27 +1,3 @@
-import { createRouter, createWebHistory } from "vue-router";
-import HomePage from "../pages/HomePage.vue";
-import SearchResultPage from "../pages/SearchResultPage.vue";
-
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: HomePage
-  },
-  {
-    path: "/search",
-    name: "search-results",
-    component: SearchResultPage
-  }
-];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
-
-export default router;
-
 <template>
   <!-- 사이드바 (오픈 시만 보임) -->
   <transition name="fade">

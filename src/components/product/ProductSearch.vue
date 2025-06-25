@@ -1,9 +1,10 @@
 <template>
-  <div class="relative">
+ <div class="relative">
     <input
       type="text"
-      v-model="searchQuery"
-      @input="handleInput"
+      :value="searchQuery"
+      @input="handleRealTimeInput($event)"
+      @compositionupdate="handleRealTimeInput($event)"
       @focus="showSuggestions = true"
       @blur="handleBlur"
       placeholder="상품 검색..."
@@ -28,24 +29,6 @@
         />
       </svg>
     </button>
-
-    <!-- 검색 제안 -->
-    <div
-      v-if="showSuggestions && suggestions.length > 0"
-      class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg"
-    >
-      <ul>
-        <li
-          v-for="suggestion in suggestions"
-          :key="suggestion.id"
-          @mousedown="selectSuggestion(suggestion)"
-          class="px-4 py-2 hover:bg-gray-100 cursor-pointer truncate"
-        >
-          {{ suggestion.title }}
-        </li>
-      </ul>
-    </div>
-
     <!-- 로딩 표시 -->
     <div
       v-if="isSearching"
@@ -66,15 +49,20 @@ const router = useRouter();
 const store = useProductsStore();
 
 const searchQuery = ref('');
-const suggestions = ref([]);
-const showSuggestions = ref(false);
 const isSearching = ref(false);
 
-// 실시간 검색을 위한 debounce 함수
-const debouncedSearch = debounce(async (query) => {
-  if (query.trim()) {
+// 실시간 입력 처리
+const handleRealTimeInput = (event) => {
+  const inputValue = event.target.value;
+  searchQuery.value = inputValue;
+  // 현재 입력 중인 값으로 검색 실행
+  performSearch(inputValue);
+}
+
+// 검색 로직을 debounce로 감싸기 - 짧은 시간으로 설정
+const performSearch = debounce(async (query) => {
+  if (query && query.trim()) {
     isSearching.value = true;
-    suggestions.value = await store.searchProducts(query);
     
     // 실시간 검색 결과 표시를 위해 스토어의 필터 업데이트
     store.setFilter({ 
@@ -84,19 +72,12 @@ const debouncedSearch = debounce(async (query) => {
     
     isSearching.value = false;
   } else {
-    suggestions.value = [];
-    // 검색어가 비어있을 때 키워드만 초기화하고 onlySelling 상태는 유지
     store.setFilter({
       keyword: '',
       onlySelling: store.onlySelling
     });
   }
-}, 300);
-
-// 입력 변경 시 처리
-function handleInput() {
-  debouncedSearch(searchQuery.value);
-}
+}, 100); // 매우 짧은 시간으로 설정 (거의 즉시 실행)
 
 // 검색 버튼 클릭 또는 엔터 키 처리
 function search() {
@@ -105,27 +86,14 @@ function search() {
       name: 'search-results',
       query: { keyword: searchQuery.value }
     });
-    showSuggestions.value = false;
   }
 }
-
-// 검색 제안 선택
-function selectSuggestion(suggestion) {
-  searchQuery.value = suggestion.title;
-  // 검색 결과로 이동 (onlySelling 상태 유지)
-  store.setFilter({ 
-    keyword: suggestion.title,
-    onlySelling: store.onlySelling 
-  });
-  showSuggestions.value = false;
-}
-
 
 // 포커스 잃을 때 제안 숨기기
 function handleBlur() {
   setTimeout(() => {
     showSuggestions.value = false;
-  }, 150);
+  }, 50);
 }
 
 // 라우터 변경 시 검색어 업데이트
@@ -139,7 +107,8 @@ watch(() => router.currentRoute.value.query.keyword, (newKeyword) => {
     });
   } else {
     searchQuery.value = '';
-    store.resetFilters();
+    // resetFilters 호출 시 판매중 상태 유지
+    store.resetFilters(true); // true 전달하여 onlySelling 값 유지
   }
 }, { immediate: true });
 </script>

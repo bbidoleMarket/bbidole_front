@@ -1,9 +1,11 @@
 <template>
-  <Header />
-  <main class="pb-[70px]">
-    <slot></slot>
-  </main>
-  <Footer />
+  <div v-bind="$attrs" :class="[$attrs.class]">
+    <Header />
+    <main class="pb-[70px]">
+      <slot></slot>
+    </main>
+    <Footer />
+  </div>
 </template>
 
 <script setup>

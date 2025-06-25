@@ -8,28 +8,37 @@
       </div>
     </div>
 
+    <!-- 로딩 인디케이터 - 초기 로딩 시에만 표시 -->
     <div v-if="store.loading && !store.products.length" class="flex justify-center py-8">
       <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
     </div>
 
+    <!-- 에러 메시지 -->
     <div v-else-if="store.error" class="bg-red-100 p-4 rounded-lg text-red-700">
       {{ store.error }}
     </div>
 
-    <div v-else-if="!store.products.length" class="py-8 text-center text-gray-500">
+    <!-- 중요: 검색 결과 없음 메시지 - 로딩 중이 아닐 때만 표시 -->
+    <div v-else-if="!store.loading && !store.products.length" class="py-8 text-center text-gray-500">
       검색 결과가 없습니다.
     </div>
 
+    <!-- 상품 목록 -->
     <div v-else>
       <!-- Desktop Grid View -->
-  <div class="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-    <ProductCard v-for="product in store.products" :key="product.id" :product="product" />
-  </div>
+      <div class="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <ProductCard v-for="product in store.products" :key="product.id" :product="product" />
+      </div>
 
       <!-- Mobile List View -->
-  <div class="md:hidden space-y-4">
-    <ProductCard v-for="product in store.products" :key="product.id" :product="product" />
-  </div>
+      <div class="md:hidden space-y-4">
+        <ProductCard v-for="product in store.products" :key="product.id" :product="product" />
+      </div>
+
+      <!-- 추가 로딩 인디케이터 - 무한 스크롤 로딩 시 표시 -->
+      <div v-if="store.loading && store.products.length > 0" class="text-center py-4">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
 
       <!-- 더 이상 상품이 없을 때 메시지 -->
       <div v-if="!store.loading && !store.hasMoreItems && store.products.length > 0"
@@ -43,13 +52,20 @@
           @page-changed="changePage" />
       </div>
 
-      <!-- Back to Top Button (Mobile) -->
-      <button v-if="isMobile && showBackToTop" @click="scrollToTop"
-        class="fixed bottom-[70px] right-8 bg-blue-600 text-white rounded-full p-3 shadow-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-        </svg>
-      </button>
+      <!-- 무한 스크롤 트리거 요소를 여기에 직접 추가 -->
+      <div v-if="isMobile" ref="infiniteScrollTrigger" class="h-10 mt-4">
+                <button
+      v-if="showBackToTop"
+      @click="scrollToTop"
+      class="fixed bottom-[70px] right-[10px] bg-blue-500 hover:bg-blue-600 text-white rounded-full p-3 shadow-lg transition-all duration-300 z-50"
+      aria-label="맨 위로 이동"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -97,23 +113,38 @@ watch(
 // 화면 크기 변경 감지
 watch(isMobile, (newValue, oldValue) => {
   if (newValue !== oldValue) { // 실제로 변경된 경우에만 실행
+    // 현재 필터 상태 저장
+    const currentOnlySelling = store.onlySelling;
+    const currentSortOption = sortOption.value;
+    const currentKeyword = store.keyword;
+
     if (newValue) { // 모바일로 변경됨
       setupInfiniteScroll();
     } else { // 데스크톱으로 변경됨
       // 무한 스크롤 해제
       if (observer.value) {
         observer.value.disconnect();
-        
+
         // 로딩 트리거 요소 제거
         if (loadMoreTrigger.value && loadMoreTrigger.value.parentNode) {
           loadMoreTrigger.value.parentNode.removeChild(loadMoreTrigger.value);
         }
       }
-      
-      // 중요: 데스크톱 모드로 전환 시 데이터 초기화 및 첫 페이지 로드
+
+      // 페이지 초기화
       currentPage.value = 0;
       store.currentPage = 0;
       store.products = []; // 데이터 초기화
+
+      // 정렬 옵션 유지
+      if (currentSortOption !== 'latest') {
+        sortOption.value = currentSortOption;
+      }
+      store.setFilter({
+        keyword: store.keyword,
+        onlySelling: currentOnlySelling
+      });
+      // 필터 상태 유지하며 데이터 다시 로드
       store.fetchProducts(true); // 첫 페이지만 다시 로드
     }
   }
@@ -144,22 +175,10 @@ onUnmounted(() => {
 function checkMobile() {
   const wasMobile = isMobile.value;
   isMobile.value = window.innerWidth < 768;
-  
 }
 
 function checkScroll() {
   showBackToTop.value = window.scrollY > 500;
-
-  // For mobile: implement infinite scroll
-  if (isMobile.value && !store.loading && store.hasMoreItems) {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = window.scrollY;
-    const clientHeight = document.documentElement.clientHeight;
-
-    if (scrollHeight - scrollTop <= clientHeight + 200) {
-      store.fetchProducts();
-    }
-  }
 }
 
 function scrollToTop() {
@@ -192,29 +211,44 @@ const observer = ref(null);
 const loadMoreTrigger = ref(null);
 
 function setupInfiniteScroll() {
-  // 이미 observer가 존재하면 제거
+  // 현재 필터 상태 저장
+  const currentOnlySelling = store.onlySelling;
+  const currentSortOption = sortOption.value;
+
+  // 페이지 초기화
+  currentPage.value = 0;
+  store.currentPage = 0;
+  store.products = []; // 데이터 초기화
+
+  // 필터 상태 유지하며 데이터 다시 로드
+  if (currentSortOption !== 'latest') {
+    sortOption.value = currentSortOption; // 정렬 옵션 유지
+  }
+  store.setFilter({
+    keyword: store.keyword,
+    onlySelling: currentOnlySelling
+  });
+  // 기존 필터 상태로 데이터 다시 가져오기
+  store.fetchProducts(true); // 첫 페이지만 다시 로드
+
+  // 기존 observer 해제
   if (observer.value) {
     observer.value.disconnect();
   }
-  
-  // 이미 트리거 요소가 존재하면 제거
-  if (loadMoreTrigger.value && loadMoreTrigger.value.parentNode) {
-    loadMoreTrigger.value.parentNode.removeChild(loadMoreTrigger.value);
-  }
-  
+
   observer.value = new IntersectionObserver(entries => {
     const entry = entries[0];
     if (entry.isIntersecting && !store.loading && store.hasMoreItems) {
       store.fetchProducts();
     }
   }, { threshold: 0.1 });
-  
-  // 새 트리거 요소 생성 및 관찰
-  const trigger = document.createElement('div');
-  trigger.id = 'infinite-scroll-trigger';
-  trigger.style.height = '20px';
-  document.querySelector('#app').appendChild(trigger);
-  loadMoreTrigger.value = trigger;
-  observer.value.observe(trigger);
+
+  // 템플릿에 있는 트리거 요소 사용
+  setTimeout(() => {
+    const triggerEl = document.querySelector('.infinite-scroll-trigger');
+    if (triggerEl) {
+      observer.value.observe(triggerEl);
+    }
+  }, 100);
 }
 </script>
