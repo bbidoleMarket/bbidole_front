@@ -59,6 +59,7 @@ const modal = useModalStore();
 const { getChatMessages, setSold } = useChatApi();
 const newMessage = ref(""); // 새로운 메시지 입력을 위한 ref
 const chatContainer = ref(null); // 채팅 메시지 컨테이너를 참조하기 위한 ref
+const messages = ref([]); // 채팅 메시지를 저장할 배열
 const route = useRoute();
 
 const chatId = route.params.chatId;
