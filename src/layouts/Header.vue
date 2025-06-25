@@ -65,9 +65,9 @@
       @click="goHome"
     >
       <img
-        src="../assets/bbidole.svg"
+        src="@/assets/icon_bbidole.svg"
         alt="삐돌이 마켓 로고"
-        class="w-24 lg:w-44"
+        class="w-14 lg:w-20 lg:ml-4"
       />
     </BaseButton>
     <div class="flex w-full h-full justify-center items-center">
