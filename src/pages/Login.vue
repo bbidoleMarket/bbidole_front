@@ -1,59 +1,60 @@
 <template>
-    <div
-        class="min-h-screen flex flex-col items-center justify-center bg-[#FFFEF0]"
-    >
+    <div class="page-container-auth">
         <!-- 메인 로그인 영역 -->
-        <div class="flex flex-col items-center w-full max-w-md mt-6">
-            <h1 class="text-4xl font-bold mb-2 text-gray-800 tracking-wide">
+        <div class="form-container">
+            <h1 class="title-main mb-2">
                 삐돌이 마켓
             </h1>
             <img
                 src="../assets/bbidole_login.svg"
                 alt="dog"
-                class="w-52 my-4 drop-shadow-md"
+                class="logo-auth"
             />
-            <h2 class="text-3xl font-bold mb-4 text-gray-800">Log in</h2>
+            <h2 class="title-section mb-3 sm:mb-4">Log in</h2>
 
             <form
-                class="w-full flex flex-col items-center"
+                class="form-group"
                 @submit.prevent="handleLogin"
             >
-                <input
+                <BaseInput
                     type="email"
                     v-model="email"
                     placeholder="Email address"
-                    class="w-full mb-3 px-4 py-3 border border-gray-200 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                    size="md"
                     required
                 />
-                <input
+                <BaseInput
                     type="password"
                     v-model="password"
                     placeholder="Password"
-                    class="w-full mb-3 px-4 py-3 border border-gray-200 rounded-xl text-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                    size="md"
                     required
                 />
 
                 <!-- 에러 메시지 표시 -->
                 <div
                     v-if="errorMessage"
-                    class="w-full mb-3 text-red-600 text-sm text-center"
+                    class="form-error"
                 >
                     {{ errorMessage }}
                 </div>
 
-                <button
+                <BaseButton
                     type="submit"
+                    variant="primary"
+                    size="lg"
                     :disabled="isLoading"
-                    class="w-full py-3 bg-teal-500 text-white rounded-xl text-xl font-bold hover:bg-teal-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    :loading="isLoading"
+                    class="w-full"
                 >
                     {{ isLoading ? "로그인 중..." : "Log in" }}
-                </button>
+                </BaseButton>
             </form>
-            <div class="mt-5 text-lg">
+            <div class="auth-link-container">
                 Don't have an account?
                 <router-link
                     to="/signup"
-                    class="text-teal-600 font-semibold hover:underline"
+                    class="link-primary"
                     >Sign up</router-link
                 >
             </div>
@@ -66,6 +67,9 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthApi } from "../api/auth";
 import { useAuthStore } from "../stores/auth";
+import { useModalStore } from "../stores/modal";
+import BaseInput from "../components/base/BaseInput.vue";
+import BaseButton from "../components/base/BaseButton.vue";
 
 const router = useRouter();
 const email = ref("");
@@ -75,6 +79,7 @@ const errorMessage = ref("");
 
 const { login } = useAuthApi();
 const authStore = useAuthStore();
+const modal = useModalStore();
 
 async function handleLogin() {
     if (isLoading.value) return;
@@ -85,22 +90,39 @@ async function handleLogin() {
     try {
         await login(email.value, password.value);
 
-        // 로그인 성공 시 메인 페이지로 이동
-        await router.push("/");
+        // 로그인 성공 모달
+        modal.open({
+            title: "로그인 성공",
+            message: "삐돌이 마켓에 오신 것을 환영합니다!"
+        });
+
+        // 모달 닫힌 후 메인 페이지로 이동
+        setTimeout(() => {
+            router.push("/");
+        }, 1500);
+
     } catch (error) {
         console.error("로그인 에러:", error);
 
         // 에러 메시지 설정
+        let errorMsg = "";
         if (error.message) {
-            errorMessage.value = error.message;
+            errorMsg = error.message;
         } else if (error.status === 401) {
-            errorMessage.value = "이메일 또는 비밀번호가 올바르지 않습니다.";
+            errorMsg = "이메일 또는 비밀번호가 올바르지 않습니다.";
         } else if (error.status === 404) {
-            errorMessage.value = "등록되지 않은 이메일입니다.";
+            errorMsg = "등록되지 않은 이메일입니다.";
         } else {
-            errorMessage.value =
-                "로그인 중 오류가 발생했습니다. 다시 시도해주세요.";
+            errorMsg = "로그인 중 오류가 발생했습니다. 다시 시도해주세요.";
         }
+
+        // 에러 모달 표시
+        modal.open({
+            title: "로그인 실패",
+            message: errorMsg
+        });
+
+        errorMessage.value = errorMsg;
     } finally {
         isLoading.value = false;
     }

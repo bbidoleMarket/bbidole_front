@@ -1,0 +1,117 @@
+/* Layout Styles */
+
+/* Page Containers */
+.page-container {
+  @apply min-h-screen bg-[#FFFEF0];
+}
+
+.page-container-auth {
+  @apply min-h-screen flex flex-col items-center justify-center bg-[#FFFEF0] px-4;
+}
+
+.page-container-signup {
+  @apply min-h-screen flex flex-col items-center justify-center bg-[#FFFEEE] px-4;
+}
+
+/* Headers */
+.header-main {
+  @apply fixed top-0 right-0 left-0 flex w-full h-[80px] sm:h-[80px] h-[60px] bg-[#FFFCEF] shadow-md p-2 sm:p-4;
+}
+
+.header-page {
+  @apply bg-white shadow-sm border-b border-gray-200;
+}
+
+.header-content {
+  @apply max-w-7xl mx-auto px-2 sm:px-4 lg:px-8;
+}
+
+.header-inner {
+  @apply flex justify-between items-center h-12 sm:h-16;
+}
+
+/* Footers */
+.footer-main {
+  @apply fixed bottom-0 right-0 left-0 flex w-full h-[40px] sm:h-[60px] bg-[#EAF9EA] shadow-md p-2 sm:p-4 justify-center items-center;
+}
+
+/* Main Content */
+.main-content {
+  @apply max-w-7xl mx-auto py-4 sm:py-8 px-2 sm:px-4 lg:px-8;
+}
+
+/* Cards */
+.card {
+  @apply bg-white rounded-lg shadow-md;
+}
+
+.card-auth {
+  @apply bg-white p-3 sm:p-6 rounded-lg shadow-md max-w-sm sm:max-w-md mx-auto;
+}
+
+/* Forms */
+.form-container {
+  @apply w-full max-w-sm sm:max-w-md flex flex-col items-center;
+}
+
+.form-group {
+  @apply w-full flex flex-col gap-3 sm:gap-5;
+}
+
+.form-field {
+  @apply w-full;
+}
+
+/* Text Styles */
+.title-main {
+  @apply text-2xl sm:text-4xl font-bold text-gray-800 tracking-wide;
+}
+
+.title-page {
+  @apply text-xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4 px-2;
+}
+
+.title-section {
+  @apply text-2xl sm:text-3xl font-bold text-gray-800;
+}
+
+.title-card {
+  @apply text-base sm:text-lg font-semibold mb-2 sm:mb-4;
+}
+
+.label-form {
+  @apply block mb-1 text-sm sm:text-lg font-semibold text-gray-700;
+}
+
+.text-description {
+  @apply text-sm sm:text-lg text-gray-600 mb-4 sm:mb-8 px-2;
+}
+
+.text-validation {
+  @apply text-xs sm:text-sm;
+}
+
+.text-link {
+  @apply text-sm sm:text-lg text-center;
+}
+
+/* Images */
+.logo-header {
+  @apply h-16 sm:h-20 fixed top-2 sm:top-0;
+}
+
+.logo-auth {
+  @apply w-32 sm:w-52 my-2 sm:my-4 drop-shadow-md;
+}
+
+.logo-signup {
+  @apply w-24 h-24 sm:w-40 sm:h-40 mt-2 sm:mt-4;
+}
+
+.icon-main {
+  @apply mx-auto w-20 h-20 sm:w-32 sm:h-32 mb-4 sm:mb-6;
+}
+
+.icon-menu {
+  @apply h-5 sm:h-7;
+} 

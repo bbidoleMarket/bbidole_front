@@ -3,7 +3,7 @@ import { useAuthStore } from "../stores/auth";
 import Login from "../pages/Login.vue";
 import Signup from "../pages/Signup.vue";
 import Home from "../pages/Home.vue";
-import MeChats from "../pages/MeChats.vue";
+// import MeChats from "../pages/MeChats.vue";
 
 const routes = [
     {
@@ -24,10 +24,10 @@ const routes = [
         component: Signup,
         meta: { requiresGuest: true, hideLayout: true },
     },
-    {
-        path: "/me/chats",
-        component: MeChats,
-    },
+    // {
+    //     path: "/me/chats",
+    //     component: MeChats,
+    // },
 ];
 
 const router = createRouter({

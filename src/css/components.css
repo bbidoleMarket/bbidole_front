@@ -1,0 +1,176 @@
+/* Base Components Styles */
+
+/* BaseButton Variants */
+.btn-primary {
+  @apply bg-teal-500 hover:bg-teal-600 text-white font-bold rounded-xl transition-colors;
+}
+
+.btn-secondary {
+  @apply bg-gray-500 hover:bg-gray-600 text-white font-bold rounded-xl transition-colors;
+}
+
+.btn-danger {
+  @apply bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl transition-colors;
+}
+
+.btn-success {
+  @apply bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl transition-colors;
+}
+
+.btn-brand {
+  @apply bg-[#43A8A5] hover:bg-[#319B9A] text-white font-bold rounded-xl transition-colors;
+}
+
+/* BaseInput Variants */
+.input-default {
+  @apply w-full border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white;
+}
+
+.input-error {
+  @apply border-red-500 focus:ring-red-400;
+}
+
+.input-success {
+  @apply border-green-500 focus:ring-green-400;
+}
+
+/* Responsive Input Sizes */
+.input-sm {
+  @apply px-3 py-2 text-sm;
+}
+
+.input-md {
+  @apply px-3 py-2 text-base sm:px-4 sm:py-3 sm:text-lg;
+}
+
+.input-lg {
+  @apply px-4 py-3 text-lg;
+}
+
+/* Responsive Button Sizes */
+.btn-sm {
+  @apply px-2 py-1 text-xs sm:px-3 sm:py-2 sm:text-sm;
+}
+
+.btn-md {
+  @apply px-3 py-2 text-sm sm:px-4 sm:py-2 sm:text-base;
+}
+
+.btn-lg {
+  @apply px-4 py-3 text-lg sm:text-xl;
+}
+
+/* Link Styles */
+.link-primary {
+  @apply text-teal-600 font-semibold hover:underline transition-colors;
+}
+
+.link-secondary {
+  @apply text-gray-600 hover:text-gray-800 hover:underline transition-colors;
+}
+
+.link-brand {
+  @apply text-teal-500 hover:underline font-medium transition-colors;
+}
+
+/* Validation Message Styles */
+.validation-success {
+  @apply text-green-600;
+}
+
+.validation-error {
+  @apply text-red-600;
+}
+
+.validation-warning {
+  @apply text-yellow-600;
+}
+
+/* Status Styles */
+.status-success {
+  @apply text-green-600;
+}
+
+.status-error {
+  @apply text-red-600;
+}
+
+.status-warning {
+  @apply text-yellow-600;
+}
+
+.status-info {
+  @apply text-blue-600;
+}
+
+/* Utility Classes */
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.flex-between {
+  @apply flex justify-between items-center;
+}
+
+.flex-col-center {
+  @apply flex flex-col items-center;
+}
+
+.space-y-responsive {
+  @apply space-y-1 sm:space-y-2;
+}
+
+.space-x-responsive {
+  @apply space-x-2 sm:space-x-4;
+}
+
+.text-left-responsive {
+  @apply text-left text-xs sm:text-base;
+}
+
+/* Text Size Classes */
+.text-validation {
+  @apply text-xs sm:text-sm;
+}
+
+.text-link {
+  @apply text-xs sm:text-sm;
+}
+
+/* Combined Layout Classes */
+.header-buttons {
+  @apply flex-center space-x-1 sm:space-x-4;
+}
+
+.nav-items {
+  @apply flex-center space-x-responsive;
+}
+
+.form-error {
+  @apply w-full mb-2 sm:mb-3 validation-error text-validation text-center;
+}
+
+.token-status {
+  @apply space-y-responsive text-left-responsive;
+}
+
+.modal-content {
+  @apply flex-center mt-6 sm:mt-10 pb-4;
+}
+
+.auth-link-container {
+  @apply text-link mt-3 sm:mt-5;
+}
+
+.signup-link-container {
+  @apply text-link my-2 sm:my-4;
+}
+
+/* Loading States */
+.loading-overlay {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.animate-spin-slow {
+  animation: spin 2s linear infinite;
+} 

@@ -1,48 +1,37 @@
 <template>
-    <div
-        class="min-h-screen flex flex-col items-center justify-center bg-[#FFFEEE]"
-    >
+    <div class="page-container-signup">
         <!-- 로고 및 타이틀 -->
-        <div class="flex flex-col items-center mb-8 mt-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2 tracking-wide">
+        <div class="flex-col-center mb-4 sm:mb-8 mt-4 sm:mt-8">
+            <h1 class="title-main mb-2">
                 삐돌이 마켓
             </h1>
             <img
                 src="../assets/bbidole_login.svg"
                 alt="dog"
-                class="w-40 h-40 mt-4"
+                class="logo-signup"
             />
         </div>
         <!-- 폼 -->
-        <div class="w-full max-w-md flex flex-col items-center">
-            <h2 class="text-4xl font-bold text-gray-700 mb-8">Sign up</h2>
+        <div class="form-container">
+            <h2 class="title-section mb-4 sm:mb-8">Sign up</h2>
             <form
-                class="w-full flex flex-col gap-5"
+                class="form-group"
                 @submit.prevent="handleSubmit"
             >
                 <!-- 이메일 -->
-                <div>
-                    <label
-                        class="block mb-1 text-lg font-semibold text-gray-700"
-                        >Email address</label
-                    >
-                    <input
+                <div class="form-field">
+                    <label class="label-form">Email address</label>
+                    <BaseInput
                         type="email"
                         v-model="email"
-                        :class="[
-                            'w-full px-4 py-3 rounded-lg border bg-white text-base focus:outline-none',
-                            email === ''
-                                ? 'border-gray-300'
-                                : emailValid
-                                ? 'border-green-500'
-                                : 'border-red-500',
-                        ]"
+                        :variant="email === '' ? 'default' : emailValid ? 'success' : 'error'"
+                        size="md"
                         placeholder="Enter your email"
                     />
                     <span
                         v-if="email"
-                        :class="emailValid ? 'text-green-600' : 'text-red-600'"
-                        class="text-sm"
+                        :class="emailValid ? 'validation-success' : 'validation-error'"
+                        class="text-validation"
                     >
                         {{
                             emailValid
@@ -52,31 +41,20 @@
                     </span>
                 </div>
                 <!-- 비밀번호 -->
-                <div>
-                    <label
-                        class="block mb-1 text-lg font-semibold text-gray-700"
-                        >Password</label
-                    >
-                    <input
+                <div class="form-field">
+                    <label class="label-form">Password</label>
+                    <BaseInput
                         type="password"
                         v-model="password"
                         maxlength="15"
-                        :class="[
-                            'w-full px-4 py-3 rounded-lg border bg-white text-base focus:outline-none',
-                            password === ''
-                                ? 'border-gray-300'
-                                : passwordValid
-                                ? 'border-green-500'
-                                : 'border-red-500',
-                        ]"
+                        :variant="password === '' ? 'default' : passwordValid ? 'success' : 'error'"
+                        size="md"
                         placeholder="8~15자, 대소문자, !,@,#,$ 포함"
                     />
                     <span
                         v-if="password"
-                        :class="
-                            passwordValid ? 'text-green-600' : 'text-red-600'
-                        "
-                        class="text-sm"
+                        :class="passwordValid ? 'validation-success' : 'validation-error'"
+                        class="text-validation"
                     >
                         {{
                             passwordValid
@@ -86,32 +64,19 @@
                     </span>
                 </div>
                 <!-- 비밀번호 확인 -->
-                <div>
-                    <label
-                        class="block mb-1 text-lg font-semibold text-gray-700"
-                        >Confirm password</label
-                    >
-                    <input
+                <div class="form-field">
+                    <label class="label-form">Confirm password</label>
+                    <BaseInput
                         type="password"
                         v-model="confirmPassword"
-                        :class="[
-                            'w-full px-4 py-3 rounded-lg border bg-white text-base focus:outline-none',
-                            confirmPassword === ''
-                                ? 'border-gray-300'
-                                : confirmPasswordValid
-                                ? 'border-green-500'
-                                : 'border-red-500',
-                        ]"
+                        :variant="confirmPassword === '' ? 'default' : confirmPasswordValid ? 'success' : 'error'"
+                        size="md"
                         placeholder="비밀번호 확인"
                     />
                     <span
                         v-if="confirmPassword"
-                        :class="
-                            confirmPasswordValid
-                                ? 'text-green-600'
-                                : 'text-red-600'
-                        "
-                        class="text-sm"
+                        :class="confirmPasswordValid ? 'validation-success' : 'validation-error'"
+                        class="text-validation"
                     >
                         {{
                             confirmPasswordValid
@@ -121,48 +86,45 @@
                     </span>
                 </div>
                 <!-- 이름 -->
-                <div>
-                    <label
-                        class="block mb-1 text-lg font-semibold text-gray-700"
-                        >Name</label
-                    >
-                    <input
+                <div class="form-field">
+                    <label class="label-form">Name</label>
+                    <BaseInput
                         type="text"
                         v-model="name"
                         maxlength="4"
-                        class="w-full px-4 py-3 rounded-lg border bg-white text-base focus:outline-none border-gray-300"
+                        size="md"
                         placeholder="이름 입력"
                     />
                 </div>
                 <!-- 닉네임 -->
-                <div>
-                    <label
-                        class="block mb-1 text-lg font-semibold text-gray-700"
-                        >Nickname</label
-                    >
-                    <input
+                <div class="form-field">
+                    <label class="label-form">Nickname</label>
+                    <BaseInput
                         type="text"
                         v-model="nickname"
                         maxlength="15"
-                        class="w-full px-4 py-3 rounded-lg border bg-white text-base focus:outline-none border-gray-300"
+                        size="md"
                         placeholder="닉네임 입력"
                     />
                 </div>
                 <!-- 버튼 -->
-                <button
+                <BaseButton
                     type="submit"
-                    class="mt-4 w-full py-3 bg-teal-500 text-white font-bold text-2xl rounded-xl transition-colors hover:bg-teal-600 disabled:opacity-50"
-                    :disabled="!formValid"
+                    variant="primary"
+                    size="lg"
+                    :disabled="!formValid || isLoading"
+                    :loading="isLoading"
+                    class="mt-2 sm:mt-4 w-full"
                 >
-                    Sign up
-                </button>
+                    {{ isLoading ? "가입 중..." : "Sign up" }}
+                </BaseButton>
             </form>
-            <p class="my-4 text-xl text-gray-700">
+            <p class="signup-link-container">
                 Already have an account?
-                <a
-                    href="/login"
-                    class="text-teal-500 hover:underline font-medium"
-                    >Log</a
+                <router-link
+                    to="/login"
+                    class="link-brand"
+                    >Log in</router-link
                 >
             </p>
         </div>
@@ -173,6 +135,9 @@
 import { ref, computed } from "vue";
 import { useAuthApi } from "../api/auth";
 import { useRouter } from "vue-router";
+import { useModalStore } from "../stores/modal";
+import BaseInput from "../components/base/BaseInput.vue";
+import BaseButton from "../components/base/BaseButton.vue";
 
 // 상태
 const email = ref("");
@@ -180,9 +145,11 @@ const name = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const nickname = ref("");
+const isLoading = ref(false);
 
 const { signup } = useAuthApi();
 const router = useRouter();
+const modal = useModalStore();
 
 // 유효성
 const emailValid = computed(() =>
@@ -196,31 +163,55 @@ const confirmPasswordValid = computed(
         confirmPassword.value !== "" && password.value === confirmPassword.value
 );
 const formValid = computed(
-    () => emailValid.value && passwordValid.value && confirmPasswordValid.value
+    () => emailValid.value && passwordValid.value && confirmPasswordValid.value && name.value.trim() && nickname.value.trim()
 );
 
-// 회원가입 처리
 async function handleSubmit() {
-    console.log("회원가입");
-    if (!emailValid || !passwordValid) {
-        console.log("email or password InValid");
-        return;
-    }
-    console.log(email.value, password.value, name.value, nickname.value);
+    if (!formValid.value || isLoading.value) return;
+
+    isLoading.value = true;
+
     try {
-        const res = await signup(
-            email.value,
-            password.value,
-            name.value,
-            nickname.value
-        );
-        console.log("회원가입 성공 : " + JSON.stringify(res));
-        if (res.status == 200) {
-            alert("회원가입 성공");
+        await signup({
+            email: email.value,
+            password: password.value,
+            name: name.value,
+            nickname: nickname.value,
+        });
+
+        // 회원가입 성공 모달
+        modal.open({
+            title: "회원가입 성공",
+            message: "삐돌이 마켓에 가입해주셔서 감사합니다!\n로그인 페이지로 이동합니다."
+        });
+
+        // 모달 닫힌 후 로그인 페이지로 이동
+        setTimeout(() => {
             router.push("/login");
+        }, 2000);
+
+    } catch (error) {
+        console.error("회원가입 에러:", error);
+        
+        // 에러 메시지 설정
+        let errorMsg = "";
+        if (error.message) {
+            errorMsg = error.message;
+        } else if (error.status === 409) {
+            errorMsg = "이미 사용 중인 이메일입니다.";
+        } else if (error.status === 400) {
+            errorMsg = "입력 정보를 다시 확인해주세요.";
+        } else {
+            errorMsg = "회원가입 중 오류가 발생했습니다. 다시 시도해주세요.";
         }
-    } catch (e) {
-        console.error("signup error : " + e.message);
+
+        // 에러 모달 표시
+        modal.open({
+            title: "회원가입 실패",
+            message: errorMsg
+        });
+    } finally {
+        isLoading.value = false;
     }
 }
 </script>
