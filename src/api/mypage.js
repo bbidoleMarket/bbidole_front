@@ -15,8 +15,12 @@ export const useMyPageApi = () => {
       email, // 토큰 검증 전 이메일로 사용자 확인
     });
   };
+  const profileName = async () => {
+    return await axios.get("api/mypage/name");
+  };
   return {
     useInfoUpdate,
     profileImageUpdate,
+    profileName,
   };
 };
