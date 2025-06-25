@@ -1,9 +1,9 @@
 <template>
   <!--가장 밖-->
-  <div class="flex flex-col justify-center items-center min-h-screen gap-4">
+  <div class="flex flex-col justify-start items-center min-h-screen gap-4">
     <!-- 구매 목록-->
-    <div class="bg-slate-400">
-      <h2 class="font-jua">구매 목록</h2>
+    <div>
+      <h2 class="font-jua mt-9 text-2xl">구매 목록</h2>
     </div>
 
     <!--리스트 -->
@@ -15,25 +15,27 @@
           v-for="purchase in purchaseList"
           :key="purchase.purchaseId"
           @click="goDetail(purchase.purchaseId)"
-          class="border-gray-300 hover:bg-opacity-90 shadow w-full max-w-md md:max-w-wl lg:max-w-3xl max-auto transition-all duration-300 flex flex-row gap-4 rounded-md"
+          class="hover:bg-gray-100 p-2 border-gray-300 shadow w-full max-w-md md:max-w-wl lg:max-w-3xl max-auto transition-all duration-300 flex flex-row gap-7 rounded-md"
         >
           <!-- 게시글 이미지-->
-          <div class="rounded-sm w-20 h-20 flex justify-center items-center">
+          <div
+            class="w-20 h-20 flex justify-center items-center overflow-hidden rounded-md"
+          >
             <img
-              src="/image/갈푸.webp"
+              src="/image/stanley.jpg"
               alt="게시글 사진"
               class="object-contain"
             />
           </div>
 
-          <div class="flex flex-col">
+          <div class="flex flex-col gap-2 mt-2">
             <!-- 게시글 제목-->
             <div>
-              <h2>{{ purchase.title }}</h2>
+              <h2 class="font-hahmlet">{{ purchase.title }}</h2>
             </div>
             <!-- 게시글 가격-->
             <div>
-              <p>{{ purchase.price }}</p>
+              <p class="font-hahmlet">{{ purchase.price }}원</p>
             </div>
           </div>
         </li>
@@ -57,8 +59,8 @@ const purchaseList = ref([
 
 const userId = 3; //임시 로그인 완료되면 지워야 함 아이디 하드코딩
 onMounted(async () => {
-  const res = await purchaseList(userId);
-  purchase.value = res.data;
+  const res = await fetchPurchaseList(userId);
+  purchaseList.value = res.data;
 });
 //나중에 변경
 // onMounted(async()=>{

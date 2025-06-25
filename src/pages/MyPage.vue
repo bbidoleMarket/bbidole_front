@@ -1,4 +1,3 @@
-//template -> script -> style
 <template>
   <!-- 가장 밖-->
   <div class="flex gap-16 justify-center items-center min-h-screen">
@@ -77,7 +76,7 @@ import { ref, onMounted } from "vue";
 import { useMyPageApi } from "@/api/mypage";
 
 const { useInfoUpdate, profileImageUpdate, profileName } = useMyPageApi();
-const defaultImage = "/image/갈푸.webp";
+const defaultImage = "/image/poodle.webp";
 const profileImage = ref(defaultImage);
 const fileInput = ref(null);
 const name = ref("");
@@ -108,8 +107,9 @@ function handleImageChage(e) {
 const profileUpdate = async () => {
   const res = await useInfoUpdate(
     nickName.value,
-    passwordm.value,
-    passwordConfirm.value
+    password.value,
+    passwordConfirm.value,
+    "wpsl@example.com" //삭제 예정
   );
   //모달 창
 };
