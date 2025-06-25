@@ -5,7 +5,8 @@ import Signup from "../pages/Signup.vue";
 // import Home from "../pages/Home.vue";
 import HomePage from "../pages/HomePage.vue";
 import SearchResultPage from "../pages/SearchResultPage.vue";
-// import MeChats from "../pages/MeChats.vue";
+import MeChats from "../pages/MeChats.vue";
+import ChatRoom from "../pages/ChatRoom.vue";
 
 const routes = [
     {
@@ -36,10 +37,11 @@ const routes = [
         component: Signup,
         meta: { requiresGuest: true, hideLayout: true },
     },
-    // {
-    //     path: "/me/chats",
-    //     component: MeChats,
-    // },
+    {
+        path: "/me/chats",
+        component: MeChats,
+    },
+    { path: "/chat/:chatId", component: ChatRoom },
 ];
 
 const router = createRouter({

@@ -1,10 +1,21 @@
 <template>
   <div
-    class="border p-4 mb-4 bg-white rounded-lg shadow cursor-pointer hover:bg-gray-100"
+    class="border p-4 mb-4 bg-[#B0DEDE] rounded-[12px] font-noto shadow cursor-pointer hover:bg-[#319B9A]"
   >
-    <h3>{{ chat.title }}</h3>
-    <!-- 상대방 닉네임 표시 -->
-    <p>{{ chat.seller == myname ? chat.buyer : chat.seller }}</p>
+    <div class="flex text-[#2E383A]">
+      <!-- 채팅방 제목 표시 -->
+      <h2 class="ml-2 text-2xl">{{ chat.productName }}</h2>
+      <!-- 상대방 닉네임 표시 -->
+      <p class="ml-auto mr-6 font-bold text-xl">
+        {{ chat.buyerId == othersId ? chat.buyerName : chat.sellerName }}
+      </p>
+    </div>
+    <div class="text-[#2E383A] m-2 ml-6">
+      <!-- 마지막 메시지 표시 -->
+      <p class="text-base">마지막 메시지 내용</p>
+      <!-- 마지막 메시지 시간 표시 -->
+      <p class="text-xs">마지막 메시지 시간</p>
+    </div>
   </div>
 </template>
 <script setup>
