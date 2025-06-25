@@ -1,7 +1,7 @@
 import axios from "./axiosInstance";
 
 export const useMyPageApi = () => {
-  const useInfoUpdate = async ({ nickname, password, passwordConfirm }) => {
+  const useInfoUpdate = async (nickname, password, passwordConfirm, email) => {
     return await axios.put("/api/mypage/update", {
       nickname,
       password,

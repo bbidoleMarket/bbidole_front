@@ -3,10 +3,12 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Mypage from "../pages/mypage.vue";
 import PurchaseList from "../pages/PurchaseList.vue";
+import SalesList from "../pages/SalesList.vue";
 
 const routes = [
-  { path: "/mypage", component: Mypage }, //회원정보 수정
-  { path: "/purchaselist", component: PurchaseList }, //구매내역
+  { path: "/me/edit", component: Mypage }, //회원정보 수정
+  { path: "/me/buy", component: PurchaseList }, //구매내역
+  { path: "/me/posts", component: SalesList }, //판매 내역
 ];
 
 const router = createRouter({
