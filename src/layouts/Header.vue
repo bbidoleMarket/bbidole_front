@@ -61,7 +61,7 @@
   >
     <!-- 로고 겸 홈으로 버튼 -->
     <BaseButton
-      class="m-0 xl:p-0 bg-transparent hover:bg-transparent"
+      class="m-0 lg:p-0 bg-transparent hover:bg-transparent"
       @click="goHome"
     >
       <img

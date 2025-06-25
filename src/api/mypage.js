@@ -1,16 +1,18 @@
-import axiosInstance from "./axiosInstance";
+import axios from "./axiosInstance";
 
 export const useMyPageApi = () => {
-  const useInfoUpdate = async (id) => {
-    return await async.post(`/api/users/${id}`, {
+  const useInfoUpdate = async ({ nickname, password, passwordConfirm }) => {
+    return await axios.put("/api/mypage/update", {
       nickname,
       password,
       passwordConfirm,
+      email, // 토큰 검증 전 이메일로 사용자 확인
     });
   };
-  const profileImageUpdate = async (id) => {
-    return await async.post(`/api/users/${id}/profile-image`, {
+  const profileImageUpdate = async () => {
+    return await axios.put("api/mypage/profileimage", {
       profileimage,
+      email, // 토큰 검증 전 이메일로 사용자 확인
     });
   };
   return {
