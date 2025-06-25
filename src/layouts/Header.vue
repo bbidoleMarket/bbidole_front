@@ -65,7 +65,7 @@
       @click="goHome"
     >
       <img
-        src="@/assets/icon_bbidole.svg"
+        src="../assets/icon_bbidole.svg"
         alt="삐돌이 마켓 로고"
         class="w-14 lg:w-20 lg:ml-4"
       />
