@@ -2,116 +2,120 @@
 
 /* Page Containers */
 .page-container {
-  @apply min-h-screen bg-[#FFFEF0];
+    @apply min-h-screen bg-[#FFFEF0];
 }
 
 .page-container-auth {
-  @apply min-h-screen flex flex-col items-center justify-center bg-[#FFFEF0] px-4;
+    @apply min-h-screen flex flex-col items-center justify-center bg-[#FFFEF0] px-6 py-8;
 }
 
 .page-container-signup {
-  @apply min-h-screen flex flex-col items-center justify-center bg-[#FFFEEE] px-4;
+    @apply min-h-screen flex flex-col items-center justify-center bg-[#FFFEEE] px-6 py-8;
 }
 
 /* Headers */
 .header-main {
-  @apply fixed top-0 right-0 left-0 flex w-full h-[80px] sm:h-[80px] h-[60px] bg-[#FFFCEF] shadow-md p-2 sm:p-4;
+    @apply fixed top-0 right-0 left-0 flex items-center justify-between w-full h-[60px] sm:h-[80px] bg-[#FFFCEF] shadow-md p-2 sm:p-4 z-50;
 }
 
 .header-page {
-  @apply bg-white shadow-sm border-b border-gray-200;
+    @apply bg-white shadow-sm border-b border-gray-200;
 }
 
 .header-content {
-  @apply max-w-7xl mx-auto px-2 sm:px-4 lg:px-8;
+    @apply max-w-7xl mx-auto px-2 sm:px-4 lg:px-8;
 }
 
 .header-inner {
-  @apply flex justify-between items-center h-12 sm:h-16;
+    @apply flex justify-between items-center h-12 sm:h-16;
 }
 
 /* Footers */
 .footer-main {
-  @apply fixed bottom-0 right-0 left-0 flex w-full h-[40px] sm:h-[60px] bg-[#EAF9EA] shadow-md p-2 sm:p-4 justify-center items-center;
+    @apply fixed bottom-0 right-0 left-0 flex w-full h-[40px] sm:h-[60px] bg-[#EAF9EA] shadow-md p-2 sm:p-4 justify-center items-center z-40;
 }
 
 /* Main Content */
 .main-content {
-  @apply max-w-7xl mx-auto py-4 sm:py-8 px-2 sm:px-4 lg:px-8;
+    @apply max-w-7xl mx-auto py-4 sm:py-8 px-2 sm:px-4 lg:px-8;
 }
 
 /* Cards */
 .card {
-  @apply bg-white rounded-lg shadow-md;
+    @apply bg-white rounded-lg shadow-md;
 }
 
 .card-auth {
-  @apply bg-white p-3 sm:p-6 rounded-lg shadow-md max-w-sm sm:max-w-md mx-auto;
+    @apply bg-white p-3 sm:p-6 rounded-lg shadow-md max-w-sm sm:max-w-md mx-auto;
 }
 
 /* Forms */
 .form-container {
-  @apply w-full max-w-sm sm:max-w-md flex flex-col items-center;
+    @apply w-full max-w-sm sm:max-w-md flex flex-col items-center space-y-4 sm:space-y-6;
 }
 
 .form-group {
-  @apply w-full flex flex-col gap-3 sm:gap-5;
+    @apply w-full flex flex-col space-y-4 sm:space-y-5;
 }
 
 .form-field {
-  @apply w-full;
+    @apply w-full space-y-1;
 }
 
 /* Text Styles */
 .title-main {
-  @apply text-2xl sm:text-4xl font-bold text-gray-800 tracking-wide;
+    @apply text-3xl sm:text-5xl font-bold text-gray-800 tracking-wide text-center;
 }
 
 .title-page {
-  @apply text-xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4 px-2;
+    @apply text-xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4 px-2 text-center;
 }
 
 .title-section {
-  @apply text-2xl sm:text-3xl font-bold text-gray-800;
+    @apply text-2xl sm:text-4xl font-bold text-gray-800 text-center;
 }
 
 .title-card {
-  @apply text-base sm:text-lg font-semibold mb-2 sm:mb-4;
+    @apply text-base sm:text-lg font-semibold mb-3 sm:mb-4;
 }
 
 .label-form {
-  @apply block mb-1 text-sm sm:text-lg font-semibold text-gray-700;
+    @apply block mb-1 text-sm sm:text-lg font-semibold text-gray-700;
 }
 
 .text-description {
-  @apply text-sm sm:text-lg text-gray-600 mb-4 sm:mb-8 px-2;
+    @apply text-sm sm:text-lg text-gray-600 mb-4 sm:mb-8 px-2 text-center;
 }
 
 .text-validation {
-  @apply text-xs sm:text-sm;
+    @apply text-xs sm:text-sm mt-1;
 }
 
 .text-link {
-  @apply text-sm sm:text-lg text-center;
+    @apply text-sm sm:text-base text-center;
 }
 
 /* Images */
 .logo-header {
-  @apply h-16 sm:h-20 fixed top-2 sm:top-0;
+    @apply h-11 sm:h-24 relative z-10 object-cover;
 }
 
 .logo-auth {
-  @apply w-32 sm:w-52 my-2 sm:my-4 drop-shadow-md;
+    @apply w-40 sm:w-56 mb-4 sm:mb-6 drop-shadow-md;
 }
 
 .logo-signup {
-  @apply w-24 h-24 sm:w-40 sm:h-40 mt-2 sm:mt-4;
+    @apply w-32 h-32 sm:w-48 sm:h-48 mb-4 sm:mb-6;
+}
+
+.logo-main {
+    @apply mx-auto w-20 h-20 sm:w-32 sm:h-32 mb-4 sm:mb-6;
 }
 
 .icon-main {
-  @apply mx-auto w-20 h-20 sm:w-32 sm:h-32 mb-4 sm:mb-6;
+    @apply mx-auto w-20 h-20 sm:w-32 sm:h-32 mb-4 sm:mb-6;
 }
 
 .icon-menu {
-  @apply h-5 sm:h-7;
-} 
+    @apply h-5 sm:h-7;
+}
