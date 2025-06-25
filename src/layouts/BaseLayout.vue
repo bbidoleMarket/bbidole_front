@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <main class="bg-[#fffff6]">
+  <main>
     <router-view />
   </main>
   <Footer />
