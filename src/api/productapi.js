@@ -1,0 +1,54 @@
+import axios from 'axios';
+
+const API_URL = 'http://localhost:8080/api';
+
+const apiClient = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// API 응답을 처리하는 함수
+const transformResponse = (response) => {
+  // 응답 구조: { status, success, message, data: { content, totalElements 등 } }
+  return response.data;
+};
+
+export async function getPostList({ keyword, onlySelling, page, size, sort = 'latest' }) {
+  const params = {
+    onlySelling: onlySelling,
+    page: page,
+    size: size,
+    sort:sort
+  };
+
+  if (keyword) {
+    params.keyword = keyword;
+  }
+
+  try {
+    const response = await apiClient.get('/posts', { params });
+    return transformResponse(response);
+  } catch (error) {
+    console.error('API 오류:', error);
+    throw error;
+  }
+}
+
+export async function searchPosts({ keyword, onlySelling, page, size }) {
+  const params = {
+    keyword: keyword,
+    onlySelling: onlySelling,
+    page: page,
+    size: size
+  };
+
+  try {
+    const response = await apiClient.get('/posts/search', { params });
+    return transformResponse(response);
+  } catch (error) {
+    console.error('API 오류:', error);
+    throw error;
+  }
+}
