@@ -1,60 +1,27 @@
 <template>
-  <input
-    v-bind="$attrs"
-    :class="inputClasses"
-    :value="modelValue"
-    @input="handleInput"
-    @blur="handleBlur"
-    @focus="handleFocus"
-  />
+    <input
+        v-bind="$attrs"
+        :class="[
+            'border rounded-[12px] p-2 w-full',
+            $attrs.class,
+            'placeholder:text-gray-500',
+        ]"
+        :value="inputValue"
+        @input="
+            $emit('update:modelValue', $event.target.value);
+            $emit('input', $event);
+        "
+        :placeholder="$attrs.placeholder || '기본 입력'"
+        :type="$attrs.type || 'text'"
+    />
 </template>
 
 <script setup>
-import { computed } from 'vue';
-
 const props = defineProps({
-  modelValue: {
-    type: [String, Number],
-    default: "",
-  },
-  variant: {
-    type: String,
-    default: 'default',
-    validator: (value) => ['default', 'error', 'success'].includes(value)
-  },
-  size: {
-    type: String,
-    default: 'md',
-    validator: (value) => ['sm', 'md', 'lg'].includes(value)
-  }
+    modelValue: {
+        type: String,
+        default: "",
+    },
 });
-
-const emit = defineEmits(["update:modelValue", "input", "blur", "focus"]);
-
-const inputClasses = computed(() => {
-  const baseClasses = ['input-default'];
-  
-  // Size classes
-  baseClasses.push(`input-${props.size}`);
-  
-  // Variant classes
-  if (props.variant !== 'default') {
-    baseClasses.push(`input-${props.variant}`);
-  }
-  
-  return baseClasses;
-});
-
-const handleInput = (event) => {
-  emit('update:modelValue', event.target.value);
-  emit('input', event);
-};
-
-const handleBlur = (event) => {
-  emit('blur', event);
-};
-
-const handleFocus = (event) => {
-  emit('focus', event);
-};
+const emit = defineEmits(["update:modelValue", "input"]);
 </script>

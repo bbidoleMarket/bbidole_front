@@ -114,7 +114,7 @@
                 @click="goToLogin"
                 variant="brand"
                 size="sm"
-                class="w-12 sm:w-20"
+                class="w-16 sm:w-20 mr-2"
             >
                 <span class="hidden sm:inline">로그인</span>
                 <span class="sm:hidden">LOGIN</span>
@@ -125,9 +125,9 @@
                 :loading="isLoggingOut"
                 variant="brand"
                 size="sm"
-                class="w-16 sm:w-24"
+                class="w-16 sm:w-24 mr-2 sm:h-[44px]"
             >
-                <span class="hidden sm:inline">로그아웃</span>
+                <span class="hidden sm:inline text-lg">로그아웃</span>
                 <span class="sm:hidden">OUT</span>
             </BaseButton>
 
@@ -135,7 +135,7 @@
             <BaseButton
                 variant="brand"
                 size="sm"
-                class="aspect-square"
+                class="aspect-square w-[40px] flex justify-center items-center"
                 @click="isHamburger = !isHamburger"
             >
                 <img

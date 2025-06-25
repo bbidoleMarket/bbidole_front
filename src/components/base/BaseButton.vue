@@ -3,7 +3,7 @@
         v-bind="$attrs"
         @click="onClick"
         :class="[
-            'font-jua text-white bg-[#43A8A5] hover:bg-[#319B9A] p-[8px] lg:p-4 rounded-[12px]',
+            'font-jua text-white bg-[#43A8A5] hover:bg-[#319B9A] p-[8px] rounded-[12px]',
             $attrs.class,
         ]"
     >

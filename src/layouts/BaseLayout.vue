@@ -1,7 +1,7 @@
 <template>
-  <div v-bind="$attrs" :class="[$attrs.class]">
+  <div v-bind="$attrs" :class="[$attrs.class, 'flex flex-col min-h-screen']">
     <Header />
-    <main class="pb-[70px]">
+    <main class="flex-grow pb-[70px]">
       <slot></slot>
     </main>
     <Footer />
