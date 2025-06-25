@@ -25,6 +25,7 @@
         v-for="message in messages"
         :key="message.id"
         :message="message"
+        :othersId="othersId"
       ></ChatMessage>
     </div>
     <form
@@ -71,6 +72,7 @@ const {
   sellerName,
   buyerId,
   buyerName,
+  othersId, // 상대방 ID (구매자 또는 판매자)
   isCompleted,
 } = route.query;
 
@@ -80,11 +82,12 @@ onMounted(async () => {
   console.log("채팅방 제목:", title);
 
   console.log("상품 ID:", productId);
-  console.log("판매자 ID:", sellerId);
+  console.log("판매자 ID:", sellerId, typeof sellerId);
   console.log("판매자 이름:", sellerName);
   console.log("구매자 ID:", buyerId);
   console.log("구매자 이름:", buyerName);
   console.log("채팅방 상태:", isCompleted ? "완료" : "진행 중");
+  console.log("상대방 ID:", othersId, typeof othersId);
 
   await nextTick();
   if (chatContainer.value) {
@@ -134,19 +137,10 @@ onUnmounted(() => {
 });
 
 const sendMessage = () => {
-  // 메시지 전송 로직
-  // 실제로는 웹소켓을 통해 메시지를 전송하고, 서버에서 응답을 받아야 함
-  // 예시로 콘솔에 출력
-  // messages.value.push({
-  //   id: `msg${newMessage.length + 1}`,
-  //   senderId: 2,
-  //   content: newMessage.value,
-  //   sendAt: new Date().toISOString(),
-  // });
   if (!newMessage.value.trim()) return; // 빈 메시지 전송 방지
   const message = {
     chatId: chatId,
-    senderId: 2, // 현재 사용자 ID (예시로 2로 설정)
+    senderId: sellerId === othersId ? buyerId : sellerId, // 현재 사용자 ID 설정
     content: newMessage.value,
     sendAt: new Date().toISOString(),
   };

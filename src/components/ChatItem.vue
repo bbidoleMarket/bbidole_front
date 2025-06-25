@@ -7,7 +7,7 @@
       <h2 class="ml-2 text-2xl">{{ chat.productName }}</h2>
       <!-- 상대방 닉네임 표시 -->
       <p class="ml-auto mr-6 font-bold text-xl">
-        {{ chat.sellerName == myname ? chat.buyerName : chat.sellerName }}
+        {{ chat.buyerId == othersId ? chat.buyerName : chat.sellerName }}
       </p>
     </div>
     <div class="text-[#2E383A] m-2 ml-6">

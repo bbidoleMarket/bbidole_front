@@ -32,6 +32,7 @@ const onChatClick = (chat) => {
       sellerName: chat.sellerName,
       buyerId: chat.buyerId,
       buyerName: chat.buyerName,
+      othersId: chat.othersId,
       isCompleted: chat.completed,
     },
   });
