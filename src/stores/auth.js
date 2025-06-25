@@ -7,6 +7,7 @@ import {
     isTokenExpired,
 } from "../utils/tokenManager";
 import { tokenService } from "../services/tokenService";
+import axios from "../api/axiosInstance";
 
 export const useAuthStore = defineStore("auth", () => {
     // 초기 토큰 로드
@@ -42,10 +43,31 @@ export const useAuthStore = defineStore("auth", () => {
         setAuthTokens(tokens.accessToken, tokens.refreshToken);
     };
 
-    const logout = () => {
-        accessToken.value = null;
-        refreshToken.value = null;
-        clearTokens();
+    const logout = async () => {
+        const currentRefreshToken = refreshToken.value;
+        
+        try {
+            // 서버에 로그아웃 요청 (액세스 토큰은 인터셉터에서 자동 추가, 리프레시 토큰은 수동 추가)
+            const headers = {};
+            if (currentRefreshToken) {
+                headers["Refresh-Token"] = currentRefreshToken;
+            }
+            
+            console.log("로그아웃 요청 - Access Token:", accessToken.value ? "있음" : "없음");
+            console.log("로그아웃 요청 - Refresh Token:", currentRefreshToken ? "있음" : "없음");
+            
+            await axios.post("/api/auth/logout", {}, { headers });
+            console.log("로그아웃 API 호출 성공");
+        } catch (error) {
+            console.error("로그아웃 API 호출 실패:", error);
+            // API 실패해도 로컬 로그아웃은 진행
+        } finally {
+            // 로컬 상태 정리
+            accessToken.value = null;
+            refreshToken.value = null;
+            clearTokens();
+            console.log("로컬 토큰 정리 완료");
+        }
     };
 
     const updateAccessToken = (newAccessToken) => {

@@ -1,6 +1,7 @@
 import axios from "./axiosInstance";
 import { useAuthStore } from "../stores/auth";
 import { tokenService } from "../services/tokenService";
+import { clearTokens } from "../utils/tokenManager";
 
 export const useAuthApi = () => {
     const authStore = useAuthStore();
@@ -55,8 +56,10 @@ export const useAuthApi = () => {
         } catch (error) {
             console.error("서버 로그아웃 실패:", error);
         } finally {
-            // 로컬 토큰 정리
-            authStore.logout();
+            // 로컬 토큰 정리 (직접 처리하여 순환 참조 방지)
+            authStore.accessToken = null;
+            authStore.refreshToken = null;
+            clearTokens();
         }
     };
 
@@ -89,3 +92,5 @@ export const useAuthApi = () => {
         checkEmailAvailable,
     };
 };
+
+// useAuthApi만 export하여 순환 참조 방지
