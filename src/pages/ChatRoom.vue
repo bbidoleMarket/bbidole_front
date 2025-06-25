@@ -47,7 +47,7 @@
 
 <script setup>
 import router from "../router";
-import { onMounted, watch, ref, nextTick } from "vue";
+import { onMounted, onUnmounted, watch, ref, nextTick } from "vue";
 import { useRoute } from "vue-router";
 import BaseButton from "../components/base/BaseButton.vue";
 import ChatMessage from "../components/ChatMessage.vue";
@@ -61,6 +61,7 @@ const newMessage = ref(""); // 새로운 메시지 입력을 위한 ref
 const chatContainer = ref(null); // 채팅 메시지 컨테이너를 참조하기 위한 ref
 const messages = ref([]); // 채팅 메시지를 저장할 배열
 const route = useRoute();
+let socket = null; // 웹소켓 변수
 
 const chatId = route.params.chatId;
 const {
@@ -102,18 +103,63 @@ onMounted(async () => {
       });
       console.error("채팅 메시지 가져오기 실패:", error);
     });
+
+  // 웹소켓 연결 설정
+  socket = new WebSocket(`ws://localhost:8080/ws/chat?chatId=${chatId}`);
+
+  socket.onopen = () => {
+    console.log("웹소켓 연결 성공");
+  };
+
+  socket.onmessage = (event) => {
+    // 서버에서 새 메시지를 받으면 messages에 추가
+    const msg = JSON.parse(event.data);
+    messages.value.push(msg);
+  };
+
+  socket.onclose = () => {
+    console.log("웹소켓 연결 종료");
+  };
+
+  socket.onerror = (err) => {
+    console.error("웹소켓 에러:", err);
+  };
+});
+
+onUnmounted(() => {
+  if (socket) {
+    socket.close();
+    socket = null;
+  }
 });
 
 const sendMessage = () => {
   // 메시지 전송 로직
   // 실제로는 웹소켓을 통해 메시지를 전송하고, 서버에서 응답을 받아야 함
   // 예시로 콘솔에 출력
-  messages.push({
-    id: `msg${newMessage.length + 1}`,
-    sender: "me",
+  // messages.value.push({
+  //   id: `msg${newMessage.length + 1}`,
+  //   senderId: 2,
+  //   content: newMessage.value,
+  //   sendAt: new Date().toISOString(),
+  // });
+  if (!newMessage.value.trim()) return; // 빈 메시지 전송 방지
+  const message = {
+    chatId: chatId,
+    senderId: 2, // 현재 사용자 ID (예시로 2로 설정)
     content: newMessage.value,
     sendAt: new Date().toISOString(),
-  });
+  };
+  // 웹소켓을 통해 메시지 전송
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify(message));
+  } else {
+    modal.open({
+      title: "메시지 전송 실패",
+      message: "웹소켓이 연결되어 있지 않습니다. 다시 시도해주세요.",
+    });
+    return;
+  }
   newMessage.value = ""; // 메시지 입력 필드 초기화
 };
 
