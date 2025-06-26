@@ -47,7 +47,7 @@
         </li>
       </ul>
       <!-- 무한스크롤 대기중-->
-      <div v-if="isLoading">
+      <div v-if="isLoading" class="text-center">
         <i class="fa-solid fa-spinner"></i>
       </div>
     </div>
@@ -85,7 +85,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import { UseTransactionListAPi } from "@/api/userTransaction";
 
 const { purchaseList: fetchPurchaseList } = UseTransactionListAPi();

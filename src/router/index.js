@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 //import MeChats from "../pages/MeChats.vue";
 
-import Mypage from "../pages/mypage.vue";
+import Mypage from "../pages/MyPage.vue";
 import PurchaseList from "../pages/PurchaseList.vue";
 import SalesList from "../pages/SalesList.vue";
 
