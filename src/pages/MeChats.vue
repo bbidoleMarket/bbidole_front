@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-4 justify-center mx-auto bg-[#FFFFF6] h-[86vh] items-start flex"
+    class="pt-4 flex flex-col items-center justify-start bg-[#FFFFF6] h-[86vh]"
   >
     <ChatItem
       v-for="chat in chats"

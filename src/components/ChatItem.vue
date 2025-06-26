@@ -1,12 +1,12 @@
 <template>
   <div
-    class="border lg:w-[70%] p-4 mb-4 bg-[#B0DEDE] rounded-[12px] font-noto shadow cursor-pointer hover:bg-[#319B9A]"
+    class="border w-[90%] lg:w-[70%] p-4 mb-4 bg-[#B0DEDE] rounded-[12px] font-noto shadow cursor-pointer hover:bg-[#319B9A]"
   >
     <div class="flex text-[#2E383A]">
       <!-- 채팅방 제목 표시 -->
       <h2 class="ml-2 text-2xl">{{ chat.productName }}</h2>
       <!-- 상대방 닉네임 표시 -->
-      <p class="ml-auto mr-6 font-bold text-xl">
+      <p class="ml-auto font-bold text-lg lg:text-xl">
         {{ chat.buyerId == chat.othersId ? chat.buyerName : chat.sellerName }}
       </p>
     </div>
