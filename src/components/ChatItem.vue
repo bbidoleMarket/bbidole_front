@@ -7,7 +7,7 @@
       <h2 class="ml-2 text-2xl">{{ chat.productName }}</h2>
       <!-- 상대방 닉네임 표시 -->
       <p class="ml-auto mr-6 font-bold text-xl">
-        {{ chat.buyerId == othersId ? chat.buyerName : chat.sellerName }}
+        {{ chat.buyerId == chat.othersId ? chat.buyerName : chat.sellerName }}
       </p>
     </div>
     <div class="text-[#2E383A] m-2 ml-6">
@@ -22,5 +22,5 @@
 const props = defineProps({
   chat: Object,
 });
-const myname = "user1"; // 현재 사용자 이름, 실제로는 로그인 정보에서 가져와야 함
+console.log(props.chat.buyerId, props.chat.othersId);
 </script>
