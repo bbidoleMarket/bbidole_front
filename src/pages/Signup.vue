@@ -2,9 +2,7 @@
     <div class="page-container-signup">
         <!-- 로고 및 타이틀 -->
         <div class="flex-col-center mb-4 sm:mb-8 mt-4 sm:mt-8">
-            <h1 class="title-main mb-2">
-                삐돌이 마켓
-            </h1>
+            <h1 class="title-main mb-2">삐돌이 마켓</h1>
             <img
                 src="../assets/bbidole_login.svg"
                 alt="dog"
@@ -14,23 +12,30 @@
         <!-- 폼 -->
         <div class="form-container">
             <h2 class="title-section mb-4 sm:mb-8">Sign up</h2>
-            <form
-                class="form-group"
-                @submit.prevent="handleSubmit"
-            >
+            <form class="form-group" @submit.prevent="handleSubmit">
                 <!-- 이메일 -->
                 <div class="form-field">
                     <label class="label-form">Email address</label>
                     <BaseInput
                         type="email"
                         v-model="email"
-                        :variant="email === '' ? 'default' : emailValid ? 'success' : 'error'"
+                        :variant="
+                            email === ''
+                                ? 'default'
+                                : emailValid
+                                ? 'success'
+                                : 'error'
+                        "
                         size="md"
                         placeholder="Enter your email"
                     />
                     <span
                         v-if="email"
-                        :class="emailValid ? 'validation-success' : 'validation-error'"
+                        :class="
+                            emailValid
+                                ? 'validation-success'
+                                : 'validation-error'
+                        "
                         class="text-validation"
                     >
                         {{
@@ -47,13 +52,23 @@
                         type="password"
                         v-model="password"
                         maxlength="15"
-                        :variant="password === '' ? 'default' : passwordValid ? 'success' : 'error'"
+                        :variant="
+                            password === ''
+                                ? 'default'
+                                : passwordValid
+                                ? 'success'
+                                : 'error'
+                        "
                         size="md"
-                        placeholder="8~15자, 대소문자, !,@,#,$ 포함"
+                        placeholder="8~15자, 대소문자, !,@,#,$, 숫자 포함"
                     />
                     <span
                         v-if="password"
-                        :class="passwordValid ? 'validation-success' : 'validation-error'"
+                        :class="
+                            passwordValid
+                                ? 'validation-success'
+                                : 'validation-error'
+                        "
                         class="text-validation"
                     >
                         {{
@@ -69,13 +84,23 @@
                     <BaseInput
                         type="password"
                         v-model="confirmPassword"
-                        :variant="confirmPassword === '' ? 'default' : confirmPasswordValid ? 'success' : 'error'"
+                        :variant="
+                            confirmPassword === ''
+                                ? 'default'
+                                : confirmPasswordValid
+                                ? 'success'
+                                : 'error'
+                        "
                         size="md"
                         placeholder="비밀번호 확인"
                     />
                     <span
                         v-if="confirmPassword"
-                        :class="confirmPasswordValid ? 'validation-success' : 'validation-error'"
+                        :class="
+                            confirmPasswordValid
+                                ? 'validation-success'
+                                : 'validation-error'
+                        "
                         class="text-validation"
                     >
                         {{
@@ -121,11 +146,7 @@
             </form>
             <p class="signup-link-container">
                 Already have an account?
-                <router-link
-                    to="/login"
-                    class="link-brand"
-                    >Log in</router-link
-                >
+                <router-link to="/login" class="link-brand">Log in</router-link>
             </p>
         </div>
     </div>
@@ -163,7 +184,12 @@ const confirmPasswordValid = computed(
         confirmPassword.value !== "" && password.value === confirmPassword.value
 );
 const formValid = computed(
-    () => emailValid.value && passwordValid.value && confirmPasswordValid.value && name.value.trim() && nickname.value.trim()
+    () =>
+        emailValid.value &&
+        passwordValid.value &&
+        confirmPasswordValid.value &&
+        name.value.trim() &&
+        nickname.value.trim()
 );
 
 async function handleSubmit() {
@@ -182,17 +208,17 @@ async function handleSubmit() {
         // 회원가입 성공 모달
         modal.open({
             title: "회원가입 성공",
-            message: "삐돌이 마켓에 가입해주셔서 감사합니다!\n로그인 페이지로 이동합니다."
+            message:
+                "삐돌이 마켓에 가입해주셔서 감사합니다!\n로그인 페이지로 이동합니다.",
         });
 
         // 모달 닫힌 후 로그인 페이지로 이동
         setTimeout(() => {
             router.push("/login");
         }, 2000);
-
     } catch (error) {
         console.error("회원가입 에러:", error);
-        
+
         // 에러 메시지 설정
         let errorMsg = "";
         if (error.message) {
@@ -208,7 +234,7 @@ async function handleSubmit() {
         // 에러 모달 표시
         modal.open({
             title: "회원가입 실패",
-            message: errorMsg
+            message: errorMsg,
         });
     } finally {
         isLoading.value = false;
