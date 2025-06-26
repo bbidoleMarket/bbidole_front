@@ -29,8 +29,8 @@ export const useUserApi = () => {
    * @returns
    */
   const getMyDetail = async () => {
-    return await axios.get(`/api/user/detail/1`); // TODO: JWT 합치고 수정하기
-    // return await axios.get(`/api/user/detail`); // 실제 API 경로
+    // return await axios.get(`/api/user/detail/1`); // Test용
+    return await axios.get(`/api/user/detail`); // 실제 API 경로
   };
 
   return { getUserDetail, getMyDetail };
@@ -72,7 +72,6 @@ export const usePostApi = () => {
     title,
     description,
     price,
-    userId,
     image // File 객체
   ) => {
     const formData = new FormData();
@@ -128,6 +127,9 @@ export const usePostApi = () => {
     if (size !== undefined) {
       params.append("size", size);
     }
+    if (page === undefined && size === undefined) {
+      return await axios.get(`/api/post/seller/${userId}`);
+    }
     return await axios.get(`/api/post/seller/${userId}?${params.toString()}`);
   };
 
@@ -142,8 +144,12 @@ export const usePostApi = () => {
     if (size !== undefined) {
       params.append("size", size);
     }
-    // return await axios.get(`/api/post/my?${params.toString()}`); // 실제 API 경로
-    return await axios.get(`/api/post/seller/1?${params.toString()}`); // TODO: JWT 합치고 수정하기
+
+    if (page === undefined && size === undefined) {
+      return await axios.get(`/api/post/seller`);
+    }
+    return await axios.get(`/api/post/seller?${params.toString()}`); // 실제 API 경로
+    // return await axios.get(`/api/post/seller/1?${params.toString()}`); // Test용
   };
 
   return { getPostDetail, updatePost, getPostListByPage, getMyPostListByPage };
@@ -178,6 +184,9 @@ export const useReviewApi = () => {
     if (size !== undefined) {
       params.append("size", size);
     }
+    if (page === undefined && size === undefined) {
+      return await axios.get(`/api/review/${userId}`);
+    }
     return await axios.get(`/api/review/${userId}?${params.toString()}`);
   };
 
@@ -192,8 +201,11 @@ export const useReviewApi = () => {
     if (size !== undefined) {
       params.append("size", size);
     }
-    return await axios.get(`/api/review/1?${params.toString()}`); // TODO: JWT 합치고 수정하기
-    // return await axios.get(`/api/review?${params.toString()}`); // 실제 API 경로
+    // return await axios.get(`/api/review/1?${params.toString()}`);
+    if (page === undefined && size === undefined) {
+      return await axios.get(`/api/review`);
+    }
+    return await axios.get(`/api/review?${params.toString()}`); // 실제 API 경로
   };
 
   return { getReviewListByPage, getMyReviewListByPage };
