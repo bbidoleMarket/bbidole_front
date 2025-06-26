@@ -1,7 +1,7 @@
 <template>
   <!-- 사이드바 (오픈 시만 보임) -->
   <transition name="fade">
-    <div v-if="isHamburger" class="fixed inset-0 z-40 flex justify-end mt-20">
+    <div v-if="isHamburger" class="sticky inset-0 z-40 flex justify-end mt-20">
       <!-- 오버레이 -->
       <div
         class="fixed inset-0 bg-black bg-opacity-40"

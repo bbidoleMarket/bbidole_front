@@ -25,8 +25,8 @@
     <div
       v-if="isMobile"
       ref="scrollContainer"
-      @scroll="handelScroll"
-      class="overflow-hidden h-[80vh] border"
+      @scroll="handleScroll"
+      class="overflow-y-scroll h-[80vh] border"
     >
       <ul
         class="w-screen space-y-4 flex flex-col justify-center items-center gap-2"
@@ -61,39 +61,74 @@
         </li>
       </ul>
       <!--무한스크롤 로딩중-->
-      <div v-if="isLoading" class="text-center">
+      <div v-if="isLoading.value" class="text-center">
         <i class="fa-solid fa-spinner"></i>
       </div>
     </div>
     <!--페이지네이션-->
-    <div v-if="!isMobile">
-      <button
-        @click="prePage"
-        :disableed="currentPage == 1"
-        class="px-3 py-1 rounded-sm border border-grey-300 hover:bg-opacity-90 disabled:opacity-50"
+    <div v-else class="flex flex-col justify-center items-center">
+      <ul
+        class="w-screen space-y-4 flex flex-col justify-center items-center gap-2"
       >
-        <
-      </button>
-      <button
-        v-for="page in totalPage"
-        :key="page"
-        @click="goTopage(page)"
-        :class="[
-          'p-3 py-1 rounded-border',
-          currentPage == page - 1
-            ? 'bg-[#45A8A6] text-white'
-            : 'bg-gray-300 hover:bg-gray-200',
-        ]"
-      >
-        {{ page }}
-      </button>
-      <button
-        @click="nextPage"
-        :disableed="currentPage == totalPage"
-        class="px-3 py-1 rounded-sm border border-grey-300 hover:bg-opacity-90 disabled:opacity-50"
-      >
+        <li
+          v-for="sales in salesList"
+          :key="sales.salesId"
+          @click="goDetail(sales.salesId)"
+          class="hover:bg-gray-100 p-2 border-gray-300 shadow w-full max-w-md md:max-w-wl lg:max-w-3xl max-auto transition-all duration-200 flex flex-row gap-7 rounded-md"
         >
-      </button>
+          <!-- 게시글 이미지-->
+          <div
+            class="w-20 h-20 flex justify-center items-center overflow-hidden rounded-md"
+          >
+            <img
+              src="/image/stanley.jpg"
+              alt="게시글 사진"
+              class="object-contain"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2 mt-2">
+            <!-- 게시글 제목-->
+            <div>
+              <h2 class="font-hahmlet">{{ sales.title }}</h2>
+            </div>
+            <!-- 게시글 가격-->
+            <div>
+              <p class="font-hahmlet">{{ sales.price }}원</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!--페이지네이션 버튼-->
+      <div class="mt-3">
+        <button
+          @click="prePage"
+          :disabled="currentPage.value == 1"
+          class="px-3 py-1 rounded-sm border border-grey-300 hover:bg-opacity-90 disabled:opacity-50"
+        >
+          <
+        </button>
+        <button
+          v-for="page in totalPage"
+          :key="page"
+          @click="goTopage(page)"
+          :class="[
+            'p-3 py-1 rounded-border',
+            currentPage == page - 1
+              ? 'bg-[#45A8A6] text-white'
+              : 'bg-gray-300 hover:bg-gray-200',
+          ]"
+        >
+          {{ page }}
+        </button>
+        <button
+          @click="nextPage"
+          :disableed="currentPage == totalPage"
+          class="px-3 py-1 rounded-sm border border-grey-300 hover:bg-opacity-90 disabled:opacity-50"
+        >
+          >
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -120,22 +155,32 @@ watch(isMobile, (newVal, oldVal) => {
     console.log("💻 데스크탑 모드 진입");
   }
 });
-const handelResize = () => {
+const handleResize = () => {
   isMobile.value = window.innerWidth <= 393;
 };
 //화면 사이즈 확인
-onMounted(() => window.addEventListener("resize", handelResize));
-onUnmounted(() => window.removeEventListener("resize", handelResize));
+onMounted(() => window.addEventListener("resize", handleResize));
+onUnmounted(() => window.removeEventListener("resize", handleResize));
 
 //무한 스크롤
 const isLoading = ref(false);
 const scrollContainer = ref(null);
-const handelScroll = () => {
-  if (isLoading) return;
+const handleScroll = () => {
+  if (isLoading.value) return;
   const el = scrollContainer.value;
-  if (el.scrollTop + el.clientHeight >= el.scrollHeight + 10) {
-    currentPage.value++;
-    fetchPageData();
+  // if (!el) return;
+  // if (el.scrollTop > 0) {
+  //   console.log("스크롤 내림! scrollTop:", el.scrollTop);
+  // } else {
+  //   console.log("스크롤 맨 위");
+  // }
+  console.log("handleScroll 확인 ");
+  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
+    if (currentPage.value < totalPage.value - 1) {
+      console.log("currentPage : " + currentPage.value);
+      currentPage.value++;
+      fetchPageData();
+    }
   }
 };
 //백엔드 연결 전 더미데이터 테스트
@@ -170,11 +215,14 @@ const fetchPageData = async () => {
 
   if (!fetcher) return;
   const res = await fetcher(userId, currentPage.value, pageSize);
-  //게시글 목록
-  salesList.value = res.data.data.content;
-  //총 페이지 수
+  // //게시글 목록
+  // salesList.value = res.data.data.content;
+  // //총 페이지 수
+  // totalPage.value = res.data.data.totalPages;
+  // isLoading.value = false;
+  salesList.value = [...salesList.value, ...res.data.data.content];
   totalPage.value = res.data.data.totalPages;
-  isLoading = false;
+  isLoading.value = false;
 };
 
 const prePage = () => {

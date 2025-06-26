@@ -1,6 +1,6 @@
 <template>
-  <Header />
-  <main>
+  <Header :class="flex" />
+  <main :class="flex - grow">
     <router-view />
   </main>
   <Footer />
