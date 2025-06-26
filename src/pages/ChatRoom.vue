@@ -1,18 +1,18 @@
 <template>
-  <div class="flex flex-col h-[80vh] lg:h-[83vh] m-4 lg:mx-60">
+  <div class="flex flex-col h-[85vh] lg:h-[85vh] p-6 lg:px-60">
     <div
       class="flex items-center justify-center text-[#2E383A] bg-[#EAF9EA] rounded-tl-[12px] rounded-tr-[12px] p-4"
     >
-      <h2 class="font-hahmlet text-lg lg:text-3xl lg:ml-10">
+      <h2 class="font-hahmlet text-md lg:text-3xl lg:ml-10">
         {{ title }}
       </h2>
       <BaseButton
-        class="text-[#2E383A] bg-transparent hover:bg-transparent lg:text-2xl lg:mr-10 mr-2 ml-auto"
+        class="text-[#2E383A] bg-transparent hover:bg-transparent text-sm lg:text-2xl lg:mr-10 mr-2 ml-auto"
         :black="true"
         >{{ displayName }}</BaseButton
       >
       <BaseButton
-        class="lg:text-xl disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
+        class="text-sm lg:text-xl disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
         @click="clickSold"
         :disabled="isCompleted"
         >{{ isCompleted ? "판매 완료" : "판매 중" }}</BaseButton
