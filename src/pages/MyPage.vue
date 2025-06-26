@@ -1,7 +1,9 @@
 <template>
   <!-- 가장 밖-->
-  <div class="flex gap-16 justify-center items-center min-h-screen">
-    <div class="w-auto max-w-f flex flex-col gap-8 rounded-xl shadow p-4 m-8">
+  <div
+    class="flex gap-8 sm:gap-16 justify-center items-center flex-col sm:flex-row min-h-screen"
+  >
+    <div class="w-auto max-w-f flex flex-col rounded-xl shadow p-4 m-8">
       <!-- 프로필-->
       <div
         class="flex flex-col min-h-64 min-w-64 items-center justify-center gap-4"
@@ -12,7 +14,7 @@
           <img :src="profileImage" alt="프로필" class="object-contain" />
         </div>
 
-        <div class="text-lg">{{ name }}</div>
+        <div class="text-lg font-jua">{{ name }}</div>
       </div>
       <!-- 버튼 -->
       <button
@@ -74,7 +76,9 @@
 //수정 버튼
 import { ref, onMounted } from "vue";
 import { useMyPageApi } from "@/api/mypage";
+import { useModalStore } from "../stores/modal";
 
+const modal = useModalStore();
 const { useInfoUpdate, profileImageUpdate, profileName } = useMyPageApi();
 const defaultImage = "/image/poodle.webp";
 const profileImage = ref(defaultImage);
@@ -86,8 +90,11 @@ const passwordConfirm = ref("");
 
 //이름 출력
 onMounted(async () => {
-  const res = await profileName();
-  name.value = res.value;
+  const res = await profileName(
+    "wpsl@example.com" //삭제 예정
+  );
+  console.log("응답 확인", res);
+  name.value = res.data.data.name;
 });
 
 //파일 선택
@@ -105,12 +112,29 @@ function handleImageChage(e) {
 }
 //회원 정보 수정
 const profileUpdate = async () => {
-  const res = await useInfoUpdate(
-    nickName.value,
-    password.value,
-    passwordConfirm.value,
-    "wpsl@example.com" //삭제 예정
-  );
-  //모달 창
+  try {
+    const res = await useInfoUpdate(
+      nickName.value,
+      password.value,
+      passwordConfirm.value,
+      "wpsl@example.com" //삭제 예정
+    );
+    //모달 창
+    if (res.status == 200) {
+      modal.open({
+        title: "수정 완료!",
+        message: "회원 정보가 수정되었습니다.",
+      });
+      //input 초기화
+      nickName.value = "";
+      password.value = "";
+      passwordConfirm.value = "";
+    }
+  } catch (error) {
+    modal.open({
+      title: "수정 실패",
+      message: error?.response?.data?.message || "입력값을 확인해주세요.",
+    });
+  }
 };
 </script>
