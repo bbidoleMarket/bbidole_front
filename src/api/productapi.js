@@ -1,11 +1,13 @@
-import axios from "./axiosInstance";
+import axios from "axios";
 
-// const apiClient = axios.create({
-//   baseURL: API_URL,
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
+const API_URL = "http://localhost:8080/api";
+
+const apiClient = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 // API 응답을 처리하는 함수
 const transformResponse = (response) => {
@@ -32,15 +34,7 @@ export async function getPostList({
   }
 
   try {
-    const response = await axios.get(
-      "/api/posts",
-      { params },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await apiClient.get("/posts", { params });
     return transformResponse(response);
   } catch (error) {
     console.error("API 오류:", error);
@@ -57,7 +51,7 @@ export async function searchPosts({ keyword, onlySelling, page, size }) {
   };
 
   try {
-    const response = await axios.get("/api/posts/search", { params });
+    const response = await apiClient.get("/posts/search", { params });
     return transformResponse(response);
   } catch (error) {
     console.error("API 오류:", error);
@@ -73,11 +67,18 @@ export async function createPost(postData) {
     formData.append("description", postData.description);
     formData.append("image", postData.image);
 
-    const response = await axios.post("/api/createpost", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const token = localStorage.getItem("accessToken");
+
+    const response = await axios.post(
+      "http://localhost:8080/api/createpost",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return {
       success: true,
