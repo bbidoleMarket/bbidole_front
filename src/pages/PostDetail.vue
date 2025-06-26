@@ -131,7 +131,7 @@ const goSellerDetailPage = () => {
 
 const goChattingPage = (res) => {
   router.push({
-    path: `/chatting/${postId}`,
+    path: `/chat/${res.id}`,
     query: {
       id: res.id,
       productId: res.productId,
