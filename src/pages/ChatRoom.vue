@@ -14,8 +14,8 @@
       <BaseButton
         class="text-sm lg:text-xl disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
         @click="clickSold"
-        :disabled="isCompleted"
-        >{{ isCompleted ? "판매 완료" : "판매 중" }}</BaseButton
+        :disabled="isCompleted === 'true'"
+        >{{ isCompleted === "true" ? "판매 완료" : "판매 중" }}</BaseButton
       >
     </div>
     <div
@@ -87,7 +87,11 @@ onMounted(async () => {
   console.log("판매자 이름:", sellerName);
   console.log("구매자 ID:", buyerId);
   console.log("구매자 이름:", buyerName);
-  console.log("채팅방 상태:", isCompleted ? "완료" : "진행 중");
+  console.log(
+    "채팅방 상태:",
+    isCompleted,
+    isCompleted === "true" ? "완료" : "진행 중"
+  );
   console.log("상대방 ID:", othersId, typeof othersId);
 
   await nextTick();

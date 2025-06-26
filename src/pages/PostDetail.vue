@@ -133,17 +133,17 @@ const goSellerDetailPage = () => {
 
 const goChattingPage = (res) => {
   router.push({
-    path: `/chatting/${postId}`,
+    path: `/chat/${res.id}`,
     query: {
       id: res.id,
       productId: res.productId,
-      productName: res.productName,
+      title: res.productName,
       sellerId: res.sellerId,
       sellerName: res.sellerName,
       buyerId: res.buyerId,
       buyerName: res.buyerName,
       othersId: res.othersId,
-      isCompleted: res.isCompleted,
+      isCompleted: res.completed,
     },
   });
 };

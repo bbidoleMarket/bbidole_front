@@ -83,7 +83,33 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
-  // 인증이 필요한 페이지
+  // 게스트만 접근 가능한 페이지 (로그인, 회원가입)로 가는 경우
+  if (to.meta.requiresGuest) {
+    if (authStore.isAuthenticated) {
+      next("/");
+      return;
+    }
+    next();
+    return;
+  }
+
+  // 모든 페이지에서 토큰 상태 확인 및 자동 재발급
+  // 리프레시 토큰이 있고 유효한 경우
+  if (authStore.refreshToken && !authStore.isRefreshTokenExpired) {
+    // 액세스 토큰이 없거나 만료된 경우 자동 재발급 시도
+    if (!authStore.accessToken || authStore.isAccessTokenExpired) {
+      try {
+        console.log("액세스 토큰이 없거나 만료됨. 자동 재발급 시도...");
+        await authStore.refreshAuthTokens();
+        console.log("토큰 재발급 성공!");
+      } catch (error) {
+        console.error("토큰 재발급 실패:", error);
+        // 재발급 실패 시 로그아웃은 store에서 처리됨
+      }
+    }
+  }
+
+  // requiresAuth가 true인 페이지의 경우 추가 검증
   if (to.meta.requiresAuth) {
     // 리프레시 토큰도 없거나 만료된 경우 - 로그인 필요
     if (!authStore.refreshToken || authStore.isRefreshTokenExpired) {
@@ -92,31 +118,11 @@ router.beforeEach(async (to, from, next) => {
       return;
     }
 
-    // 액세스 토큰이 없거나 만료된 경우 - 자동 재발급 시도
-    if (!authStore.accessToken || authStore.isAccessTokenExpired) {
-      try {
-        console.log("액세스 토큰이 없거나 만료됨. 자동 재발급 시도...");
-        await authStore.refreshAuthTokens();
-        console.log("토큰 재발급 성공!");
-        next();
-        return;
-      } catch (error) {
-        console.error("토큰 재발급 실패:", error);
-        authStore.logout();
-        next("/login");
-        return;
-      }
+    // 인증되지 않은 경우 로그인 페이지로
+    if (!authStore.isAuthenticated) {
+      next("/login");
+      return;
     }
-
-    // 액세스 토큰이 유효한 경우
-    next();
-    return;
-  }
-
-  // 게스트만 접근 가능한 페이지 (로그인, 회원가입)
-  if (to.meta.requiresGuest && authStore.isAuthenticated) {
-    next("/");
-    return;
   }
 
   next();
