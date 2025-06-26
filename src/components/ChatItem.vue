@@ -12,9 +12,9 @@
     </div>
     <div class="text-[#2E383A] m-2 ml-6">
       <!-- 마지막 메시지 표시 -->
-      <p class="text-base">마지막 메시지 내용</p>
+      <p class="text-base">{{ chat.lastMessage }}</p>
       <!-- 마지막 메시지 시간 표시 -->
-      <p class="text-xs">마지막 메시지 시간</p>
+      <p class="text-xs">{{ formatDateTime(chat.lastMessageSendAt) }}</p>
     </div>
   </div>
 </template>
@@ -22,4 +22,9 @@
 const props = defineProps({
   chat: Object,
 });
+
+function formatDateTime(dateTime) {
+  if (!dateTime) return "";
+  return dateTime.toString().slice(0, 16).replace("T", " ");
+}
 </script>
