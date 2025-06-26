@@ -20,7 +20,7 @@
         </button>
         <!-- 메뉴 -->
         <nav>
-          <ul class="text-[#2E383A] text-lg mt-8">
+          <ul class="font-jua text-[#2E383A] text-lg mt-8">
             <li>
               <router-link
                 to="/me"
@@ -98,7 +98,11 @@
 
     <!-- 타이틀 -->
     <div class="flex-center w-full h-full">
-      <h1 class="text-lg sm:text-3xl font-bold text-[#2E383A]">삐돌이 마켓</h1>
+      <h1
+        class="text-lg font-jua text-xl sm:text-3xl lg:text-4xl text-[#2E383A]"
+      >
+        삐돌이 마켓
+      </h1>
     </div>
 
     <!-- 버튼들 -->

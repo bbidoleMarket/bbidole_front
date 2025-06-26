@@ -7,8 +7,9 @@
         {{ title }}
       </h2>
       <BaseButton
-        class="text-black bg-transparent hover:bg-transparent lg:text-2xl lg:mr-10 mr-2 ml-auto"
-        >{{ sellerName }}</BaseButton
+        class="text-[#2E383A] bg-transparent hover:bg-transparent lg:text-2xl lg:mr-10 mr-2 ml-auto"
+        :black="true"
+        >{{ displayName }}</BaseButton
       >
       <BaseButton
         class="lg:text-xl disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
@@ -48,7 +49,7 @@
 
 <script setup>
 import router from "../router";
-import { onMounted, onUnmounted, watch, ref, nextTick } from "vue";
+import { onMounted, onUnmounted, watch, ref, nextTick, computed } from "vue";
 import { useRoute } from "vue-router";
 import BaseButton from "../components/base/BaseButton.vue";
 import ChatMessage from "../components/ChatMessage.vue";
@@ -136,6 +137,8 @@ onUnmounted(() => {
   }
 });
 
+const displayName =
+  sellerId === othersId ? "판매자: " + sellerName : "구매자: " + buyerName;
 const sendMessage = () => {
   if (!newMessage.value.trim()) return; // 빈 메시지 전송 방지
   const message = {
