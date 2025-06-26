@@ -25,8 +25,8 @@
     <div
       v-if="isMobile"
       ref="scrollContainer"
-      @scroll="handleScroll"
-      class="overflow-y-scroll h-[80vh] border"
+      @scroll.passive="handleScroll"
+      class="overflow-y-scroll h-[50vh] border"
     >
       <ul
         class="w-screen space-y-4 flex flex-col justify-center items-center gap-2"
@@ -123,7 +123,7 @@
         </button>
         <button
           @click="nextPage"
-          :disableed="currentPage == totalPage"
+          :disabled="currentPage == totalPage"
           class="px-3 py-1 rounded-sm border border-grey-300 hover:bg-opacity-90 disabled:opacity-50"
         >
           >
@@ -148,13 +148,12 @@ const salesList = ref([]);
 
 //화면 사이즈 지정
 const isMobile = ref(window.innerWidth <= 393);
-watch(isMobile, (newVal, oldVal) => {
-  if (newVal) {
-    console.log("📱 모바일 모드 진입");
-  } else {
-    console.log("💻 데스크탑 모드 진입");
-  }
+watch(isMobile, async (mobile) => {
+  currentPage.value = 0;
+  salesList.value = [];
+  await fetchPageData();
 });
+
 const handleResize = () => {
   isMobile.value = window.innerWidth <= 393;
 };
@@ -166,28 +165,34 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 const isLoading = ref(false);
 const scrollContainer = ref(null);
 const handleScroll = () => {
-  if (isLoading.value) return;
-  const el = scrollContainer.value;
-  // if (!el) return;
-  // if (el.scrollTop > 0) {
-  //   console.log("스크롤 내림! scrollTop:", el.scrollTop);
-  // } else {
-  //   console.log("스크롤 맨 위");
-  // }
-  console.log("handleScroll 확인 ");
-  if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
-    if (currentPage.value < totalPage.value - 1) {
-      console.log("currentPage : " + currentPage.value);
-      currentPage.value++;
-      fetchPageData();
-    }
+  console.log("dkssud");
+  // if (isLoading.value) return;
+  // const el = scrollContainer.value;
+  // if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
+  //   fetchMoreData();
+  const scrollY = window.scrollY || window.pageYOffset;
+  const vh = window.innerHeight;
+  const fullH = document.documentElement.scrollHeight;
+  if (scrollY + vh >= fullH - 10) {
+    fetchMoreData();
   }
+  // if (isLoading.value) return;
+  // const el = scrollContainer.value;
+  // // if (!el) return;
+  // // if (el.scrollTop > 0) {
+  // //   console.log("스크롤 내림! scrollTop:", el.scrollTop);
+  // // } else {
+  // //   console.log("스크롤 맨 위");
+  // // }
+  // console.log("handleScroll 확인 ");
+  // if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
+  //   if (currentPage.value < totalPage.value - 1) {
+  //     console.log("currentPage : " + currentPage.value);
+  //     currentPage.value++;
+  //     fetchPageData();
+  //   }
+  // }
 };
-//백엔드 연결 전 더미데이터 테스트
-// const salesList = ref([
-//   { salesId: 1, title: "테스트 게시글", price: 10000 },
-//   { salesId: 2, title: "샘플 게시글", price: 20000 },
-// ]);
 
 const userId = 1; //임시 로그인 완료되면 지워야 함 아이디 하드코딩
 onMounted(() => {
@@ -220,6 +225,24 @@ const fetchPageData = async () => {
   // //총 페이지 수
   // totalPage.value = res.data.data.totalPages;
   // isLoading.value = false;
+  salesList.value = res.data.data.content;
+  totalPage.value = res.data.data.totalPages;
+  isLoading.value = false;
+};
+
+const fetchMoreData = async () => {
+  if (isLoading.value || currentPage.value >= totalPage.value - 1) return;
+
+  currentPage.value++;
+  isLoading.value = true;
+  const fetcher = {
+    all: salesListLatest,
+    onsales: salesListOnSales,
+    completed: salesListCompletedSales,
+  }[selectedCategory.value];
+
+  if (!fetcher) return;
+  const res = await fetcher(userId, currentPage.value, pageSize);
   salesList.value = [...salesList.value, ...res.data.data.content];
   totalPage.value = res.data.data.totalPages;
   isLoading.value = false;

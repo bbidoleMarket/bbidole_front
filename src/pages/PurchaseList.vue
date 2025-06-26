@@ -109,7 +109,7 @@
         </button>
         <button
           @click="nextPage"
-          :disableed="currentPage == totalPage"
+          :disabled="currentPage == totalPage"
           class="px-3 py-1 rounded-sm border border-grey-300 hover:bg-opacity-90 disabled:opacity-50"
         >
           >
@@ -138,12 +138,19 @@ onMounted(() => {
   window.addEventListener("resize", handleResize);
 });
 onUnmounted(() => window.removeEventListener("resize", handleResize));
-watch(isMobile, (newVal, oldVal) => {
-  if (newVal) {
-    console.log("📱 모바일 모드 진입");
-  } else {
-    console.log("💻 데스크탑 모드 진입");
-  }
+
+import { nextTick } from "vue";
+// watch(isMobile, (newVal, oldVal) => {
+//   if (newVal) {
+//     console.log("📱 모바일 모드 진입");
+//   } else {
+//     console.log("💻 데스크탑 모드 진입");
+//   }
+// });
+watch(isMobile, async (mobile) => {
+  currentPage.value = 0;
+  purchaseList.value = [];
+  await fetchPageData();
 });
 
 //무한 스크롤
@@ -158,12 +165,6 @@ const handleScroll = () => {
     fetchMoreData();
   }
 };
-//백엔드 연결 전 더미데이터 테스트
-// const purchaseList = ref([
-//   { purchaseId: 1, title: "테스트 게시글", price: 10000 },
-//   { purchaseId: 2, title: "샘플 게시글", price: 20000 },
-//   { purchaseId: 3, title: " 게시글", price: 40000 },
-// ]);
 
 const userId = 3; //임시 로그인 완료되면 지워야 함 아이디 하드코딩
 onMounted(() => {
