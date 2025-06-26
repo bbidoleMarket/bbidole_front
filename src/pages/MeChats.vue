@@ -1,5 +1,7 @@
 <template>
-  <div class="p-4 lg:w-[70%] justify-center mx-auto">
+  <div
+    class="p-4 justify-center mx-auto bg-[#FFFFF6] h-[86vh] items-start flex"
+  >
     <ChatItem
       v-for="chat in chats"
       :key="chat.id"
