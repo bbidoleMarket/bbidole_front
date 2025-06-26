@@ -12,7 +12,7 @@ export const useUserApi = () => {
    * }
    */
   const getUserDetail = async (sellerId) => {
-    return await axios.get(`/api/user/seller/${sellerId}}`);
+    return await axios.get(`/api/user/detail/${sellerId}}`);
     /*
            try {
                 const res = await axios.get(`/api/user/seller/${sellerId}`);
@@ -29,7 +29,8 @@ export const useUserApi = () => {
    * @returns
    */
   const getMyDetail = async () => {
-    return await axios.get(`/api/user/seller/1`); // TODO: JWT 합치고 수정하기
+    return await axios.get(`/api/user/detail/1`); // TODO: JWT 합치고 수정하기
+    // return await axios.get(`/api/user/detail`); // 실제 API 경로
   };
 
   return { getUserDetail, getMyDetail };
@@ -56,7 +57,6 @@ export const usePostApi = () => {
     return await axios.get(`/api/post/${postId}`);
   };
 
-  //
   /**
    * 게시글 수정 요청
    * @param {body} postId
@@ -121,17 +121,37 @@ export const usePostApi = () => {
    * }
    */
   const getPostListByPage = async (userId, page, size) => {
-    return await axios.get(
-      `/api/post/seller/${userId}?page=${page}&size=${size}`
-    );
+    const params = new URLSearchParams();
+    if (page !== undefined) {
+      params.append("page", page);
+    }
+    if (size !== undefined) {
+      params.append("size", size);
+    }
+    return await axios.get(`/api/post/seller/${userId}?${params.toString()}`);
   };
 
-  return { getPostDetail, updatePost, getPostListByPage };
+  /**
+   * 사용자가 작성한 게시글 목록 요청(Pagenation)
+   */
+  const getMyPostListByPage = async (page, size) => {
+    const params = new URLSearchParams();
+    if (page !== undefined) {
+      params.append("page", page);
+    }
+    if (size !== undefined) {
+      params.append("size", size);
+    }
+    // return await axios.get(`/api/post/my?${params.toString()}`); // 실제 API 경로
+    return await axios.get(`/api/post/seller/1?${params.toString()}`); // TODO: JWT 합치고 수정하기
+  };
+
+  return { getPostDetail, updatePost, getPostListByPage, getMyPostListByPage };
 };
 
 export const useReviewApi = () => {
   /**
-   * 리뷰 목록 요청(Pagenation)
+   * 판매자에게 작성된 리뷰 목록 요청(Pagenation)
    * @param {path} userId
    * @param {query} page
    * @param {query} size
@@ -151,10 +171,32 @@ export const useReviewApi = () => {
    * }
    */
   const getReviewListByPage = async (userId, page, size) => {
-    return await axios.get(`/api/review/${userId}?page=${page}&size=${size}`);
+    const params = new URLSearchParams();
+    if (page !== undefined) {
+      params.append("page", page);
+    }
+    if (size !== undefined) {
+      params.append("size", size);
+    }
+    return await axios.get(`/api/review/${userId}?${params.toString()}`);
   };
 
-  return { getReviewListByPage };
+  /**
+   * 내에게 작성된 리뷰 목록 요청(Pagenation)
+   */
+  const getMyReviewListByPage = async (page, size) => {
+    const params = new URLSearchParams();
+    if (page !== undefined) {
+      params.append("page", page);
+    }
+    if (size !== undefined) {
+      params.append("size", size);
+    }
+    return await axios.get(`/api/review/1?${params.toString()}`); // TODO: JWT 합치고 수정하기
+    // return await axios.get(`/api/review?${params.toString()}`); // 실제 API 경로
+  };
+
+  return { getReviewListByPage, getMyReviewListByPage };
 };
 
 export const useChatRoomApi = () => {
