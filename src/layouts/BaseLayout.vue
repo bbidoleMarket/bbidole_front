@@ -1,11 +1,11 @@
 <template>
-    <div v-bind="$attrs" :class="[$attrs.class, 'flex flex-col min-h-screen']">
-        <Header v-if="!route.meta.hideLayout" />
-        <main class="flex-grow pb-[70px]">
-            <router-view />
-        </main>
-        <Footer v-if="!route.meta.hideLayout" />
-    </div>
+  <div v-bind="$attrs" :class="[$attrs.class, 'flex flex-col min-h-screen']">
+    <Header v-if="!route.meta.hideLayout" />
+    <main class="flex-grow">
+      <router-view />
+    </main>
+    <Footer v-if="!route.meta.hideLayout" />
+  </div>
 </template>
 
 <script setup>
