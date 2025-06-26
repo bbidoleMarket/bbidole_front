@@ -7,7 +7,7 @@ const routes = [
     path: "/me",
     name: "MyPage",
     component: () => import("@/pages/MyPage.vue"),
-    meta: { requiresAuth: true },
+    // meta: { requiresAuth: true },
   },
   {
     path: "/post/:postId",
@@ -23,6 +23,16 @@ const routes = [
     path: "/reviews/:userId",
     name: "UserReviews",
     component: () => import("@/pages/ReviewPage.vue"),
+  },
+  {
+    path: "/post/update/:postId",
+    name: "PostEditPage",
+    component: () => import("@/pages/PostEditPage.vue"),
+  },
+  {
+    path: "/seller/:sellerId",
+    name: "SellerDetail",
+    component: () => import("@/pages/SellerDetailPage.vue"),
   },
 ];
 
