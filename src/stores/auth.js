@@ -22,7 +22,17 @@ export const useAuthStore = defineStore("auth", () => {
 
     // 계산된 속성
     const isAuthenticated = computed(() => {
-        return !!accessToken.value && !isTokenExpired(accessToken.value);
+        // 액세스 토큰이 유효한 경우
+        if (accessToken.value && !isTokenExpired(accessToken.value)) {
+            return true;
+        }
+        
+        // 액세스 토큰이 없거나 만료되었지만, 리프레시 토큰이 유효한 경우도 인증된 상태로 간주
+        if (refreshToken.value && !isTokenExpired(refreshToken.value)) {
+            return true;
+        }
+        
+        return false;
     });
 
     const isAccessTokenExpired = computed(() =>
