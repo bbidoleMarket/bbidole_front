@@ -1,6 +1,6 @@
 <template>
   <div
-    class="max-w-[50%] rounded-[12px] break-words p-2 font-noto mx-4 mt-4 text-sm lg:text-lg"
+    class="max-w-[50%] rounded-[12px] break-words p-2 font-noto mx-4 mt-4 text-xs lg:text-lg"
     :class="
       message.senderId === Number(message.othersId)
         ? 'mr-auto bg-[#EAF9EA]'
