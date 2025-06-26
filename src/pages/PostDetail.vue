@@ -78,7 +78,9 @@
     </div>
 
     <div class="w-full">
-      <p class="pb-4 text-sm font-hahmlet">가격 : 1000원</p>
+      <p class="pb-4 text-sm font-hahmlet">
+        가격 : {{ postDetail?.price || 0 }}원
+      </p>
       <p class="text-sm font-noto">
         {{ postDetail?.description || "상품 설명입니다." }}
       </p>
