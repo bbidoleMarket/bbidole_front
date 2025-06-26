@@ -112,7 +112,7 @@ watch(isMobile, (newVal, oldVal) => {
 });
 
 //무한 스크롤
-const isLoading = ref(false);
+const isLoading = ref(flase);
 const scrollContainer = ref(null);
 //스크롤 이벤트 발생 시
 const handleScroll = () => {
@@ -130,7 +130,7 @@ const handleScroll = () => {
 //   { purchaseId: 3, title: " 게시글", price: 40000 },
 // ]);
 
-const userId = 1; //임시 로그인 완료되면 지워야 함 아이디 하드코딩
+const userId = 2; //임시 로그인 완료되면 지워야 함 아이디 하드코딩
 onMounted(() => {
   fetchPageData();
 });
