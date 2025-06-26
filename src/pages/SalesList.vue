@@ -125,6 +125,7 @@ const catePostList = async () => {
       : res.date.filter((item) => item.isSold == selectedCategory.value);
 };
 watch(selectedCategory, async () => {
+  currentPage.value = 0;
   await fetchPageData();
 });
 

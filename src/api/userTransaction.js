@@ -24,7 +24,7 @@ export const UseTransactionListAPi = () => {
       },
     });
   };
-  //구매내역 판매중
+  //판매내역 판매중
   const salesListOnSales = async (id, page, pageSize) => {
     return await axios.get(`/api/sales-list/me/on/${id}`, {
       params: {
@@ -33,7 +33,7 @@ export const UseTransactionListAPi = () => {
       },
     });
   };
-  //구매내역 판매 완료
+  //판매내역 판매 완료
   const salesListCompletedSales = async (id, page, pageSize) => {
     return await axios.get(`/api/sales-list/me/completed/${id}`, {
       params: {
