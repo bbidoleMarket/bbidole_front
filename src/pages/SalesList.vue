@@ -61,7 +61,7 @@
         </li>
       </ul>
       <!--무한스크롤 로딩중-->
-      <div v-if="isLoading">
+      <div v-if="isLoading" class="text-center">
         <i class="fa-solid fa-spinner"></i>
       </div>
     </div>
