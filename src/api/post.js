@@ -75,27 +75,49 @@ export const usePostApi = () => {
     image // File 객체
   ) => {
     const formData = new FormData();
-    if (image.value) {
-      formData.append("image", image.value); // 이미지 파일 추가
+
+    if (image) {
+      console.log("이미지 파일이 존재합니다:", image);
+      formData.append("image", image); // 이미지 파일 추가
     }
 
-    const dto = {
-      postId: postId,
-      title: title,
-      description: description,
-      price: price,
-      userId: userId,
-    };
-    formData.append(
-      "dto",
-      new Blob([JSON.stringify(dto)], { type: "application/json" })
-    );
-    // formData.append("dto", JSON.stringify(dto));
-    return await axios.put(`/api/post/`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    // Object.ver
+    // const dto = {
+    //   postId: postId,
+    //   title: title,
+    //   description: description,
+    //   price: price,
+    // };
+    // formData.append(
+    //   "dto",
+    //   new Blob([JSON.stringify(dto)], { type: "application/json" })
+    // );
+
+    // Text.ver
+    formData.append("postId", postId);
+    formData.append("title", title);
+    formData.append("price", price);
+    formData.append("description", description);
+
+    try {
+      const res = await axios.put(`/api/post/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return {
+        success: true,
+        data: res.data,
+      };
+    } catch (error) {
+      console.error("게시글 수정 실패:", error);
+      return {
+        success: false,
+        message: error.response?.data?.message || "게시글 수정에 실패했습니다",
+        error,
+      };
+    }
   };
 
   /**
