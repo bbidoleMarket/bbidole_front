@@ -1,5 +1,5 @@
 <template>
-  <div v-bind="$attrs" :class="[$attrs.class, 'flex flex-col min-h-screen']">
+  <div v-bind="$attrs" :class="[$attrs.class, 'min-h screen flex flex-col min-h-screen']">
     <Header v-if="!route.meta.hideLayout" />
     <main class="flex-grow">
       <router-view />

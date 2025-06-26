@@ -1,5 +1,5 @@
 <template>
-    <BaseLayout />
+    <BaseLayout  class="bg-[#FFFFF6]" />
     <BaseModal />
 </template>
 
