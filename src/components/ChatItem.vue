@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border p-4 mb-4 bg-[#B0DEDE] rounded-[12px] font-noto shadow cursor-pointer hover:bg-[#319B9A]"
+    class="border lg:w-[70%] p-4 mb-4 bg-[#B0DEDE] rounded-[12px] font-noto shadow cursor-pointer hover:bg-[#319B9A]"
   >
     <div class="flex text-[#2E383A]">
       <!-- 채팅방 제목 표시 -->
