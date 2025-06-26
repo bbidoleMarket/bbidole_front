@@ -2,8 +2,11 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import { createPinia } from "pinia";
 import "./assets/tailwind.css";
+import "./css/components.css";
+import "./css/layout.css";
 import router from "./router";
 // import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import "./css/product.css";
 
 const app = createApp(App);
 const pinia = createPinia();

@@ -1,6 +1,6 @@
 <template>
-  <BaseLayout />
-  <BaseModal />
+    <BaseLayout  class="bg-[#FFFFF6]" />
+    <BaseModal />
 </template>
 
 <script setup>

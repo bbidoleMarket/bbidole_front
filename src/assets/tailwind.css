@@ -3,3 +3,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Base 레이어: 기본 HTML 요소 스타일 */
+@layer base {
+  html,
+  body {
+    @apply font-sans antialiased;
+  }
+  
+  * {
+    @apply box-border;
+  }
+
+  /* 기본 폰트 및 색상 설정 */
+  body {
+    @apply text-gray-900 bg-white;
+  }
+
+  /* 링크 기본 스타일 */
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  /* 버튼 기본 스타일 초기화 */
+  button {
+    @apply focus:outline-none;
+  }
+
+  /* 입력 필드 기본 스타일 */
+  input {
+    @apply transition-all duration-200;
+  }
+}
