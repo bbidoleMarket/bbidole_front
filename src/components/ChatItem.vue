@@ -22,5 +22,4 @@
 const props = defineProps({
   chat: Object,
 });
-console.log(props.chat.buyerId, props.chat.othersId);
 </script>
