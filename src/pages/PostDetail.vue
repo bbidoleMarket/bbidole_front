@@ -61,7 +61,11 @@
               />
             </svg>
             <span class="text-sm font-hahmlet">
-              {{ postDetail?.writerTotalRating || "0.0" }}
+              {{
+                !postDetail || postDetail.writerTotalRating === -1
+                  ? "0.0"
+                  : postDetail.writerTotalRating
+              }}
             </span>
           </div>
         </div>

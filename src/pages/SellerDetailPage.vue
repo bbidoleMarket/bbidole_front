@@ -26,7 +26,9 @@
             />
           </svg>
           <span class="text-sm text-gray-700 font-hahmlet font-semibold">{{
-            userData?.totalRating || "0.0"
+            !userData || userData.totalRating === -1
+              ? "0.0"
+              : userData.totalRating
           }}</span>
         </div>
       </div>
