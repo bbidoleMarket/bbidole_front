@@ -99,11 +99,11 @@
           <!-- 물품 카드 반복 -->
           <div
             v-for="post in myPostList"
-            :key="post.id"
+            :key="post.postId"
             class="flex items-center gap-4 border-t py-4 px-2 rounded-xl hover:bg-[#319B9A] cursor-pointer overflow-x-clip"
             @click="
               () => {
-                goPostDetail(post.id);
+                goPostDetail(post.postId);
               }
             "
           >

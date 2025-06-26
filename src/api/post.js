@@ -168,9 +168,9 @@ export const usePostApi = () => {
     }
 
     if (page === undefined && size === undefined) {
-      return await axios.get(`/api/post/seller`);
+      return await axios.get(`/api/post/my`);
     }
-    return await axios.get(`/api/post/seller?${params.toString()}`); // 실제 API 경로
+    return await axios.get(`/api/post/my?${params.toString()}`); // 실제 API 경로
     // return await axios.get(`/api/post/seller/1?${params.toString()}`); // Test용
   };
 
