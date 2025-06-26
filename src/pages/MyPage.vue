@@ -88,6 +88,8 @@ const nickName = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 
+const selectedFile = ref(null); //추가함
+
 //이름 출력
 onMounted(async () => {
   const res = await profileName(
@@ -106,10 +108,45 @@ function handleImageChage(e) {
   const file = e.target.files[0];
   if (file) {
     profileImage.value = URL.createObjectURL(file);
+    selectedFile.value = file; //추가함 실제 파일 객체 저장
+    profileImagUpdate(file); //추가 함 파일 선택 시 파일 전송
   } else {
     profileImage.value = defaultImage;
+    selectedFile.value = null; //추가함
   }
 }
+
+//프로필 이미지 업로드
+// 프로필 이미지 업로드 함수
+const profileImagUpdate = async (file) => {
+  if (!file) return;
+  try {
+    const res = await profileImageUpdate(file, "wpsl@example.com");
+    alert("프로필 이미지가 변경되었습니다!");
+  } catch (e) {
+    // alert("에러 발생: " + e.message);
+    console.log(e);
+  }
+};
+// async function uploadProfileImage() {
+//   const formData = new FormData();
+//   formData.append("image", selectedFile.value); // image 파라미터 이름!
+//   formData.append("email", userEmail.value); // MyPageReqDto의 프로퍼티도 같이 추가
+
+//   try {
+//     const res = await axios.put("/api/your-profile-image-url", formData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+//     // 성공 처리
+//     alert("프로필 이미지가 변경되었습니다!");
+//   } catch (e) {
+//     // 에러 처리
+//     alert("에러 발생: " + e.message);
+//   }
+// }
+
 //회원 정보 수정
 const profileUpdate = async () => {
   try {
