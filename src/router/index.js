@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import Login from "../pages/Login.vue";
 import Signup from "../pages/Signup.vue";
-// import Home from "../pages/Home.vue";
 import HomePage from "../pages/HomePage.vue";
 import SearchResultPage from "../pages/SearchResultPage.vue";
 import MeChats from "../pages/MeChats.vue";
@@ -19,12 +18,6 @@ const routes = [
         name: "search-results",
         component: SearchResultPage,
     },
-    // {
-    //     path: "/",
-    //     name: "Home",
-    //     component: Home,
-    //     meta: { requiresAuth: true },
-    // },
     {
         path: "/login",
         name: "Login",

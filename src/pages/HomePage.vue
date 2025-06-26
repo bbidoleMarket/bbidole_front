@@ -1,6 +1,6 @@
 <template>
     <!-- PC 뷰 -->
-    <div v-if="!responsive" class="container mx-auto w-[80%] px-4 py-6 mt-20">
+    <div v-if="!responsive" class="container mx-auto w-[80%] px-4 py-6">
         <div class="mb-6">
             <ProductSearch />
         </div>
@@ -8,7 +8,7 @@
     </div>
 
     <!-- 모바일 뷰 -->
-    <div v-else class="w-full px-4 py-6 mt-20">
+    <div v-else class="w-full px-4 py-6">
         <div class="mb-4">
             <ProductSearch />
         </div>
