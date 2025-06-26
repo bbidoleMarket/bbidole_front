@@ -166,7 +166,7 @@ const isAuthenticated = computed(() => authStore.isAuthenticated);
 
 // 홈 페이지로 이동
 const goHome = () => {
-  router.push("/");
+  window.location.href = "/";
   isHamburger.value = false;
 };
 

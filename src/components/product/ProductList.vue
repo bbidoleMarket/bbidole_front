@@ -52,20 +52,23 @@
           @page-changed="changePage" />
       </div>
 
-      <!-- 무한 스크롤 트리거 요소를 여기에 직접 추가 -->
-      <div v-if="isMobile" ref="infiniteScrollTrigger" class="h-10 mt-4">
-                <button
-      v-if="showBackToTop"
-      @click="scrollToTop"
-      class="fixed bottom-[70px] right-[10px] bg-blue-500 hover:bg-blue-600 text-white rounded-full p-3 shadow-lg transition-all duration-300 z-50"
-      aria-label="맨 위로 이동"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-      </svg>
-    </button>
-      </div>
+      <!-- 무한 스크롤 트리거 요소 -->
+      <div v-if="isMobile" ref="infiniteScrollTrigger" class="h-10 mt-4"></div>
       
+      <!-- 상단으로 이동 버튼 -->
+      <button 
+        v-if="showBackToTop" 
+        @click="scrollToTop"
+        class="fixed bottom-[70px] right-[10px] bg-blue-500 hover:bg-blue-600 text-white rounded-full p-3 shadow-lg transition-all duration-300 z-40"
+        aria-label="맨 위로 이동"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+      </button>
+      
+      <!-- 글쓰기 버튼 -->
+      <WriteButton :show-back-to-top="showBackToTop" :is-mobile="isMobile" />
     </div>
   </div>
 </template>
@@ -77,6 +80,7 @@ import ProductCard from './ProductCard.vue';
 import ProductFilter from './ProductFilter.vue';
 import ProductSort from './ProductSort.vue';
 import BasePagination from '../base/BasePagination.vue';
+import WriteButton from '../write/WriteButton.vue'; // WriteButton import 추가
 
 const store = useProductsStore();
 const currentPage = ref(0);

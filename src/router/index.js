@@ -6,12 +6,18 @@ import HomePage from "../pages/HomePage.vue";
 import SearchResultPage from "../pages/SearchResultPage.vue";
 import MeChats from "../pages/MeChats.vue";
 import ChatRoom from "../pages/ChatRoom.vue";
+import WritePage from '../pages/WritePage.vue';
 
 const routes = [
     {
         path: "/",
         name: "home",
         component: HomePage,
+    },
+    {
+        path: '/write',
+        name: 'write',
+        component: WritePage
     },
     {
         path: "/search",
