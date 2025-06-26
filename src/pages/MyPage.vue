@@ -5,8 +5,9 @@
         상세 정보
       </p>
       <div class="relative w-40 h-40 mx-auto">
+        <!-- 프로필 이미지 -->
         <img
-          src="@/assets/icon_bbidole.svg"
+          :src="userData?.imageUrl || '@/assets/icon_bbidole.svg'"
           alt="Profile"
           class="w-full h-full object-cover rounded-full border-2 border-gray-200"
         />
@@ -24,16 +25,15 @@
               d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.946a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.286 3.946c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.54-1.118l1.287-3.946a1 1 0 00-.364-1.118l-3.36-2.44c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.287-3.946z"
             />
           </svg>
-          <span class="text-sm text-gray-700 font-hahmlet font-semibold"
-            >3.5</span
-          >
+          <span class="text-sm text-gray-700 font-hahmlet font-semibold">{{
+            userData?.totalRating || "0.0"
+          }}</span>
         </div>
       </div>
       <p
         class="relative w-80 h-12 mx-auto text-center overflow-hidden font-bold font-hahmlet"
       >
-        닉네임 입니다.닉네임 입니다.닉네임 입니다.닉네임 입니다.닉네임
-        입니다.닉네임 입니다.닉네임 입니다.닉네임 입니다.
+        {{ userData?.nickname || "닉네임" }}
       </p>
     </div>
     <!-- 전체 컨테이너 -->
@@ -58,17 +58,21 @@
           <!-- 후기 카드 반복 -->
           <!-- class="flex items-center gap-4 border-t py-4 px-2 rounded-xl
         hover:bg-[#319B9A]" -->
-          <div class="border-t pt-4 px-2">
+          <div
+            v-for="(review, index) in myReviewList"
+            :key="review.reviewId"
+            class="border-t pt-4 px-2"
+          >
             <p class="font-hahmlet font-bold text-gray-400 mb-1">
-              닉네임
-              <span class="text-yellow-400">★★★★☆</span>
+              {{ review.writerNickname || "작성자" }}
+              <span class="text-yellow-400"
+                >{{ "★".repeat(review.rating) + "☆".repeat(5 - review.rating) }}
+              </span>
             </p>
             <p
               class="text-sm text-gray-900 font-noto leading-relaxed line-clamp-3"
             >
-              후기는 세줄 제한입니다.후기는 세줄 제한입니다.후기는 세줄
-              제한입니다.후기는 세줄 제한입니다.후기는 세줄 제한입니다. 후기는
-              세줄 제한입니다.후기는 세줄 제한입니다.
+              {{ review.content || "후기 내용이 없습니다." }}
             </p>
           </div>
         </div>
@@ -94,10 +98,12 @@
         <div class="space-y-6 overflow-y-auto max-h-80 hidden-scroll-bar">
           <!-- 물품 카드 반복 -->
           <div
+            v-for="post in myPostList"
+            :key="post.postId"
             class="flex items-center gap-4 border-t py-4 px-2 rounded-xl hover:bg-[#319B9A] cursor-pointer overflow-x-clip"
             @click="
               () => {
-                goPostDetail(1);
+                goPostDetail(post.postId);
               }
             "
           >
@@ -105,18 +111,18 @@
               class="w-16 h-16 rounded-full bg-gray-200 overflow-hidden shrink-0"
             >
               <img
-                src="@/assets/icon_bbidole.svg"
+                :src="post.imageUrl || '@/assets/icon_bbidole.svg'"
                 alt="product"
                 class="object-cover w-full h-full"
               />
             </div>
             <div class="">
               <p class="font-hahmlet font-bold text-gray-900 truncate">
-                물품 제목입니다.물품 제목입니다.물품 제목입니다.물품
-                제목입니다.물품 제목입니다.물품 제목입니다.물품 제목입니다.물품
-                제목입니다.
+                {{ post.title || "물품 제목" }}
               </p>
-              <p class="font-hahmlet text-gray-700">가격 : 1000원</p>
+              <p class="font-hahmlet text-gray-700">
+                가격 : {{ post.price || 0 }}원
+              </p>
             </div>
           </div>
         </div>
@@ -127,12 +133,45 @@
 
 <script setup>
 import BaseButton from "@/components/base/BaseButton.vue";
-import router from "../router";
-import { ref } from "vue";
+import router from "@/router";
+import { ref, onMounted } from "vue";
+import axios from "@/api/axiosInstance";
+import { usePostApi, useReviewApi, useUserApi } from "../api/post";
+import defaultImage from "@/assets/icon_bbidole.svg";
+
+const { getMyPostListByPage } = usePostApi();
+const { getMyDetail } = useUserApi();
+const { getMyReviewListByPage } = useReviewApi();
 
 const goPostDetail = (postId) => {
   router.push(`/post/${postId}`);
 };
+
+const userData = ref(null);
+const myPostList = ref([]);
+const myReviewList = ref([]);
+
+onMounted(async () => {
+  console.log("MyPage mounted");
+  const [userRes, postRes, reviewRes] = await Promise.all([
+    getMyDetail(),
+    getMyPostListByPage(),
+    getMyReviewListByPage(),
+  ]);
+
+  console.log("User Data:", userRes.data);
+  console.log("Post List:", postRes.data);
+  console.log("Review List:", reviewRes.data);
+
+  userData.value = userRes.data.data;
+  myPostList.value.push(...postRes.data.data.content);
+  myReviewList.value.push(...reviewRes.data.data.content);
+
+  // try {
+  // } catch (error) {
+  //   console.error("Error fetching MyPage data:", error);
+  // }
+});
 </script>
 
 <style scoped>
