@@ -12,7 +12,7 @@ export const useUserApi = () => {
    * }
    */
   const getUserDetail = async (sellerId) => {
-    return await axios.get(`/api/user/detail/${sellerId}}`);
+    return await axios.get(`/api/user/detail/${sellerId}`);
     /*
            try {
                 const res = await axios.get(`/api/user/seller/${sellerId}`);
@@ -209,11 +209,9 @@ export const useChatRoomApi = () => {
    *   long chatRoomId;
    * }
    */
-  const startChat = async (productId, sellerId, buyerId) => {
-    return await axios.post(`/api/chat-room/`, {
-      productId: productId,
-      sellerId: sellerId,
-      buyerId: buyerId,
+  const startChat = async (productId) => {
+    return await axios.post(`/api/chat/start`, {
+      postId: productId,
     });
   };
   return { startChat };
