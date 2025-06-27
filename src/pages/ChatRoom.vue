@@ -7,15 +7,22 @@
         {{ title }}
       </h2>
       <BaseButton
-        class="text-[#2E383A] bg-transparent hover:bg-transparent text-sm lg:text-2xl lg:mr-10 mr-2 ml-auto"
+        class="text-[#2E383A] bg-transparent hover:bg-transparent text-sm lg:text-2xl lg:mr-4 mr-2 ml-auto"
         :black="true"
         >{{ displayName }}</BaseButton
       >
       <BaseButton
+        v-if="isCompleted && othersId === sellerId"
+        :disabled="isReviewed"
+        class="mr-2 text-sm lg:text-xl disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
+        @click="goReview"
+        >리뷰 작성하기
+      </BaseButton>
+      <BaseButton
         class="text-sm lg:text-xl disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
         @click="clickSold"
-        :disabled="isCompleted === 'true'"
-        >{{ isCompleted === "true" ? "판매 완료" : "판매 중" }}</BaseButton
+        :disabled="isCompleted || othersId === sellerId"
+        >{{ isCompleted ? "판매 완료" : "판매 중" }}</BaseButton
       >
     </div>
     <div
@@ -74,8 +81,9 @@ const {
   buyerId,
   buyerName,
   othersId, // 상대방 ID (구매자 또는 판매자)
-  isCompleted,
 } = route.query;
+const isCompleted = ref(route.query.isCompleted === "true");
+const isReviewed = ref(false);
 
 onMounted(async () => {
   // 채팅방 정보 불러오기
@@ -164,10 +172,11 @@ const sendMessage = () => {
   newMessage.value = ""; // 메시지 입력 필드 초기화
 };
 
-const clickSold = () => {
+const clickSold = async () => {
   // 판매 완료 상태로 변경
-  setSold(chatId)
+  await setSold(chatId)
     .then(() => {
+      isCompleted.value = true; // 판매 완료 상태로 변경
       modal.open({
         title: "판매 완료",
         message: "채팅방이 판매 완료 상태로 변경되었습니다.",
@@ -177,10 +186,22 @@ const clickSold = () => {
       modal.open({
         title: "판매 완료 실패",
         message:
+          error.response.data.message ||
           "채팅방을 판매 완료 상태로 변경하는 데 실패했습니다. 다시 시도해주세요.",
       });
       console.error("판매 완료 실패:", error);
     });
+};
+
+const goReview = () => {
+  // 리뷰 작성 페이지로 이동
+  router.push({
+    path: "/review/write",
+    query: {
+      sellerId: sellerId,
+      buyerId: buyerId,
+    },
+  });
 };
 
 watch(
