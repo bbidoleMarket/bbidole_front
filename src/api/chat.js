@@ -11,7 +11,7 @@ export const useChatApi = () => {
 
   const setSold = async (chatId) => {
     return await axios.patch(`api/chat/sold`, null, {
-      params: { id: chatId },
+      params: { chatId: chatId },
     });
   };
 
