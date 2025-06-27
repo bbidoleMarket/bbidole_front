@@ -2,7 +2,10 @@ import axios from "axios";
 import { tokenService } from "../services/tokenService";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://llinksy.loca.lt",
+    headers: {
+    "Content-Type": "application/json",
+  },
   timeout: 10000,
   //baseURL: import.meta.env.SERVER_URL,
   //withCredentials: true,

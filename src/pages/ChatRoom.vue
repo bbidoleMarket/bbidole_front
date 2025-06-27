@@ -181,6 +181,7 @@ const clickSold = async () => {
         title: "판매 완료",
         message: "채팅방이 판매 완료 상태로 변경되었습니다.",
       });
+      isReviewed.value = true; // 판매 완료 후 리뷰 작성 가능 상태로 변경
     })
     .catch((error) => {
       modal.open({
