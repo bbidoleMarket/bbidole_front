@@ -7,9 +7,9 @@ import SearchResultPage from "../pages/SearchResultPage.vue";
 import MeChats from "../pages/MeChats.vue";
 import PurchaseList from "../pages/PurchaseList.vue";
 import SalesList from "../pages/SalesList.vue";
-// import Mypage from "../pages/mypage.vue";
 import ChatRoom from "../pages/ChatRoom.vue";
 import WritePage from "../pages/WritePage.vue";
+import UpdeateMypage from "../pages/UpdateMypage.vue";
 
 const routes = [
     {
@@ -75,7 +75,7 @@ const routes = [
         name: "SellerDetail",
         component: () => import("@/pages/SellerDetailPage.vue"),
     },
-    // { path: "/me/edit", component: Mypage }, //회원정보 수정
+    { path: "/me/edit", component: UpdeateMypage }, //회원정보 수정
     { path: "/me/buy", component: PurchaseList }, //구매내역
     { path: "/me/posts", component: SalesList }, //판매 내역
 ];
