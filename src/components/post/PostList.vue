@@ -17,11 +17,9 @@
       class="space-y-6 md:overflow-y-auto overflow-auto md:max-h-80 hidden-scroll-bar"
     >
       <!-- 물품 카드 반복 -->
-      <PostItem
-        v-for="post in postList"
-        :key="post.postId"
-        :post="post"
-      ></PostItem>
+      <div v-for="(post, index) in postList" :key="post.postId">
+        <PostItem v-if="!isMobile || index < 3" :post="post"></PostItem>
+      </div>
     </div>
   </div>
 </template>
@@ -29,12 +27,17 @@
 <script setup>
 import BaseButton from "@/components/base/BaseButton.vue";
 import PostItem from "@/components/post/PostItem.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onUnmounted } from "vue";
 import { usePostApi } from "@/api/post";
 
 const { getPostListByPage, getMyPostListByPage } = usePostApi();
 
 const postList = ref([]);
+const curPage = ref(0);
+const curSize = ref(20); // 페이지당 아이템 수
+const isLast = ref(false); // 마지막 페이지 여부
+const totalPages = ref(0); // 전체 페이지 수
+const totalElements = ref(0); // 전체 아이템 수
 
 const { isMyPage, userId } = defineProps({
   isMyPage: {
@@ -53,20 +56,32 @@ const handleScroll = (event) => {
   if (scrollTop + clientHeight >= scrollHeight) {
     console.log("Reached the bottom of the scroll area");
     // 여기에 추가 로딩 로직을 구현할 수 있습니다.
+    if (!isLast.value && !isMobile.value) {
+      console.log("Loading more posts...");
+      fetchPostList(curPage.value + 1);
+    } else {
+      console.log("No more posts to load.");
+    }
   }
 };
 
-const fetchPostList = async () => {
+const fetchPostList = async (page) => {
   console.log("Fetching post list...");
   let res = null;
   if (isMyPage) {
-    res = await getMyPostListByPage();
+    res = await getMyPostListByPage(page);
   } else {
-    res = await getPostListByPage(userId);
+    res = await getPostListByPage(userId, page);
   }
+  const data = res.data.data;
   if (res.data.success) {
-    console.log("Post list fetched successfully:", res.data.data.content);
-    postList.value.push(...res.data.data.content);
+    console.log("Post list fetched successfully:", data);
+    postList.value.push(...data.content);
+    curPage.value = data.pageNumber;
+    curSize.value = data.pageSize;
+    isLast.value = data.last;
+    totalPages.value = data.totalPages;
+    totalElements.value = data.totalElements;
   } else {
     console.error("Failed to fetch post list:", res.data.message);
   }
@@ -74,8 +89,22 @@ const fetchPostList = async () => {
 
 onMounted(async () => {
   console.log("PostList mounted");
+  window.addEventListener("resize", checkMobile);
+  // window.addEventListener("scroll", checkScroll);
   await fetchPostList();
 });
+
+onUnmounted(() => {
+  console.log("PostList unmounted");
+  window.removeEventListener("resize", checkMobile);
+});
+
+const isMobile = ref(window.innerWidth < 768);
+
+function checkMobile() {
+  const wasMobile = isMobile.value;
+  isMobile.value = window.innerWidth < 768;
+}
 </script>
 
 <style scoped>

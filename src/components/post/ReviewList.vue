@@ -17,33 +17,26 @@
     class="space-y-6 md:overflow-y-auto overflow-auto md:max-h-80 hidden-scroll-bar"
   >
     <!-- 후기 카드 반복 -->
-    <!-- class="flex items-center gap-4 border-t py-4 px-2 rounded-xl
-        hover:bg-[#319B9A]" -->
-    <ReviewItem
-      v-for="review in reviewList"
-      :key="review.reviewId"
-      :review="review"
-    />
+    <div v-for="(review, index) in reviewList" :key="review.reviewId">
+      <ReviewItem v-if="!isMobile || index < 3" :review="review" />
+    </div>
   </div>
 </template>
 
 <script setup>
 import BaseButton from "@/components/base/BaseButton.vue";
 import ReviewItem from "@/components/post/ReviewItem.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useReviewApi } from "@/api/post";
 
 const { getMyReviewListByPage, getReviewListByPage } = useReviewApi();
 
 const reviewList = ref([]);
-
-const handleScroll = (event) => {
-  const target = event.target;
-  if (target.scrollTop + target.clientHeight >= target.scrollHeight) {
-    console.log("Reached the bottom of the scroll area");
-    // 여기에 추가 로딩 로직을 구현할 수 있습니다.
-  }
-};
+const curPage = ref(0);
+const curSize = ref(20); // 페이지당 아이템 수
+const isLast = ref(false); // 마지막 페이지 여부
+const totalPages = ref(0); // 전체 페이지 수
+const totalElements = ref(0); // 전체 아이템 수
 
 const { isMyPage, userId } = defineProps({
   isMyPage: {
@@ -56,6 +49,21 @@ const { isMyPage, userId } = defineProps({
   },
 });
 
+const handleScroll = (event) => {
+  const { scrollHeight, scrollTop, clientHeight } = event.target;
+  // console.log(`scrollHeight: ${scrollHeight}, scrollTop: ${scrollTop}, clientHeight: ${clientHeight}`);
+  if (scrollTop + clientHeight >= scrollHeight) {
+    console.log("Reached the bottom of the scroll area");
+    // 여기에 추가 로딩 로직을 구현할 수 있습니다.
+    if (!isLast.value && !isMobile.value) {
+      console.log("Loading more posts...");
+      fetchReviewList(curPage.value + 1);
+    } else {
+      console.log("No more posts to load.");
+    }
+  }
+};
+
 const fetchReviewList = async () => {
   console.log("Fetching review list...");
   let res = null;
@@ -64,9 +72,15 @@ const fetchReviewList = async () => {
   } else {
     res = await getReviewListByPage(userId);
   }
+  const data = res.data.data;
   if (res.data.success) {
-    console.log("Review list fetched successfully:", res.data);
-    reviewList.value.push(...res.data.data.content);
+    console.log("Review list fetched successfully:", data);
+    reviewList.value.push(...data.content);
+    curPage.value = data.pageNumber;
+    curSize.value = data.pageSize;
+    isLast.value = data.last;
+    totalPages.value = data.totalPages;
+    totalElements.value = data.totalElements;
   } else {
     console.error("Failed to fetch review list:", res.data.message);
   }
@@ -74,8 +88,21 @@ const fetchReviewList = async () => {
 
 onMounted(async () => {
   console.log("ReviewList mounted");
+  window.addEventListener("resize", checkMobile);
   await fetchReviewList();
 });
+
+onUnmounted(() => {
+  console.log("ReviewList unmounted");
+  window.removeEventListener("resize", checkMobile);
+});
+
+const isMobile = ref(window.innerWidth < 768);
+
+function checkMobile() {
+  const wasMobile = isMobile.value;
+  isMobile.value = window.innerWidth < 768;
+}
 </script>
 
 <style scoped>
