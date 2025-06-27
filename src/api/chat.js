@@ -15,5 +15,9 @@ export const useChatApi = () => {
     });
   };
 
-  return { getChatList, getChatMessages, setSold };
+  const setReview = async (reviewData) => {
+    return await axios.post(`api/chat/review`, reviewData);
+  };
+
+  return { getChatList, getChatMessages, setSold, setReview };
 };

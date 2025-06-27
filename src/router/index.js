@@ -5,8 +5,12 @@ import Signup from "../pages/Signup.vue";
 import HomePage from "../pages/HomePage.vue";
 import SearchResultPage from "../pages/SearchResultPage.vue";
 import MeChats from "../pages/MeChats.vue";
+import PurchaseList from "../pages/PurchaseList.vue";
+import SalesList from "../pages/SalesList.vue";
 import ChatRoom from "../pages/ChatRoom.vue";
 import WritePage from "../pages/WritePage.vue";
+import UpdeateMypage from "../pages/UpdateMypage.vue";
+import ReviewWrite from "../pages/ReviewWrite.vue";
 
 const routes = [
   {
@@ -41,6 +45,11 @@ const routes = [
     component: MeChats,
   },
   { path: "/chat/:chatId", component: ChatRoom },
+  {
+    path: "/review/write",
+    component: ReviewWrite,
+    meta: { requiresAuth: true },
+  },
   {
     path: "/me",
     name: "MyPage",
@@ -77,6 +86,9 @@ const routes = [
     name: "SellerDetail",
     component: () => import("@/pages/SellerDetailPage.vue"),
   },
+  { path: "/me/edit", component: UpdeateMypage }, //회원정보 수정
+  { path: "/me/buy", component: PurchaseList }, //구매내역
+  { path: "/me/posts", component: SalesList }, //판매 내역
 ];
 
 const router = createRouter({

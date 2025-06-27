@@ -2,9 +2,7 @@
     <div class="page-container-auth">
         <!-- 메인 로그인 영역 -->
         <div class="form-container">
-            <h1 class="title-main mb-2">
-                삐돌이 마켓
-            </h1>
+            <h1 class="title-main mb-2">삐돌이 마켓</h1>
             <img
                 src="../assets/bbidole_login.svg"
                 alt="dog"
@@ -12,10 +10,7 @@
             />
             <h2 class="title-section mb-3 sm:mb-4">Log in</h2>
 
-            <form
-                class="form-group"
-                @submit.prevent="handleLogin"
-            >
+            <form class="form-group" @submit.prevent="handleLogin">
                 <BaseInput
                     type="email"
                     v-model="email"
@@ -32,10 +27,7 @@
                 />
 
                 <!-- 에러 메시지 표시 -->
-                <div
-                    v-if="errorMessage"
-                    class="form-error"
-                >
+                <div v-if="errorMessage" class="form-error">
                     {{ errorMessage }}
                 </div>
 
@@ -52,9 +44,7 @@
             </form>
             <div class="auth-link-container">
                 Don't have an account?
-                <router-link
-                    to="/signup"
-                    class="link-primary"
+                <router-link to="/signup" class="link-primary"
                     >Sign up</router-link
                 >
             </div>
@@ -93,14 +83,13 @@ async function handleLogin() {
         // 로그인 성공 모달
         modal.open({
             title: "로그인 성공",
-            message: "삐돌이 마켓에 오신 것을 환영합니다!"
+            message: "삐돌이 마켓에 오신 것을 환영합니다!",
         });
 
         // 모달 닫힌 후 메인 페이지로 이동
         setTimeout(() => {
             router.push("/");
         }, 1500);
-
     } catch (error) {
         console.error("로그인 에러:", error);
 
@@ -119,7 +108,7 @@ async function handleLogin() {
         // 에러 모달 표시
         modal.open({
             title: "로그인 실패",
-            message: errorMsg
+            message: errorMsg,
         });
 
         errorMessage.value = errorMsg;
