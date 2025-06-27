@@ -36,7 +36,7 @@
             class="w-20 h-20 flex justify-center items-center overflow-hidden rounded-md"
           >
             <img
-              src="/image/stanley.jpg"
+              :src="sales.imageUrl"
               alt="게시글 사진"
               class="object-contain"
             />
@@ -102,7 +102,6 @@ const { salesListLatest, salesListOnSales, salesListCompletedSales } =
 //const salesList = ref([]);
 const selectedCategory = ref("all");
 const salesList = ref([]);
-
 onMounted(async () => {
   await fetchPageData();
 });
@@ -130,7 +129,7 @@ const fetchPageData = async () => {
   salesList.value = res.data.data.content;
   //총 페이지 수
   totalPage.value = res.data.data.totalPages;
-  //console.log(res);
+  console.log(res);
 };
 
 const prePage = () => {

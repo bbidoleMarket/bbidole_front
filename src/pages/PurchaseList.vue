@@ -22,7 +22,7 @@
             class="w-20 h-20 flex justify-center items-center overflow-hidden rounded-md"
           >
             <img
-              src="/image/stanley.jpg"
+              :src="purchase.imageUrl"
               alt="게시글 사진"
               class="object-contain"
             />
