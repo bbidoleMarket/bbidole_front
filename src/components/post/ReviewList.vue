@@ -6,6 +6,7 @@
     <!-- 오른쪽 상단 버튼 -->
     <BaseButton
       class="absolute right-0 top-1/2 -translate-y-1/2 text-xs sm:text-sm lg:text-lg lg:px-4 lg:py-2 md:hidden block"
+      @click="gotoReviewListPage"
     >
       더보기
     </BaseButton>
@@ -28,8 +29,10 @@ import BaseButton from "@/components/base/BaseButton.vue";
 import ReviewItem from "@/components/post/ReviewItem.vue";
 import { ref, onMounted, onUnmounted } from "vue";
 import { useReviewApi } from "@/api/post";
+import { useRouter } from "vue-router";
 
 const { getMyReviewListByPage, getReviewListByPage } = useReviewApi();
+const router = useRouter();
 
 const reviewList = ref([]);
 const curPage = ref(0);
@@ -48,6 +51,10 @@ const { isMyPage, userId } = defineProps({
     default: "0",
   },
 });
+
+const gotoReviewListPage = () => {
+  router.push(`/review-list/${userId}`);
+};
 
 const handleScroll = (event) => {
   const { scrollHeight, scrollTop, clientHeight } = event.target;

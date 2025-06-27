@@ -7,6 +7,7 @@
       <!-- 오른쪽 상단 버튼 -->
       <BaseButton
         class="absolute right-0 top-1/2 -translate-y-1/2 text-xs sm:text-sm lg:text-lg lg:px-4 lg:py-2 md:hidden block"
+        @click="goPostListPage"
       >
         더보기
       </BaseButton>
@@ -29,8 +30,10 @@ import BaseButton from "@/components/base/BaseButton.vue";
 import PostItem from "@/components/post/PostItem.vue";
 import { onMounted, ref, onUnmounted } from "vue";
 import { usePostApi } from "@/api/post";
+import { useRouter } from "vue-router";
 
 const { getPostListByPage, getMyPostListByPage } = usePostApi();
+const router = useRouter();
 
 const postList = ref([]);
 const curPage = ref(0);
@@ -38,6 +41,11 @@ const curSize = ref(20); // 페이지당 아이템 수
 const isLast = ref(false); // 마지막 페이지 여부
 const totalPages = ref(0); // 전체 페이지 수
 const totalElements = ref(0); // 전체 아이템 수
+
+const goPostListPage = () => {
+  console.log("Navigating to post list page");
+  router.push(`/post-list/${userId}`);
+};
 
 const { isMyPage, userId } = defineProps({
   isMyPage: {
@@ -90,7 +98,6 @@ const fetchPostList = async (page) => {
 onMounted(async () => {
   console.log("PostList mounted");
   window.addEventListener("resize", checkMobile);
-  // window.addEventListener("scroll", checkScroll);
   await fetchPostList();
 });
 
