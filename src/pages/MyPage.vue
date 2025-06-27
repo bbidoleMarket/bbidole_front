@@ -25,6 +25,7 @@
 import UserCard from "@/components/post/UserCard.vue";
 import PostList from "@/components/post/PostList.vue";
 import ReviewList from "@/components/post/ReviewList.vue";
+import { ref, onMounted } from "vue";
 
 onMounted(async () => {
   console.log("MyPage mounted");
