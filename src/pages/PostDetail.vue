@@ -155,6 +155,7 @@ onMounted(async () => {
   const res = await getPostDetail(postId);
   console.log("postDetail", res.data.data);
   postDetail.value = res.data.data;
+  window.scrollTo(0, 0); // 페이지 상단으로 스크롤 이동
 });
 </script>
 
