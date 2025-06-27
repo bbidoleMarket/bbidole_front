@@ -19,7 +19,7 @@
         {{ post.title || "물품 제목" }}
       </p>
       <p class="font-hahmlet text-gray-700">
-        가격 : {{ formatPrice(post.price) }}
+        가격 : {{ formatPrice(post.price || 0) }}
       </p>
     </div>
   </div>

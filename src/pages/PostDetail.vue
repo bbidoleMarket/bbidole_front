@@ -81,7 +81,7 @@
 
     <div class="w-full pb-12">
       <p class="pb-4 text-sm font-hahmlet">
-        가격 : {{ formatPrice(postDetail.price) }}
+        가격 : {{ formatPrice(postDetail?.price || 0) }}
       </p>
       <p class="text-sm font-noto">
         {{ postDetail?.description || "상품 설명입니다." }}
