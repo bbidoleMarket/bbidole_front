@@ -18,7 +18,9 @@
       <p class="font-hahmlet font-bold text-gray-900 truncate">
         {{ post.title || "물품 제목" }}
       </p>
-      <p class="font-hahmlet text-gray-700">가격 : {{ post.price || 0 }}원</p>
+      <p class="font-hahmlet text-gray-700">
+        가격 : {{ formatPrice(post.price) }}
+      </p>
     </div>
   </div>
 </template>
@@ -26,6 +28,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import defaultImg from "@/assets/icon_bbidole.svg";
+import { formatPrice } from "@/utils/formatters.js";
 
 const router = useRouter();
 

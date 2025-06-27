@@ -81,7 +81,7 @@
 
     <div class="w-full pb-12">
       <p class="pb-4 text-sm font-hahmlet">
-        가격 : {{ postDetail?.price || 0 }}원
+        가격 : {{ formatPrice(postDetail.price) }}
       </p>
       <p class="text-sm font-noto">
         {{ postDetail?.description || "상품 설명입니다." }}
@@ -110,6 +110,7 @@ import { usePostApi } from "@/api/post";
 import { useChatRoomApi } from "../api/post";
 import defaultImg from "@/assets/icon_bbidole.svg";
 import { useModalStore } from "@/stores/modal";
+import { formatPrice } from "@/utils/formatters.js";
 
 const modal = useModalStore();
 const route = useRoute();
