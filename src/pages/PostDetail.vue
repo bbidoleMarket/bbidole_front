@@ -109,7 +109,9 @@ import { useRoute } from "vue-router";
 import { usePostApi } from "@/api/post";
 import { useChatRoomApi } from "../api/post";
 import defaultImg from "@/assets/icon_bbidole.svg";
+import { useModalStore } from "@/stores/modal";
 
+const modal = useModalStore();
 const route = useRoute();
 const postId = route.params.postId;
 const { getPostDetail } = usePostApi();
@@ -122,7 +124,20 @@ const startChatting = async () => {
     const res = await startChat(postId);
     goChattingPage(res.data.data);
   } catch (error) {
-    alert("채팅방 생성 실패", error);
+    const status = error.response?.status;
+    console.log("채팅방 생성 실패1");
+    if (error.response && error.response.data) {
+      console.log("채팅방 생성 실패2", error.response.data.message);
+      modal.open({
+        title: "채팅방 생성 실패",
+        message: error.response.data.message,
+      });
+    } else {
+      modal.open({
+        title: "채팅방 생성 실패",
+        message: "알 수 없는 오류가 발생했습니다.",
+      });
+    }
   }
 };
 
