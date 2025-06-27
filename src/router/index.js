@@ -58,9 +58,14 @@ const routes = [
     component: () => import("@/pages/MyPage.vue"),
   },
   {
-    path: "/reviews/:userId",
+    path: "/review-list/:userId",
     name: "UserReviews",
-    component: () => import("@/pages/ReviewPage.vue"),
+    component: () => import("@/pages/ReviewListPage.vue"),
+  },
+  {
+    path: "/post-list/:userId",
+    name: "UserPosts",
+    component: () => import("@/pages/PostListPage.vue"),
   },
   {
     path: "/post/update/:postId",
