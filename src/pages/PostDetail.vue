@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="w-full max-w-xl mx-auto bg-white p-4 rounded-xl shadow space-y-4 pb-[70px]"
-  >
+  <div class="w-full max-w-xl mx-auto bg-white p-4 rounded-xl shadow space-y-4">
     <!-- 상태 배지 -->
     <div class="">
       <span
@@ -81,7 +79,7 @@
       >
     </div>
 
-    <div class="w-full">
+    <div class="w-full pb-12">
       <p class="pb-4 text-sm font-hahmlet">
         가격 : {{ postDetail?.price || 0 }}원
       </p>
@@ -91,7 +89,7 @@
     </div>
 
     <!-- 수정하기 버튼 (하단 고정용으로 설계) -->
-    <div class="w-full pt-2">
+    <div class="w-full">
       <BaseButton
         class="flex items-center justify-center w-full gap-2 py-2"
         @click="() => goPostEditPage()"
