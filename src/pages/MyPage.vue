@@ -11,7 +11,11 @@
         <div
           class="w-40 h-40 rounded-full bg-slate-400 flex justify-center items-center overflow-hidden"
         >
-          <img :src="profileImage" alt="프로필" class="object-contain" />
+          <img
+            :src="profileImage || defaultImage"
+            alt="프로필"
+            class="object-contain"
+          />
         </div>
 
         <div class="text-lg font-jua">{{ name }}</div>
@@ -79,7 +83,7 @@ import { useMyPageApi } from "@/api/mypage";
 import { useModalStore } from "../stores/modal";
 
 const modal = useModalStore();
-const { useInfoUpdate, profileImageUpdate, profileName } = useMyPageApi();
+const { useInfoUpdate, profileImageUpdate, profileInfo } = useMyPageApi();
 const defaultImage = "/image/poodle.webp";
 const profileImage = ref(defaultImage);
 const fileInput = ref(null);
@@ -90,11 +94,12 @@ const passwordConfirm = ref("");
 
 //이름 출력
 onMounted(async () => {
-  const res = await profileName(
+  const res = await profileInfo(
     "wpsl@example.com" //삭제 예정
   );
   console.log("응답 확인", res);
   name.value = res.data.data.name;
+  profileImage.value = res.data.data.profileImage;
 });
 
 //파일 선택

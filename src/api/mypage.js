@@ -26,15 +26,15 @@ export const useMyPageApi = () => {
     });
   };
 
-  const profileName = async (email) => {
+  const profileInfo = async (email) => {
     console.log("보내는값", email);
-    return await axios.get("api/mypage/name", {
+    return await axios.get("api/mypage/info-update", {
       params: { email }, // 토큰 검증 전 이메일로 사용자 확인
     });
   };
   return {
     useInfoUpdate,
     profileImageUpdate,
-    profileName,
+    profileInfo,
   };
 };
