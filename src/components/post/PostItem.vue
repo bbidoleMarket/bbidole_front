@@ -9,7 +9,7 @@
   >
     <div class="w-16 h-16 rounded-full bg-gray-200 overflow-hidden shrink-0">
       <img
-        :src="post.imageUrl || '@/assets/icon_bbidole.svg'"
+        :src="post.imageUrl || defaultImg"
         alt="product"
         class="object-cover w-full h-full"
       />
@@ -25,6 +25,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import defaultImg from "@/assets/icon_bbidole.svg";
 
 const router = useRouter();
 

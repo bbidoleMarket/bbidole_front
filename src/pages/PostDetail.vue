@@ -26,7 +26,7 @@
       class="w-full mx-auto aspect-square bg-gray-100 rounded-xl overflow-hidden"
     >
       <img
-        :src="postDetail?.imageUrl || '@/assets/icon_bbidole.svg'"
+        :src="postDetail?.imageUrl"
         alt="product"
         class="w-full h-full object-cover"
       />
@@ -41,7 +41,7 @@
       >
         <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
           <img
-            :src="postDetail?.writerImageUrl || '@/assets/icon_bbidole.svg'"
+            :src="postDetail?.writerImageUrl || defaultImg"
             alt="userProfileImage"
             class="w-full h-full object-cover"
           />
@@ -110,6 +110,7 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { usePostApi } from "@/api/post";
 import { useChatRoomApi } from "../api/post";
+import defaultImg from "@/assets/icon_bbidole.svg";
 
 const route = useRoute();
 const postId = route.params.postId;

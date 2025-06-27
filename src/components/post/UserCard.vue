@@ -3,7 +3,7 @@
     <div class="relative w-40 h-40 mx-auto">
       <!-- 프로필 이미지 -->
       <img
-        :src="userData?.imageUrl || '@/assets/icon_bbidole.svg'"
+        :src="userData?.imageUrl || defaultImg"
         alt="Profile"
         class="w-full h-full object-cover rounded-full border-2 border-gray-200"
       />
@@ -41,6 +41,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useUserApi } from "@/api/post";
+import defaultImg from "@/assets/icon_bbidole.svg";
 
 const { getMyDetail, getUserDetail } = useUserApi();
 
@@ -66,7 +67,7 @@ const fetchUserData = async () => {
     res = await getUserDetail(userId);
   }
   if (res.data.success) {
-    console.log("User data fetched successfully:");
+    console.log("User data fetched successfully:", res.data.data);
     userData.value = res.data.data;
   } else {
     console.error("Failed to fetch user data:", res.data.message);
