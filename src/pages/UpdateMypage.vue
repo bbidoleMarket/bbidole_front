@@ -43,6 +43,7 @@
           <label class="text-sm font-hahmlet">닉네임</label>
           <input
             v-model="nickName"
+            :placeholder="nickNametemp"
             class="w-auto border border-gray-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#45A8A6] rounded p-2 mt-1"
           />
         </div>
@@ -83,7 +84,9 @@
 import { ref, onMounted } from "vue";
 import { useMyPageApi } from "@/api/mypage";
 import { useModalStore } from "../stores/modal";
+import { useUserApi } from "@/api/post";
 
+const { getMyDetail } = useUserApi();
 const modal = useModalStore();
 const { useInfoUpdate, profileImageUpdate, profileInfo } = useMyPageApi();
 const defaultImage = "/image/poodle.webp";
@@ -91,15 +94,23 @@ const profileImage = ref(defaultImage);
 const fileInput = ref(null);
 const name = ref("");
 const nickName = ref("");
+const nickNametemp = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 
 //이름 출력
 onMounted(async () => {
-  const res = await profileInfo();
-  console.log("응답 확인", res);
-  name.value = res.data.data.name;
-  profileImage.value = res.data.data.profileImage;
+  Promise.all([profileInfo(), getMyDetail()]).then(([res, res2]) => {
+    name.value = res.data.data.name;
+    profileImage.value = res.data.data.profileImage;
+    nickNametemp.value = res2.data.data.nickname;
+  });
+  //   const res = await profileInfo();
+  //   const res2 = await getMyDetail();
+  //   nickName.value = res2.data
+  console.log("응답 확인", res2);
+  //   name.value = res.data.data.name;
+  //   profileImage.value = res.data.data.profileImage;
 });
 
 //파일 선택
