@@ -11,7 +11,11 @@
         <div
           class="w-40 h-40 rounded-full bg-slate-400 flex justify-center items-center overflow-hidden"
         >
-          <img :src="profileImage" alt="프로필" class="object-contain" />
+          <img
+            :src="profileImage || defaultImage"
+            alt="프로필"
+            class="object-contain"
+          />
         </div>
 
         <div class="text-lg font-jua">{{ name }}</div>
@@ -79,22 +83,24 @@ import { useMyPageApi } from "@/api/mypage";
 import { useModalStore } from "../stores/modal";
 
 const modal = useModalStore();
-const { useInfoUpdate, profileImageUpdate, profileName } = useMyPageApi();
+const { useInfoUpdate, profileImageUpdate, profileInfo } = useMyPageApi();
 const defaultImage = "/image/poodle.webp";
 const profileImage = ref(defaultImage);
 const fileInput = ref(null);
 const name = ref("");
+//const profileImage = ref("");
 const nickName = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 
-//이름 출력
+//이름 출력,프로필 이미지
 onMounted(async () => {
-  const res = await profileName(
+  const res = await profileInfo(
     "wpsl@example.com" //삭제 예정
   );
   console.log("응답 확인", res);
   name.value = res.data.data.name;
+  profileImage.value = res.data.data.profileImage;
 });
 
 //파일 선택
@@ -105,11 +111,34 @@ function triggetFileInput() {
 function handleImageChage(e) {
   const file = e.target.files[0];
   if (file) {
-    profileImage.value = URL.createObjectURL(file);
+    //profileImage.value = URL.createObjectURL(file);
+    profileImagUpdate(file); //추가 함 파일 선택 시 파일 전송
   } else {
     profileImage.value = defaultImage;
   }
 }
+//프로필 이미지 업로드
+// 프로필 이미지 업로드 함수
+const profileImagUpdate = async (file) => {
+  if (!file) return;
+  try {
+    const res = await profileImageUpdate(file, "wpsl@example.com");
+    console.log("res:", res);
+    if (res.status == 200) {
+      modal.open({
+        title: "수정 완료!",
+        message: "프로필 사진이 수정되었습니다.",
+      });
+      profileImage.value = URL.createObjectURL(file);
+    }
+  } catch (e) {
+    console.log("e:", e);
+    modal.open({
+      title: "수정 실패",
+      message: e.message || "입력값을 확인해주세요.",
+    });
+  }
+};
 //회원 정보 수정
 const profileUpdate = async () => {
   try {

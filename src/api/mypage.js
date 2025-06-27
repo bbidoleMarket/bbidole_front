@@ -9,21 +9,25 @@ export const useMyPageApi = () => {
       email, // 토큰 검증 전 이메일로 사용자 확인
     });
   };
-  const profileImageUpdate = async (profileImage, email) => {
-    return await axios.put("api/mypage/profileimage", {
-      profileimage,
-      email, // 토큰 검증 전 이메일로 사용자 확인
+  const profileImageUpdate = async (file, email) => {
+    const formData = new FormData();
+    formData.append("image", file); // ← 서버 파라미터명과 일치!
+    formData.append("email", email);
+
+    return await axios.put("/api/mypage/profile-image", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
   };
-  const profileName = async (email) => {
+
+  const profileInfo = async (email) => {
     console.log("보내는값", email);
-    return await axios.get("api/mypage/name", {
+    return await axios.get("api/mypage/info-update", {
       params: { email }, // 토큰 검증 전 이메일로 사용자 확인
     });
   };
   return {
     useInfoUpdate,
     profileImageUpdate,
-    profileName,
+    profileInfo,
   };
 };
