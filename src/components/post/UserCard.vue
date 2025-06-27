@@ -39,15 +39,43 @@
 </template>
 
 <script setup>
-defineProps({
-  userData: {
-    type: Object,
-    default: () => ({
-      imageUrl: "@/assets/icon_bbidole.svg",
-      nickname: "사용자의 닉네임",
-      totalRating: 0.0,
-    }),
+import { ref, onMounted } from "vue";
+import { useUserApi } from "@/api/post";
+
+const { getMyDetail, getUserDetail } = useUserApi();
+
+const { isMyPage, userId } = defineProps({
+  isMyPage: {
+    type: Boolean,
+    required: true,
   },
+  userId: {
+    type: String,
+    default: "0",
+  },
+});
+
+const userData = ref(null);
+
+const fetchUserData = async () => {
+  console.log("Fetching user data...");
+  let res = null;
+  if (isMyPage) {
+    res = await getMyDetail();
+  } else {
+    res = await getUserDetail(userId);
+  }
+  if (res.data.success) {
+    console.log("User data fetched successfully:");
+    userData.value = res.data.data;
+  } else {
+    console.error("Failed to fetch user data:", res.data.message);
+  }
+};
+
+onMounted(async () => {
+  console.log("UserCard mounted");
+  await fetchUserData();
 });
 </script>
 

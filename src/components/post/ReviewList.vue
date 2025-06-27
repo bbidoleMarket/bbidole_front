@@ -11,7 +11,11 @@
     </BaseButton>
   </div>
 
-  <div class="space-y-6 overflow-y-auto max-h-80 hidden-scroll-bar">
+  <!-- @scroll="handleScroll" -->
+  <div
+    @scroll="handleScroll"
+    class="space-y-6 md:overflow-y-auto overflow-auto md:max-h-80 hidden-scroll-bar"
+  >
     <!-- 후기 카드 반복 -->
     <!-- class="flex items-center gap-4 border-t py-4 px-2 rounded-xl
         hover:bg-[#319B9A]" -->
@@ -29,28 +33,48 @@ import ReviewItem from "@/components/post/ReviewItem.vue";
 import { ref, onMounted } from "vue";
 import { useReviewApi } from "@/api/post";
 
-const { getMyReviewListByPage } = useReviewApi();
+const { getMyReviewListByPage, getReviewListByPage } = useReviewApi();
 
-const userData = ref(null);
-const myPostList = ref([]);
-const myReviewList = ref([]);
+const reviewList = ref([]);
 
-onMounted(async () => {
-  const reviewRes = await getMyReviewListByPage();
-  console.log("Review List:", reviewRes.data);
-  myReviewList.value.push(...reviewRes.data.data.content);
+const handleScroll = (event) => {
+  const target = event.target;
+  if (target.scrollTop + target.clientHeight >= target.scrollHeight) {
+    console.log("Reached the bottom of the scroll area");
+    // 여기에 추가 로딩 로직을 구현할 수 있습니다.
+  }
+};
 
-  // try {
-  // } catch (error) {
-  //   console.error("Error fetching MyPage data:", error);
-  // }
+const { isMyPage, userId } = defineProps({
+  isMyPage: {
+    type: Boolean,
+    default: false,
+  },
+  userId: {
+    type: String,
+    default: "0",
+  },
 });
 
-defineProps({
-  reviewList: {
-    type: Array,
-    required: true,
-  },
+const fetchReviewList = async () => {
+  console.log("Fetching review list...");
+  let res = null;
+  if (isMyPage) {
+    res = await getMyReviewListByPage();
+  } else {
+    res = await getReviewListByPage(userId);
+  }
+  if (res.data.success) {
+    console.log("Review list fetched successfully:", res.data);
+    reviewList.value.push(...res.data.data.content);
+  } else {
+    console.error("Failed to fetch review list:", res.data.message);
+  }
+};
+
+onMounted(async () => {
+  console.log("ReviewList mounted");
+  await fetchReviewList();
 });
 </script>
 
