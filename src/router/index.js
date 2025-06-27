@@ -11,6 +11,7 @@ import ChatRoom from "../pages/ChatRoom.vue";
 import WritePage from "../pages/WritePage.vue";
 import UpdeateMypage from "../pages/UpdateMypage.vue";
 import ReviewWrite from "../pages/ReviewWrite.vue";
+import PostDetail from "../pages/PostDetail.vue";
 
 const routes = [
     {
@@ -92,7 +93,7 @@ const routes = [
     {
         path: "/post/:postId",
         name: "PostDetail",
-        component: () => import("@/pages/PostDetail.vue"),
+        component: PostDetail,
     },
 ];
 
