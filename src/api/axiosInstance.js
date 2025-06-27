@@ -3,7 +3,7 @@ import { tokenService } from "../services/tokenService";
 
 const axiosInstance = axios.create({
   baseURL: "https://llinksy.loca.lt",
-    headers: {
+  headers: {
     "Content-Type": "application/json",
   },
   timeout: 10000,
