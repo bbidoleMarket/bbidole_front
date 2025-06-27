@@ -1,13 +1,4 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:8080/api";
-
-const apiClient = axios.create({
-  baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+import axiosInstance from "./axiosInstance";
 
 // API 응답을 처리하는 함수
 const transformResponse = (response) => {
@@ -34,7 +25,7 @@ export async function getPostList({
   }
 
   try {
-    const response = await apiClient.get("/posts", { params });
+    const response = await axiosInstance.get("/api/posts", { params });
     return transformResponse(response);
   } catch (error) {
     console.error("API 오류:", error);
@@ -51,7 +42,7 @@ export async function searchPosts({ keyword, onlySelling, page, size }) {
   };
 
   try {
-    const response = await apiClient.get("/posts/search", { params });
+    const response = await axiosInstance.get("/api/posts/search", { params });
     return transformResponse(response);
   } catch (error) {
     console.error("API 오류:", error);
@@ -67,18 +58,12 @@ export async function createPost(postData) {
     formData.append("description", postData.description);
     formData.append("image", postData.image);
 
-    const token = localStorage.getItem("accessToken");
-
-    const response = await axios.post(
-      "http://localhost:8080/api/createpost",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axiosInstance.post("/api/createpost", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        // Authorization 헤더는 axiosInstance의 인터셉터에서 자동으로 추가됨
+      },
+    });
 
     return {
       success: true,
