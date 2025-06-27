@@ -13,9 +13,13 @@
                 class="w-full h-full object-cover"
             />
         </div>
-        <div class="p-3">
-            <h3 class="font-jua text-lg">{{ product.title }}</h3>
-            <p class="font-hahmlet text-gray-700">{{ product.price }}원</p>
+        <div class="product-info p-4">
+            <h3 class="product-title text-lg font-semibold truncate">
+                {{ product.title }}
+            </h3>
+            <p class="product-price text-lg font-bold text-blue-600">
+                {{ formatPrice(product.price) }}
+            </p>
             <div class="flex justify-between items-center mt-2">
                 <span class="text-sm text-gray-500">{{
                     formatDate(product.createdAt)
