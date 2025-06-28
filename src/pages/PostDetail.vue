@@ -71,6 +71,7 @@
 
       <!-- 채팅하기 버튼 -->
       <BaseButton
+        v-if="!postDetail?.writer || false"
         class="flex items-center gap-2 px-3 py-1 font-jua text-sm"
         @click="startChatting"
       >
@@ -91,6 +92,7 @@
     <!-- 수정하기 버튼 (하단 고정용으로 설계) -->
     <div class="w-full">
       <BaseButton
+        v-if="postDetail?.writer || false"
         class="flex items-center justify-center w-full gap-2 py-2"
         @click="() => goPostEditPage()"
       >
