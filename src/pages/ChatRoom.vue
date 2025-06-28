@@ -12,7 +12,7 @@
         >{{ displayName }}</BaseButton
       >
       <BaseButton
-        v-if="isCompleted && othersId === sellerId"
+        v-if="isBuyer"
         :disabled="isReviewed"
         class="mr-2 text-sm lg:text-xl disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
         @click="goReview"
@@ -83,7 +83,8 @@ const {
   othersId, // 상대방 ID (구매자 또는 판매자)
 } = route.query;
 const isCompleted = ref(route.query.isCompleted === "true");
-const isReviewed = ref(false);
+const isBuyer = ref(route.query.isBuyer === "true"); // 현재 사용자가 구매자인지 여부
+// const isReviewed = route.query.isReviewed(false);
 
 onMounted(async () => {
   // 채팅방 정보 불러오기
@@ -101,6 +102,8 @@ onMounted(async () => {
     isCompleted === "true" ? "완료" : "진행 중"
   );
   console.log("상대방 ID:", othersId, typeof othersId);
+  console.log("구매를 한 사람인지: ", isBuyer);
+  console.log("review button", isCompleted && isBuyer);
 
   await nextTick();
   if (chatContainer.value) {
@@ -128,9 +131,17 @@ onMounted(async () => {
   };
 
   socket.onmessage = (event) => {
-    // 서버에서 새 메시지를 받으면 messages에 추가
-    const msg = JSON.parse(event.data);
-    messages.value.push(msg);
+    const parsedData = JSON.parse(event.data);
+    const type = parsedData.type || "message";
+    if (type === "sold") {
+      isCompleted.value = true; // 판매 완료 상태로 변경
+      if (othersId === sellerId) {
+        isBuyer.value = true; // 현재 사용자가 구매자임을 설정
+      }
+    } else if (type === "message") {
+      // 메시지 타입인 경우
+      messages.value.push(parsedData); // 서버에서 받은 메시지를 messages에 추가
+    }
   };
 
   socket.onclose = () => {
@@ -176,12 +187,10 @@ const clickSold = async () => {
   // 판매 완료 상태로 변경
   await setSold(chatId)
     .then(() => {
-      isCompleted.value = true; // 판매 완료 상태로 변경
       modal.open({
         title: "판매 완료",
         message: "채팅방이 판매 완료 상태로 변경되었습니다.",
       });
-      isReviewed.value = true; // 판매 완료 후 리뷰 작성 가능 상태로 변경
     })
     .catch((error) => {
       modal.open({

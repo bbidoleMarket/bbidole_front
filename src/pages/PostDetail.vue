@@ -151,6 +151,7 @@ const goSellerDetailPage = () => {
 };
 
 const goChattingPage = (res) => {
+  console.log("채팅방 생성 성공", res);
   router.push({
     path: `/chat/${res.id}`,
     query: {
@@ -162,6 +163,7 @@ const goChattingPage = (res) => {
       buyerId: res.buyerId,
       buyerName: res.buyerName,
       othersId: res.othersId,
+      isBuyer: res.buyer,
       isCompleted: res.completed,
     },
   });

@@ -36,8 +36,7 @@ const onChatClick = (chat) => {
       buyerName: chat.buyerName,
       othersId: chat.othersId,
       isCompleted: chat.completed,
-      lastMessage: chat.lastMessage,
-      lastMessageSendAt: chat.lastMessageSendAt,
+      isBuyer: chat.buyer, // 구매자 여부
     },
   });
 };
