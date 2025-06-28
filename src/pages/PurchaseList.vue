@@ -89,7 +89,7 @@
       <div class="mt-3">
         <button
           @click="prePage"
-          :disabled="currentPage.value == 1"
+          :disabled="currentPage == 0"
           class="px-3 py-1 rounded-sm border border-grey-300 hover:bg-opacity-90 disabled:opacity-50"
         >
           <
@@ -136,12 +136,11 @@ const handleResize = () => {
   isMobile.value = window.innerWidth <= 393;
 };
 onMounted(() => {
-  console.log("scroll value: ", scrollContainer.value);
   window.addEventListener("resize", handleResize);
+  //scrollContainer.value?.addEventListener("scroll", handleScroll);
 });
 onUnmounted(() => {
   window.removeEventListener("resize", handleResize);
-  console.log("umMount evnetListener");
 });
 
 // watch(isMobile, (newVal, oldVal) => {
@@ -157,6 +156,7 @@ watch(isMobile, async (mobile) => {
   console.log("isMobile: ", isMobile.value);
   currentPage.value = 0;
   purchaseList.value = [];
+  lastPage.value = 0;
   await fetchPageData();
 });
 
@@ -170,8 +170,10 @@ const handleScroll = () => {
     console.log("isloading is true");
     return;
   }
+
   const el = scrollContainer.value;
   if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
+    //console.log("scroll !!! 걸림 ");
     fetchMoreData();
   }
 };
@@ -180,21 +182,6 @@ const userId = 3; //임시 로그인 완료되면 지워야 함 아이디 하드
 onMounted(() => {
   fetchPageData();
 });
-//나중에 변경
-// onMounted(async()=>{
-//   const res = await purchaseList();
-//   purchase.value= res.data;
-// })
-// const fetchPageData = async () => {
-//   isLoading.value = true;
-//   const res = await fetchPurchaseList(userId, currentPage.value, pageSize);
-//   console.log(res);
-//   //게시글 목록
-//   purchaseList.value = res.data.data.content;
-//   //총 페이지 수
-//   totalPage.value = res.data.data.totalPages;
-//   isLoading.value = false;
-// };
 
 const fetchPageData = async () => {
   // currentPage.value = selectedPage.value;
@@ -203,11 +190,20 @@ const fetchPageData = async () => {
   purchaseList.value = res.data.data.content;
   totalPage.value = res.data.data.totalPages;
   isLoading.value = false;
+  console.log("currentPage: ", currentPage.value);
 };
 
 const fetchMoreData = async () => {
   //로딩중이거나 마지막 페이지라면 return
-  if (isLoading.value || lastPage.value) return;
+  if (isLoading.value || lastPage.value) {
+    console.log(
+      "isLoading.value ,lastPage.value ",
+      isLoading.value,
+      " ",
+      lastPage.value
+    );
+    return;
+  }
   isLoading.value = true;
   currentPage.value++;
 
@@ -215,6 +211,7 @@ const fetchMoreData = async () => {
   purchaseList.value = [...purchaseList.value, ...res.data.data.content];
   lastPage.value = res.data.data.last; //마지막 페이지 여부
   isLoading.value = false;
+  console.log("서버에서 데이터 받아옴", res);
 };
 
 const prePage = () => {
