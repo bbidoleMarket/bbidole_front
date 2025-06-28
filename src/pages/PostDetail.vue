@@ -128,9 +128,17 @@ const startChatting = async () => {
     goChattingPage(res.data.data);
   } catch (error) {
     const status = error.response?.status;
-    console.log("채팅방 생성 실패1");
+
+    if (status === 403) {
+      modal.open({
+        title: "채팅방 생성 실패",
+        message: "로그인 후 사용가능합니다.",
+      });
+      router.push("/login");
+      return;
+    }
+
     if (error.response && error.response.data) {
-      console.log("채팅방 생성 실패2", error.response.data.message);
       modal.open({
         title: "채팅방 생성 실패",
         message: error.response.data.message,
