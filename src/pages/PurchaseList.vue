@@ -11,8 +11,8 @@
     <div
       v-if="isMobile"
       ref="scrollContainer"
-      @scroll.passive="handleScroll"
-      class="border h-[80vh] overflow-auto"
+      @scroll="handleScroll"
+      class="border h-[60vh] overflow-auto"
     >
       <ul
         class="w-screen space-y-4 flex flex-col justify-center items-center gap-2"
@@ -128,6 +128,7 @@ const purchaseList = ref([]);
 const currentPage = ref(0);
 const pageSize = 5;
 const totalPage = ref(0);
+const lastPage = ref(false);
 
 //반응형 화면 감지
 const isMobile = ref(window.innerWidth <= 393);
@@ -135,11 +136,14 @@ const handleResize = () => {
   isMobile.value = window.innerWidth <= 393;
 };
 onMounted(() => {
+  console.log("scroll value: ", scrollContainer.value);
   window.addEventListener("resize", handleResize);
 });
-onUnmounted(() => window.removeEventListener("resize", handleResize));
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
+  console.log("umMount evnetListener");
+});
 
-import { nextTick } from "vue";
 // watch(isMobile, (newVal, oldVal) => {
 //   if (newVal) {
 //     console.log("📱 모바일 모드 진입");
@@ -147,7 +151,10 @@ import { nextTick } from "vue";
 //     console.log("💻 데스크탑 모드 진입");
 //   }
 // });
+
+//화면이 바뀌면 게시글 리스트 처음 부터 불러옴
 watch(isMobile, async (mobile) => {
+  console.log("isMobile: ", isMobile.value);
   currentPage.value = 0;
   purchaseList.value = [];
   await fetchPageData();
@@ -159,7 +166,10 @@ const scrollContainer = ref(null);
 //스크롤 이벤트 발생 시
 const handleScroll = () => {
   console.log("dkssud");
-  if (isLoading.value) return;
+  if (isLoading.value) {
+    console.log("isloading is true");
+    return;
+  }
   const el = scrollContainer.value;
   if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
     fetchMoreData();
@@ -189,25 +199,22 @@ onMounted(() => {
 const fetchPageData = async () => {
   // currentPage.value = selectedPage.value;
   isLoading.value = true;
-  try {
-    const res = await fetchPurchaseList(userId, currentPage.value, pageSize);
-    purchaseList.value = res.data.data.content;
-    totalPage.value = res.data.data.totalPages;
-  } finally {
-    isLoading.value = false;
-  }
+  const res = await fetchPurchaseList(userId, currentPage.value, pageSize);
+  purchaseList.value = res.data.data.content;
+  totalPage.value = res.data.data.totalPages;
+  isLoading.value = false;
 };
 
 const fetchMoreData = async () => {
-  if (isLoading.value || currentPage.value >= totalPage.value - 1) return;
+  //로딩중이거나 마지막 페이지라면 return
+  if (isLoading.value || lastPage.value) return;
   isLoading.value = true;
   currentPage.value++;
-  try {
-    const res = await fetchPurchaseList(userId, currentPage.value, pageSize);
-    purchaseList.value = [...purchaseList.value, ...res.data.data.content];
-  } finally {
-    isLoading.value = false;
-  }
+
+  const res = await fetchPurchaseList(userId, currentPage.value, pageSize);
+  purchaseList.value = [...purchaseList.value, ...res.data.data.content];
+  lastPage.value = res.data.data.last; //마지막 페이지 여부
+  isLoading.value = false;
 };
 
 const prePage = () => {
