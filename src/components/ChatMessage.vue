@@ -30,7 +30,15 @@ const props = defineProps({
 
 console.log(props.message);
 
+// localhost
+// function formatDateTime(dateTime) {
+//   return dateTime.toString().slice(0, 16).replace("T", " ");
+// }
+
+// 배포
 function formatDateTime(dateTime) {
-  return dateTime.toString().slice(0, 16).replace("T", " ");
+  const koreaDate = new Date(dateTime);
+  koreaDate.setHours(koreaDate.getHours() + 9); // 한국 시간으로
+  return koreaDate.toLocaleString();
 }
 </script>

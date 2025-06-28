@@ -19,9 +19,5 @@ export const useChatApi = () => {
     return await axios.post(`api/chat/review`, reviewData);
   };
 
-  const getIsBuyer = async (chatId) => {
-    return await axios.get(`api/chat/isBuyer/${chatId}`);
-  };
-
   return { getChatList, getChatMessages, setSold, setReview };
 };

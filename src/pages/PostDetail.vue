@@ -165,6 +165,7 @@ const goChattingPage = (res) => {
       othersId: res.othersId,
       isBuyer: res.buyer,
       isCompleted: res.completed,
+      isReviewed: res.reviewed, // 리뷰 작성 완료 여부
     },
   });
 };

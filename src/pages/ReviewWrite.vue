@@ -64,7 +64,7 @@ const modal = useModalStore();
 const { setReview } = useChatApi();
 
 // 쿼리 파라미터에서 sellerId, buyerId 추출
-const { buyerId, sellerId } = route.query;
+const { buyerId, sellerId, chatId } = route.query;
 
 const rating = ref(0);
 const reviewText = ref("");
@@ -78,6 +78,7 @@ const submitReview = async () => {
   await setReview({
     sellerId: sellerId,
     buyerId: buyerId,
+    chatId: chatId,
     rating: rating.value,
     content: reviewText.value,
   })

@@ -84,7 +84,7 @@ const {
 } = route.query;
 const isCompleted = ref(route.query.isCompleted === "true");
 const isBuyer = ref(route.query.isBuyer === "true"); // 현재 사용자가 구매자인지 여부
-// const isReviewed = route.query.isReviewed(false);
+const isReviewed = ref(route.query.isReviewed === "true"); // 리뷰 작성 완료 여부
 
 onMounted(async () => {
   // 채팅방 정보 불러오기
@@ -125,6 +125,7 @@ onMounted(async () => {
 
   // 웹소켓 연결 설정
   socket = new WebSocket(`ws://llinksy.loca.lt/ws/chat?chatId=${chatId}`);
+  // socket = new WebSocket(`ws://localhost:8080/ws/chat?chatId=${chatId}`);
 
   socket.onopen = () => {
     console.log("웹소켓 연결 성공");
@@ -210,6 +211,7 @@ const goReview = () => {
     query: {
       sellerId: sellerId,
       buyerId: buyerId,
+      chatId: chatId,
     },
   });
 };

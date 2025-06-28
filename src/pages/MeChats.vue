@@ -37,6 +37,7 @@ const onChatClick = (chat) => {
       othersId: chat.othersId,
       isCompleted: chat.completed,
       isBuyer: chat.buyer, // 구매자 여부
+      isReviewed: chat.reviewed, // 리뷰 작성 완료 여부
     },
   });
 };
