@@ -15,14 +15,12 @@
                     type="email"
                     v-model="email"
                     placeholder="Email address"
-                    size="md"
                     required
                 />
                 <BaseInput
                     type="password"
                     v-model="password"
                     placeholder="Password"
-                    size="md"
                     required
                 />
 

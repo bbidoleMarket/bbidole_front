@@ -26,7 +26,6 @@
                                 ? 'success'
                                 : 'error'
                         "
-                        size="md"
                         placeholder="Enter your email"
                     />
                     <span
@@ -59,7 +58,6 @@
                                 ? 'success'
                                 : 'error'
                         "
-                        size="md"
                         placeholder="8~15자, 대소문자, !,@,#,$, 숫자 포함"
                     />
                     <span
@@ -91,7 +89,6 @@
                                 ? 'success'
                                 : 'error'
                         "
-                        size="md"
                         placeholder="비밀번호 확인"
                     />
                     <span
@@ -117,7 +114,6 @@
                         type="text"
                         v-model="name"
                         maxlength="4"
-                        size="md"
                         placeholder="이름 입력"
                     />
                 </div>
@@ -128,7 +124,6 @@
                         type="text"
                         v-model="nickname"
                         maxlength="15"
-                        size="md"
                         placeholder="닉네임 입력"
                     />
                 </div>
