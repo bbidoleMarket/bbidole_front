@@ -131,7 +131,7 @@
 import { ref, onMounted, watch } from "vue";
 import { UseTransactionListAPi } from "@/api/userTransaction";
 import { useRouter } from "vue-router";
-import { watch, onUnmounted } from "vue";
+import { onUnmounted } from "vue";
 
 const router = useRouter();
 const currentPage = ref(0);
