@@ -7,6 +7,7 @@ import "./css/layout.css";
 import router from "./router";
 // import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import "./css/product.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const app = createApp(App);
 const pinia = createPinia();

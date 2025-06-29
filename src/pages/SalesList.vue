@@ -1,6 +1,6 @@
 <template>
   <!--가장 밖-->
-  <div class="flex flex-col justify-start items-center min-h-screen gap-4">
+  <div class="flex flex-col justify-start items-center gap-4">
     <!-- 판매 목록-->
     <!--탑센티널-->
     <div ref="topScreen" class="h-px"></div>
@@ -8,7 +8,7 @@
       <h2 class="font-jua mt-9 text-2xl">판매 목록</h2>
     </div>
     <!-- 카테고리-->
-    <div class="mb-6 h-full relative w-full max-w-md md:max-w-wl lg:max-w-3xl">
+    <div class="mb-6 relative w-full max-w-md md:max-w-wl lg:max-w-3xl">
       <div class="absolute right-3">
         <select
           v-model="selectedCategory"
@@ -66,9 +66,9 @@
       <button
         v-show="(showGoTop, isMobile)"
         @click="scrollToTop"
-        class="fixed bottom-48 right-4 p-3 bg-[#45A8A6] text-white rounded-full shadow-lg hover:opacity-90"
+        class="fixed bottom-48 right-4 p-4 bg-[#45A8A6] text-white rounded-full shadow-lg hover:opacity-90"
       >
-        ∧
+        <i class="fa-solid fa-arrow-up text-xl text-white"></i>
       </button>
     </div>
     <!--페이지네이션-->
@@ -229,6 +229,17 @@ function getFetcher() {
   }[selectedCategory.value];
 }
 
+const fetchPageData = async () => {
+  // currentPage.value = selectedPage.value;
+  isLoading.value = true;
+  const fetcher = getFetcher();
+  const res = await fetcher(currentPage.value, pageSize);
+  salesList.value = res.data.data.content;
+  totalPage.value = res.data.data.totalPages;
+  isLoading.value = false;
+  console.log("currentPage: ", currentPage.value);
+};
+
 const fetchMoreData = async () => {
   //로딩중이거나 마지막 페이지라면 return
   if (isLoading.value || lastPage.value) {
@@ -244,7 +255,7 @@ const fetchMoreData = async () => {
   try {
     currentPage.value++;
     const fetcher = getFetcher();
-    const res = await fetcher(userId, currentPage.value, pageSize);
+    const res = await fetcher(currentPage.value, pageSize);
     salesList.value = [...salesList.value, ...res.data.data.content];
     totalPage.value = res.data.data.totalPage;
     lastPage.value = res.data.data.last; //마지막 페이지 여부

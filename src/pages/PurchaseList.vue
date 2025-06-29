@@ -1,6 +1,6 @@
 <template>
   <!--가장 밖-->
-  <div class="flex flex-col justify-start items-center min-h-screen gap-4">
+  <div class="flex flex-col justify-start items-center gap-4">
     <!--탑센티널-->
     <div ref="topScreen" class="h-px"></div>
     <!-- 구매 목록-->
@@ -30,7 +30,7 @@
               class="w-20 h-20 flex justify-center items-center overflow-hidden rounded-md"
             >
               <img
-                src="/image/stanley.jpg"
+                :src="purchase.imageUrl"
                 alt="게시글 사진"
                 class="object-contain"
               />
@@ -56,11 +56,11 @@
         <i class="fa-solid fa-spinner"></i>
       </div>
       <button
-        v-show="(showGoTop, isMobile)"
+        v-show="showGoTop && isMobile"
         @click="scrollToTop"
-        class="fixed bottom-48 right-4 p-3 bg-[#45A8A6] text-white rounded-full shadow-lg hover:opacity-90"
+        class="flex items-center justify-center fixed bottom-48 right-4 p-4 bg-[#45A8A6] rounded-full shadow-lg hover:opacity-90 text-white"
       >
-        ∧
+        <i class="fa-solid fa-arrow-up text-xl text-white"></i>
       </button>
     </div>
     <!--페이지네이션-->
@@ -132,7 +132,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch, watchEffect } from "vue";
 import { UseTransactionListAPi } from "@/api/userTransaction";
 import { useRouter } from "vue-router";
 
@@ -180,7 +180,7 @@ const scrollContainer = ref(null);
 
 const fetchPageData = async () => {
   isLoading.value = true;
-  const res = await fetchPurchaseList(userId, currentPage.value, pageSize);
+  const res = await fetchPurchaseList(currentPage.value, pageSize);
   purchaseList.value = res.data.data.content;
   totalPage.value = res.data.data.totalPages;
   isLoading.value = false;
@@ -199,7 +199,7 @@ const fetchMoreData = async () => {
   }
   try {
     currentPage.value++;
-    const res = await fetchPurchaseList(userId, currentPage.value, pageSize);
+    const res = await fetchPurchaseList(currentPage.value, pageSize);
     purchaseList.value = [...purchaseList.value, ...res.data.data.content];
     totalPage.value = res.data.data.totalPages;
     lastPage.value = res.data.data.last; //마지막 페이지 여부
@@ -210,7 +210,7 @@ const fetchMoreData = async () => {
     console.log("isLoading 해제 됨");
   }
   currentPage.value++;
-  console.log("서버에서 데이터 받아옴", res);
+  //console.log("서버에서 데이터 받아옴", res);
 };
 
 const prePage = () => {
