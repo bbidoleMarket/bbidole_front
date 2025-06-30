@@ -37,15 +37,15 @@
         @click="goSellerDetailPage"
         class="flex items-center gap-3 cursor-pointer"
       >
-        <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-200">
+        <div class="w-12 h-12 rounded-full bg-gray-200">
           <img
             :src="postDetail?.writerImageUrl || defaultImg"
             alt="userProfileImage"
-            class="w-full h-full object-cover"
+            class="md:w-full h-full object-cover"
           />
         </div>
         <div>
-          <p class="text-sm font-hahmlet truncate w-64 lg:w-96">
+          <p class="text-sm font-hahmlet truncate md:w-64 lg:w-96">
             {{ postDetail?.writerNickname || "판매자 닉네임" }}
           </p>
           <div class="flex items-center gap-1 text-sm text-gray-700">
