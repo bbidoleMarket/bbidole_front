@@ -76,7 +76,7 @@ async function handleLogin() {
     errorMessage.value = "";
 
     try {
-        await login(email.value, password.value);
+        const res = await login(email.value, password.value);
 
         // 로그인 성공 모달
         modal.open({
@@ -84,9 +84,10 @@ async function handleLogin() {
             message: "삐돌이 마켓에 오신 것을 환영합니다!",
         });
 
+        console.log(res);
         // 모달 닫힌 후 메인 페이지로 이동
         setTimeout(() => {
-            router.push("/");
+            router.push(`${res.data.redirectUrl}`);
         }, 1500);
     } catch (error) {
         console.error("로그인 에러:", error);
