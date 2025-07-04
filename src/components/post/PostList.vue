@@ -2,7 +2,7 @@
   <div>
     <div class="relative mb-6">
       <!-- 중앙 정렬 제목 -->
-      <h2 class="text-3xl font-bold font-jua text-center">판매중인 게시글</h2>
+      <h2 class="text-3xl font-bold font-jua text-center">게시글</h2>
 
       <!-- 오른쪽 상단 버튼 -->
       <BaseButton
