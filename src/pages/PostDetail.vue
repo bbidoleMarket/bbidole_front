@@ -45,7 +45,7 @@
           />
         </div>
         <div>
-          <p class="text-sm font-hahmlet truncate md:w-64 ">
+          <p class="text-sm font-hahmlet truncate md:w-64">
             {{ postDetail?.writerNickname || "판매자 닉네임" }}
           </p>
           <div class="flex items-center gap-1 text-sm text-gray-700">
@@ -114,7 +114,7 @@
         {{ postDetail?.description || "상품 설명입니다." }}
       </p>
     </div>
-   <div class="w-full flex gap-2">
+    <div class="w-full flex gap-2">
       <BaseButton
         v-if="postDetail?.writer || false"
         class="flex items-center justify-center w-full gap-2 py-2"
@@ -235,7 +235,7 @@ const confirmDelete = () => {
     cancelText: "취소",
     onConfirm: () => {
       deletePostHandler(); // 직접 함수 호출
-    }
+    },
   });
 };
 
@@ -266,23 +266,29 @@ const deletePostHandler = async () => {
   }
 };
 
+const reportPost = () => {
+  router.push(`/report/post/${postId}`);
+};
+
 onMounted(async () => {
   try {
     const res = await getPostDetail(postId);
-    
+
     postDetail.value = res.data.data;
-    window.scrollTo(0, 0); 
-  } catch (error) {  
+    window.scrollTo(0, 0);
+  } catch (error) {
     if (error.response && error.response.status === 404) {
       modal.open({
         title: "게시글 없음",
         message: "요청하신 게시글을 찾을 수 없습니다.",
-        onClose: () => router.push("/")
+        onClose: () => router.push("/"),
       });
     } else {
       modal.open({
         title: "오류 발생",
-        message: error.response?.data?.message || "게시글을 불러오는 중 오류가 발생했습니다."
+        message:
+          error.response?.data?.message ||
+          "게시글을 불러오는 중 오류가 발생했습니다.",
       });
     }
   }
