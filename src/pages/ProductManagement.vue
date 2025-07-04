@@ -65,7 +65,7 @@
                             <td>{{ item.price.toLocaleString() }}원</td>
                             <td>
                                 <span
-                                    v-if="item.isSold"
+                                    v-if="!item.isSold"
                                     class="text-green-500 font-semibold"
                                     >판매중</span
                                 >
@@ -132,7 +132,6 @@ async function deleteProduct(item) {
     try {
         await adminApi.deleteProduct(item.id);
 
-        // 로그인 성공 모달
         modal.open({
             title: "제품 삭제 성공",
             message: "해당 제품을 삭제했습니다.",

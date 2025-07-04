@@ -120,7 +120,6 @@ const router = useRouter();
 
 onMounted(async () => {
     users.value = await adminApi.findAllUser();
-    console.log(users.value);
 });
 
 const search = ref("");
