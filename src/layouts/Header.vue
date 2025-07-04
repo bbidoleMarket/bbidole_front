@@ -150,12 +150,13 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router"; // useRoute 추가
 import { useAuthStore } from "../stores/auth";
 import { useModalStore } from "../stores/modal";
 import BaseButton from "../components/base/BaseButton.vue";
 
 const router = useRouter();
+const route = useRoute(); // 현재 라우트 정보 가져오기
 const authStore = useAuthStore();
 const modalStore = useModalStore();
 
@@ -165,10 +166,36 @@ const isHamburger = ref(false); // 햄버거 메뉴 상태
 // 로그인 상태 확인
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 
-// 홈 페이지로 이동
+// 특정 페이지에서 홈 이동 비활성화할 페이지 목록
+const disabledHomePages = ['/admin']; // 예시: 이 페이지들에서는 홈 버튼 동작 안함
+
+// 현재 페이지가 홈 이동 비활성화 목록에 있는지 확인
+const isHomeButtonDisabled = computed(() => {
+  // 전체 경로에 대한 체크
+  if (disabledHomePages.includes(route.path)) {
+    return true;
+  }
+  
+  // 부분 경로에 대한 체크 (예: /chat/로 시작하는 모든 경로)
+  return disabledHomePages.some(path => {
+    if (path.endsWith('*')) {
+      const basePath = path.slice(0, -1);
+      return route.path.startsWith(basePath);
+    }
+    return false;
+  });
+});
+
+// 홈 페이지로 이동 (조건부)
 const goHome = () => {
-    window.location.href = "/";
-    isHamburger.value = false;
+  // 비활성화된 페이지에서는 아무것도 하지 않음
+  if (isHomeButtonDisabled.value) {
+    return;
+  }
+  
+  // 정상적으로 홈으로 이동
+  window.location.href = "/";
+  isHamburger.value = false;
 };
 
 // 로그인 페이지로 이동

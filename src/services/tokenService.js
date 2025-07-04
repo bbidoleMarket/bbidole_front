@@ -23,39 +23,46 @@ class TokenService {
 
   // 토큰 재발급 (중앙화된 로직)
   async refreshToken() {
-    const { refreshToken } = getTokens();
-    
-    if (!refreshToken) {
-      throw new Error('리프레시 토큰이 없습니다.');
-    }
-
-    if (isTokenExpired(refreshToken)) {
-      throw new Error('리프레시 토큰이 만료되었습니다.');
-    }
-
     try {
+      const { refreshToken } = getTokens();
+      
+      if (!refreshToken) {
+        throw new Error("리프레시 토큰이 없습니다.");
+      }
+
+      console.log("토큰 재발급 요청...");
+      
       const response = await axios.post(
         `${this.baseURL}/api/auth/refresh`,
         {},
         {
           headers: {
-            'Authorization': `Bearer ${refreshToken}`
-          }
+            Authorization: `Bearer ${refreshToken}`,
+          },
         }
       );
 
-      const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+      const { accessToken, refreshToken: newRefreshToken, isAdmin } = response.data.data;
       
       // 새로운 토큰들을 저장
       setTokens(accessToken, newRefreshToken);
       
+      // isAdmin 정보도 업데이트 (기존 값 유지하거나 서버에서 받은 값 사용)
+      if (isAdmin !== undefined) {
+        localStorage.setItem('isAdmin', isAdmin.toString());
+      }
+      
+      console.log("토큰 재발급 성공");
+      
       return {
         accessToken,
-        refreshToken: newRefreshToken
+        refreshToken: newRefreshToken,
+        isAdmin
       };
     } catch (error) {
-      // 토큰 갱신 실패 시 모든 토큰 제거
+      console.error("토큰 재발급 실패:", error);
       clearTokens();
+      localStorage.removeItem('isAdmin');
       throw error;
     }
   }

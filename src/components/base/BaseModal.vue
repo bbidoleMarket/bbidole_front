@@ -12,12 +12,23 @@
         {{ modal.title }}
       </h2>
       <p class="mt-6 text-[#2E383A] p-4">{{ modal.message }}</p>
-      <div class="flex justify-center items-center mt-10">
+      <div class="flex justify-center items-center mt-10 mb-4 gap-4">      
+        <!-- 확인 버튼 (취소 버튼이 있으면 빨간색) -->
         <BaseButton
+          class="flex items-center justify-center h-10 shadow-md mb-4"
+          :class="modal.cancelText ? 'bg-red-500 hover:bg-red-600 text-white' : ''"
+          @click="handleConfirm"
+        >
+          {{ modal.confirmText || '확인' }}
+        </BaseButton>
+         
+        <!-- 취소 버튼 (기본 스타일) -->
+        <BaseButton
+          v-if="modal.cancelText"
           class="flex items-center justify-center h-10 shadow-md mb-4"
           @click="modal.close"
         >
-          확인
+          {{ modal.cancelText }}
         </BaseButton>
       </div>
     </div>
@@ -28,4 +39,13 @@
 import { useModalStore } from "../../stores/modal";
 import BaseButton from "./BaseButton.vue";
 const modal = useModalStore();
+
+// 확인 버튼 클릭 처리
+const handleConfirm = () => {
+  // onConfirm 콜백이 있으면 실행
+  if (modal.onConfirm && typeof modal.onConfirm === 'function') {
+    modal.onConfirm();
+  }
+  modal.close(); // 모달 닫기
+};
 </script>
