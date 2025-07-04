@@ -174,7 +174,22 @@ export const usePostApi = () => {
     // return await axios.get(`/api/post/seller/1?${params.toString()}`); // Test용
   };
 
-  return { getPostDetail, updatePost, getPostListByPage, getMyPostListByPage };
+  /**
+   * 게시글 삭제 요청
+   * @param {path} postId
+   * @returns
+   */
+  const deletePost = async (postId) => {
+    try {
+      // post/api/{postId} 엔드포인트로 post 요청
+      const response = await axios.post(`/api/post/${postId}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return { getPostDetail, updatePost, getPostListByPage, getMyPostListByPage, deletePost };
 };
 
 export const useReviewApi = () => {

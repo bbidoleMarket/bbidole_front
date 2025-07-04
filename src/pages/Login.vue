@@ -7,6 +7,7 @@
                 src="../assets/bbidole_login.svg"
                 alt="dog"
                 class="logo-auth"
+                @click="goHome"
             />
             <h2 class="title-section mb-3 sm:mb-4">Log in</h2>
 
@@ -68,6 +69,12 @@ const errorMessage = ref("");
 const { login } = useAuthApi();
 const authStore = useAuthStore();
 const modal = useModalStore();
+
+// 홈 페이지로 이동 
+const goHome = () => {
+  window.location.href = "/";
+  isHamburger.value = false;
+};
 
 async function handleLogin() {
     if (isLoading.value) return;
