@@ -124,8 +124,8 @@ onMounted(async () => {
     });
 
   // 웹소켓 연결 설정
-  socket = new WebSocket(`ws://35.209.18.197:8080/ws/chat?chatId=${chatId}`);
-  // socket = new WebSocket(`ws://localhost:8080/ws/chat?chatId=${chatId}`);
+  //socket = new WebSocket(`ws://35.209.18.197:8080/ws/chat?chatId=${chatId}`);
+  socket = new WebSocket(`ws://localhost:8080/ws/chat?chatId=${chatId}`);
 
   socket.onopen = () => {
     console.log("웹소켓 연결 성공");
