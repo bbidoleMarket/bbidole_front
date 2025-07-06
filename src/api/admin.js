@@ -101,6 +101,24 @@ export const useAdminApi = () => {
         }
     };
 
+    const userPending = async () => {
+        try {
+            const response = await axios.get("/api/admin/UserPending");
+            return response.data.data;
+        } catch (error) {
+            throw error.response?.data || error;
+        }
+    };
+
+    const postPending = async () => {
+        try {
+            const response = await axios.get("/api/admin/PostPending");
+            return response.data.data;
+        } catch (error) {
+            throw error.response?.data || error;
+        }
+    };
+
     return {
         totalSub,
         totalProduct,
@@ -113,5 +131,7 @@ export const useAdminApi = () => {
         deleteProduct,
         recentUser,
         recentProduct,
+        userPending,
+        postPending,
     };
 };
