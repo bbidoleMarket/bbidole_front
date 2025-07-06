@@ -155,8 +155,8 @@ const handleResize = () => {
 watch(
   isMobile,
   async (mobile) => {
-    console.log("isMobile: ", isMobile.value);
-    console.log("lastPage: ", lastPage.value);
+    //console.log("isMobile: ", isMobile.value);
+    //console.log("lastPage: ", lastPage.value);
     // 1) 페이징 상태 초기화
     currentPage.value = 0;
     purchaseList.value = [];
@@ -189,12 +189,6 @@ const fetchPageData = async () => {
 const fetchMoreData = async () => {
   //로딩중이거나 마지막 페이지라면 return
   if (isLoading.value || lastPage.value) {
-    console.log(
-      "isLoading.value ,lastPage.value ",
-      isLoading.value,
-      " ",
-      lastPage.value
-    );
     return;
   }
   try {
@@ -204,13 +198,11 @@ const fetchMoreData = async () => {
     totalPage.value = res.data.data.totalPages;
     lastPage.value = res.data.data.last; //마지막 페이지 여부
   } catch (e) {
-    console.log("fetchMoreData에러:", e);
+    //console.log("fetchMoreData에러:", e);
   } finally {
     isLoading.value = false;
-    console.log("isLoading 해제 됨");
+    //console.log("isLoading 해제 됨");
   }
-  currentPage.value++;
-  //console.log("서버에서 데이터 받아옴", res);
 };
 
 const prePage = () => {
@@ -222,8 +214,8 @@ const prePage = () => {
 const nextPage = () => {
   if (currentPage.value < totalPage.value - 1) {
     currentPage.value++;
-    console.log("currentPage : " + currentPage.value);
-    console.log("TPage : " + totalPage.value);
+    //console.log("currentPage : " + currentPage.value);
+    //console.log("TPage : " + totalPage.value);
     fetchPageData();
   }
 };
@@ -237,22 +229,19 @@ const goDetail = (id) => router.push(`/post/${id}`);
 let observer = null;
 const scrollObserver = ref(null);
 const initIntersectionObserver = () => {
-  console.log("observer 실행1");
+  //console.log("observer 실행1");
   if (observer) observer.disconnect();
-  console.log("observer 실행2");
+  //console.log("observer 실행2");
   if (!scrollObserver.value) return;
-  console.log("▶ scrollObserver:", scrollObserver.value);
-  console.log("▶ scrollContainer:", scrollContainer.value);
+  //console.log("▶ scrollObserver:", scrollObserver.value);
+  //console.log("▶ scrollContainer:", scrollContainer.value);
   if (scrollContainer.value) {
-    console.log(
-      "contains(target)?",
-      scrollContainer.value.contains(scrollObserver.value)
-    );
   }
 
   observer = new IntersectionObserver(
     async ([entry]) => {
-      console.log("▶ IO callback entries:", entry);
+      console.log("스크롤중..");
+      //console.log("▶ IO callback entries:", entry);
       if (entry.isIntersecting) {
         if (lastPage.value) {
           // 마지막 페이지라면 더 이상 관찰 중지
@@ -260,7 +249,7 @@ const initIntersectionObserver = () => {
           return;
         }
         //콜백 동작 확인
-        console.log("observer 실행4");
+        //console.log("observer 실행4");
         observer.unobserve(entry.target);
         await fetchMoreData();
         observer.observe(entry.target);
@@ -301,13 +290,13 @@ const scrollToTop = () => {
 function initTopObserver() {
   topObserver = new IntersectionObserver(
     ([entry]) => {
-      console.log(
-        "🔺 TopObserver entry.isIntersecting =",
-        entry.isIntersecting
-      );
+      // console.log(
+      //   "🔺 TopObserver entry.isIntersecting =",
+      //   entry.isIntersecting
+      // );
       // entry.isIntersecting === false 면 최상단이 화면 밖 → 버튼 노출
       showGoTop.value = !entry.isIntersecting;
-      console.log("🟥 showGoTop =", showGoTop.value);
+      //console.log("🟥 showGoTop =", showGoTop.value);
     },
     {
       root: scrollContainer.value,

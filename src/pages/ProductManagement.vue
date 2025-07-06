@@ -18,13 +18,20 @@
                     </button>
                 </router-link>
                 <router-link to="/admin/product">
-                    <button class="text-left w-full hover:text-[#47C9AF]">
+                    <button class="text-left w-full hover:text-[#47C9AF] mb-4">
                         상품 관리
                     </button>
                 </router-link>
-                <button class="text-left w-full hover:text-[#47C9AF]">
-                    신고/문의
-                </button>
+                <router-link to="/admin/report/user">
+                    <button class="text-left w-full hover:text-[#47C9AF] mb-4">
+                        사용자 신고
+                    </button>
+                </router-link>
+                <router-link to="/admin/report/post">
+                    <button class="text-left w-full hover:text-[#47C9AF] mb-4">
+                        게시글 신고
+                    </button>
+                </router-link>
             </nav>
         </aside>
 
