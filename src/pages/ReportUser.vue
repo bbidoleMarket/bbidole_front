@@ -67,19 +67,19 @@
                             class="border-b hover:bg-gray-50 transition"
                             @click = "reportDetail(report.reportId)"
                         >
-                            <td class="py-2">{{ report.reporterName }}</td>
-                            <td>{{ report.reportedUserName }}</td>
+                            <td class="py-2">{{ report.reportedUserName }}</td>    
+                            <td>{{ report.reporterName }}</td>
                             <td>{{ report.content.length >5 ? report.content.substr(0,5)+'...': report.content }}</td>                            
                             <td>{{ formatDate(report.createdAt) }}</td>
-                            <td>{{ report.reportStatus }}</td>
+                            <td>{{ report.reportStatus === "PENDING" ? "미처리" : "처리"}}</td>
                             <!-- <td>{{ report.price.toLocaleString() }}원</td> -->
 
                                   <!-- 상태에 따라 다른 라벨 보여주기 -->
-                            <td v-if="report.reportStatus === 'PENDING'" class="text-gray-400">대기 중</td>
-                            <td v-else-if="report.reportStatus === 'APPROVED'" class="text-gray-400">승인됨</td>
-                            <td v-else-if="report.reportStatus === 'REJECTED'" class="text-gray-400">거절됨</td>
-                             <td>{{ formatDate(report.createdAt) }}</td>
-                            <td>
+                            <td v-if="report.reportStatus === 'PENDING'" class="text-gray-400">대기</td>
+                            <td v-else-if="report.reportStatus === 'APPROVED'" class="text-gray-400">승인</td>
+                            <td v-else-if="report.reportStatus === 'REJECTED'" class="text-gray-400">거절</td>
+                            <td>{{ formatDate(report.updateAt) }}</td>
+                            <td v-if="report.reportStatus === 'PENDING'">
                                 <button
                                     class="text-xs px-2 py-1 rounded bg-[#47C9AF] text-white hover:bg-[#33a395] mr-2"
                                      @click.stop="approveReport(report.reportId,'APPROVED')"
@@ -93,6 +93,7 @@
                                     거절
                                 </button>
                             </td>
+                            <td v-else class="text-gray-400">처리됨</td>
                         </tr>
 
                     </tbody>
@@ -111,7 +112,7 @@ import { useRouter } from "vue-router";
 import {useReportApi} from "../api/report";
 import { ArrowUpOnSquareStackIcon } from "@heroicons/vue/16/solid";
 
-const { userReportList, userReportDetail,updateUserReport} = useReportApi(); 
+const { userReportList, updateUserReport} = useReportApi(); 
 
 // 더미 데이터
 const items = ref([]);
@@ -169,8 +170,9 @@ async function rejectUser(id, status) {
     }
 }
 const reportDetail=(id)=>{
-        console.log(id);
-    router.push(`/admin/report/userdetail${id}`)
+    console.log("reportDetail");
+    console.log(id);
+    router.push(`/admin/report/userdetail/${id}`)
 }
 const goDetail=(id)=>{
     router.push(`/chat/${id}`);

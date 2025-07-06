@@ -65,34 +65,35 @@
                             v-for="report in ReportList"
                             :key="report.reportId"
                             class="border-b hover:bg-gray-50 transition"
-                            @click = "goDetail(report.postId)"
+                            @click = "goDetail(report.reportId)"
                         >
-                            <td class="py-2">{{ report.reporterName }}</td>
-                            <td>{{ report.reportedUserName }}</td>
+                            <td class="py-2">{{ report.reportedPostName }}</td>
+                            <td>{{ report.reporterName }}</td>
                             <td>{{ report.content.length >5 ? report.content.substr(0,5)+'...': report.content }}</td>                            
                             <td>{{ formatDate(report.createdAt) }}</td>
-                            <td>{{ report.reportStatus }}</td>
+                            <td>{{ report.reportStatus === "PENDING" ? "미처리" : "처리"}}</td>
                             <!-- <td>{{ report.price.toLocaleString() }}원</td> -->
 
                                   <!-- 상태에 따라 다른 라벨 보여주기 -->
                             <td v-if="report.reportStatus === 'PENDING'" class="text-gray-400">대기 중</td>
                             <td v-else-if="report.reportStatus === 'APPROVED'" class="text-gray-400">승인됨</td>
                             <td v-else-if="report.reportStatus === 'REJECTED'" class="text-gray-400">거절됨</td>
-                             <td>{{ formatDate(report.createdAt) }}</td>
-                            <td>
+                            <td>{{ formatDate(report.createdAt) }}</td>
+                            <td v-if="report.reportStatus === 'PENDING'">
                                 <button
                                     class="text-xs px-2 py-1 rounded bg-[#47C9AF] text-white hover:bg-[#33a395] mr-2"
-                                     @click.stop="approveReport(report.postId,'APPROVED')"
+                                     @click.stop="approveReport(report.reportId,'APPROVED')"
                                 >
                                     승인
                                 </button>
                                 <button
                                     class="text-xs px-2 py-1 rounded bg-red-400 text-white hover:bg-red-600"
-                                     @click.stop="rejectReport(report.postId,'REJECTED')"
+                                     @click.stop="rejectReport(report.reportId,'REJECTED')"
                                 >
                                     거절
                                 </button>
                             </td>
+                            <td v-else class="text-gray-400">처리됨</td>
                         </tr>
 
                     </tbody>
@@ -111,7 +112,7 @@ import { useRouter } from "vue-router";
 import {useReportApi} from "../api/report";
 import { ArrowUpOnSquareStackIcon } from "@heroicons/vue/16/solid";
 
-const {     postReportList,postReportDetail,updatePostReport,} = useReportApi(); 
+const { postReportList, updatePostReport } = useReportApi(); 
 
 // 더미 데이터
 const items = ref([]);
@@ -140,9 +141,10 @@ async function approveReport(id, status) {
             title: "정지 성공",
             message: "신고된 게시글을 삭제 했습니다.",
         });
-await postReportList();
+
         setTimeout(async () => {
             const res = await postReportList();
+            ReportList.value = res.data.data;
         }, 1000);
     } catch (error) {
         modal.open({
@@ -160,7 +162,8 @@ async function rejectReport(id, status) {
         });
 
         setTimeout(async () => {
-            const res = await userReportList();
+            const res = await postReportList();
+            ReportList.value = res.data.data;
         }, 1000);
     } catch (error) {
         modal.open({
@@ -171,7 +174,8 @@ async function rejectReport(id, status) {
 }
 
 const goDetail=(id)=>{
-   router.push(`/post/${id}`);
+    console.log("id" + id);
+   router.push(`/admin/report/postdetail/${id}`);
 }
 </script>
 
