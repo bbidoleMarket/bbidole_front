@@ -48,11 +48,22 @@
     >
       <BaseInput
         v-model="newMessage"
-        placeholder="채팅을 입력하세요."
-        class="rounded-tl-none rounded-tr-none rounded-br-none"
+        :disabled="isRestricted"
+        :placeholder="
+          isRestricted
+            ? '이 사용자는 현재 활동이 중단되었습니다.'
+            : '채팅을 입력하세요.'
+        "
+        :class="[
+          'rounded-tl-none rounded-tr-none rounded-br-none',
+          isRestricted
+            ? 'bg-gray-300 text-[#F72E1B] placeholder:text-[#F72E1B]'
+            : 'bg-white hover:bg-gray-100',
+        ]"
       />
       <BaseButton
-        class="w-[80px] rounded-tl-none rounded-tr-none rounded-bl-none"
+        class="w-[80px] rounded-tl-none rounded-tr-none rounded-bl-none disabled:bg-gray-300 disabled:text-[#2E383A] disabled:cursor-not-allowed"
+        :disabled="isRestricted"
         type="submit"
         >전송</BaseButton
       >
@@ -69,9 +80,11 @@ import ChatMessage from "../components/ChatMessage.vue";
 import BaseInput from "../components/base/BaseInput.vue";
 import { useChatApi } from "../api/chat";
 import { useModalStore } from "../stores/modal";
+import { useUserApi } from "../api/post";
 
 const modal = useModalStore();
 const { getChatMessages, setSold } = useChatApi();
+const { getUserDetail } = useUserApi();
 const newMessage = ref(""); // 새로운 메시지 입력을 위한 ref
 const chatContainer = ref(null); // 채팅 메시지 컨테이너를 참조하기 위한 ref
 const messages = ref([]); // 채팅 메시지를 저장할 배열
@@ -91,6 +104,7 @@ const {
 const isCompleted = ref(route.query.isCompleted === "true");
 const isBuyer = ref(route.query.isBuyer === "true"); // 현재 사용자가 구매자인지 여부
 const isReviewed = ref(route.query.isReviewed === "true"); // 리뷰 작성 완료 여부
+const isRestricted = ref(false);
 
 onMounted(async () => {
   // 채팅방 정보 불러오기
@@ -128,6 +142,26 @@ onMounted(async () => {
       });
       console.error("채팅 메시지 가져오기 실패:", error);
     });
+
+  if (!isBuyer.value) {
+    getUserDetail(sellerId)
+      .then((data) => {
+        console.log("판매자 정보:", data);
+        isRestricted.value = !data.data.data.isActive; // 판매자 제한 여부
+      })
+      .catch((error) => {
+        console.error("판매자 정보 가져오기 실패:", error);
+      });
+  } else {
+    getUserDetail(buyerId)
+      .then((data) => {
+        console.log("구매자 정보:", data);
+        isRestricted.value = !data.data.data.isActive; // 구매자 제한 여부
+      })
+      .catch((error) => {
+        console.error("구매자 정보 가져오기 실패:", error);
+      });
+  }
 
   // 웹소켓 연결 설정
   // socket = new WebSocket(`ws://35.209.18.197:8080/ws/chat?chatId=${chatId}`);

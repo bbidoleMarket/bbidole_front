@@ -31,9 +31,19 @@
       </div>
     </div>
     <p
-      class="relative w-80 h-12 mx-auto text-center overflow-hidden font-bold font-hahmlet"
+      class="relative w-80 h-8 mx-auto text-center overflow-hidden font-bold font-hahmlet"
     >
       {{ userData?.nickname || "닉네임" }}
+    </p>
+    <p
+      v-if="!userData?.isActive"
+      class="relative w-80 h-8 mx-auto my-auto text-center overflow-hidden font-bold font-hahmlet text-[#F72E1B] flex items-center justify-center"
+    >
+      <img
+        src="@/assets/icon_exclamation_circle.svg"
+        alt="느낌표"
+        class="w-4 h-4 mr-1"
+      />이 사용자는 현재 활동이 중단되었습니다.
     </p>
   </div>
 </template>
