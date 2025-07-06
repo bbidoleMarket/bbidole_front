@@ -17,6 +17,7 @@ import UserManagement from "../pages/UserManagement.vue";
 import ProductManagement from "../pages/ProductManagement.vue";
 import ReportUser from "../pages/ReportUser.vue";
 import ReportPost from "../pages/ReportPost.vue";
+import UserReportDetail from "../pages/UserReportDetail.vue";
 
 const routes = [
   {
@@ -140,6 +141,12 @@ const routes = [
     path: "/admin/report/post",
     name: "ReportPost",
     component: ReportPost,
+    meta: { requiresAdmin: true },
+  },
+  {
+    path: "/admin/report/userdetail:repotId",
+    name: "UserReportDetail",
+    component: UserReportDetail,
     meta: { requiresAdmin: true },
   },
 ];

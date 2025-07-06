@@ -65,7 +65,7 @@
                             v-for="report in ReportList"
                             :key="report.reportId"
                             class="border-b hover:bg-gray-50 transition"
-                            @click = "goDetail(report.reportId)"
+                            @click = "reportDetail(report.reportId)"
                         >
                             <td class="py-2">{{ report.reporterName }}</td>
                             <td>{{ report.reportedUserName }}</td>
@@ -94,11 +94,7 @@
                                 </button>
                             </td>
                         </tr>
-                        <!-- <tr v-if="filteredItems.length === 0"> -->
-                            <!-- <td colspan="7" class="py-4 text-gray-400"> -->
-                                <!-- 검색 결과가 없습니다. -->
-                            <!-- </td> -->
-                        <!-- </tr> -->
+
                     </tbody>
                 </table>
             </div>
@@ -129,19 +125,9 @@ onMounted(async () => {
     const res = await userReportList();
     console.log("신고내역",res);
     ReportList.value=res.data.data;
-    //items.value = await adminApi.findAllProduct();
 });
 
-const search = ref("");
 
-// const filteredItems = computed(() =>
-//     items.value.filter(
-//         (i) =>
-//             i.name.includes(search.value) ||
-//             i.seller.includes(search.value) ||
-//             String(i.id).includes(search.value)
-//     )
-// );
 
 async function approveReport(id, status) {
     try {
@@ -182,7 +168,10 @@ async function rejectUser(id, status) {
         });
     }
 }
-
+const reportDetail=(id)=>{
+        console.log(id);
+    router.push(`/admin/report/userdetail${id}`)
+}
 const goDetail=(id)=>{
     router.push(`/chat/${id}`);
 }
