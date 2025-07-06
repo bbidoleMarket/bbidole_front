@@ -21,7 +21,8 @@
       <div class="flex justify-end mt-4">
         <BaseButton class="text-md mr-2" @click="backPage">취소</BaseButton>
         <BaseButton
-          class="text-md bg-red-400 hover:bg-red-600 active:bg-red-400"
+          class="text-md bg-red-400 hover:bg-red-600 active:bg-red-400 disabled:bg-gray-300 disabled:text-[#2E383A]"
+          :disabled="!content.trim()"
           @click="submitReport"
           >신고하기</BaseButton
         >
@@ -100,7 +101,7 @@ const submitReport = () => {
     modal.open({
       title: "게시글 신고",
       message: "해당 게시글을 신고하시겠습니까?",
-      confirmText: "삭제",
+      confirmText: "신고",
       cancelText: "취소",
       onConfirm: () => {
         deletePostHandler(); // 직접 함수 호출
@@ -111,7 +112,7 @@ const submitReport = () => {
     modal.open({
       title: "채팅방 신고",
       message: "해당 채팅방을 신고하시겠습니까?",
-      confirmText: "삭제",
+      confirmText: "신고",
       cancelText: "취소",
       onConfirm: () => {
         deletePostHandler(); // 직접 함수 호출
