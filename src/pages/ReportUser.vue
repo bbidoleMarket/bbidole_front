@@ -88,7 +88,7 @@
                                 </button>
                                 <button
                                     class="text-xs px-2 py-1 rounded bg-red-400 text-white hover:bg-red-600"
-                                     @click.stop="rejectUser(report)"
+                                     @click.stop="rejectUser(report.reportId,'REJECTED')"
                                 >
                                     거절
                                 </button>
@@ -152,7 +152,7 @@ async function approveReport(id, status) {
             title: "정지 성공",
             message: "신고된 사용자를 정지 했습니다.",
         });
-
+await userReportList();
         setTimeout(async () => {
             const res = await userReportList();
         }, 1000);
@@ -163,12 +163,10 @@ async function approveReport(id, status) {
         });
     }
 }
-async function rejectUser(item) {
+async function rejectUser(id, status) {
     try {
-        const res= await updateUserReport()
-        report.value.reportStatus = 'APPROVED'
-        //report.reportStatus === 'APPROVED'
-        // 로그인 성공 모달
+        const res= await updateUserReport(id,status)
+
         modal.open({
             title: "신고 거절",
             message: "신고를 거절 했습니다.",

@@ -82,13 +82,13 @@
                             <td>
                                 <button
                                     class="text-xs px-2 py-1 rounded bg-[#47C9AF] text-white hover:bg-[#33a395] mr-2"
-                                     @click.stop="approveReport(report.reportId,'APPROVED')"
+                                     @click.stop="approveReport(report.postId,'APPROVED')"
                                 >
                                     승인
                                 </button>
                                 <button
                                     class="text-xs px-2 py-1 rounded bg-red-400 text-white hover:bg-red-600"
-                                     @click.stop="rejectReport(report.reportId,'REJECTED')"
+                                     @click.stop="rejectReport(report.postId,'REJECTED')"
                                 >
                                     거절
                                 </button>
@@ -140,7 +140,7 @@ async function approveReport(id, status) {
             title: "정지 성공",
             message: "신고된 게시글을 삭제 했습니다.",
         });
-
+await postReportList();
         setTimeout(async () => {
             const res = await postReportList();
         }, 1000);
