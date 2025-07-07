@@ -10,8 +10,8 @@ class TokenService {
     constructor() {
         this.isRefreshing = false;
         this.failedQueue = [];
-        this.baseURL = "http://localhost:8080";
-        // this.baseURL = "http://35.209.18.197";
+        // this.baseURL = "http://localhost:8080";
+        this.baseURL = "http://35.209.18.197:8080";
     }
 
     // 대기 중인 요청들을 처리하는 함수
@@ -103,7 +103,7 @@ class TokenService {
 
             // 로그인 페이지로 리다이렉트
             if (window.location.pathname !== "/login") {
-                // window.location.href = "/login";
+                window.location.href = "/login";
             }
 
             throw error;
