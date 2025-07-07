@@ -27,7 +27,7 @@ export const getTokens = () => {
 export const clearTokens = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
+    localStorage.removeItem("isAdmin");
 };
 
 // 토큰 만료 확인

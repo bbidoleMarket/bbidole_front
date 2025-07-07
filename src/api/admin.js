@@ -76,7 +76,8 @@ export const useAdminApi = () => {
 
     const deleteProduct = async (id) => {
         try {
-            const response = await axios.post(`/api/admin/${id}`);
+            // const response = await axios.post(`/api/admin/${id}`);
+            const response = await axios.post(`/api/post/${id}`);
             return response.data;
         } catch (error) {
             throw error.response?.data || error;

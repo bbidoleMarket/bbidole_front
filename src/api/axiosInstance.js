@@ -3,8 +3,8 @@ import { tokenService } from "../services/tokenService";
 
 const axiosInstance = axios.create({
     // baseURL: "https://llinksy.loca.lt",
-    baseURL: "http://35.209.18.197:8080",
-    // baseURL: "http://localhost:8080",
+    // baseURL: "http://35.209.18.197:8080",
+    baseURL: "http://localhost:8080",
     headers: {
         "Content-Type": "application/json",
     },
@@ -36,7 +36,11 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error.config;
 
         // 401 에러이고 아직 재시도하지 않은 요청인 경우
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if (
+            (error.response?.status === 401 ||
+                error.response?.status === 403) &&
+            !originalRequest._retry
+        ) {
             originalRequest._retry = true;
 
             try {
