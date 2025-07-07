@@ -84,12 +84,12 @@
         <!-- 신고하기 버튼 -->
         <BaseButton
           v-if="!postDetail?.writer || false"
-          class="flex items-center justify-center gap-2 px-4 py-2 font-jua text-sm rounded-md border border-red-400 bg-red-50 text-red-600 hover:bg-red-100"
+          class="flex items-center justify-center gap-2 px-4 py-2 font-jua text-sm rounded-md border bg-red-400 hover:bg-red-600 active:bg-red-400"
           @click="reportPost"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4 text-red-500"
+            class="w-4 h-4 text-white"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
