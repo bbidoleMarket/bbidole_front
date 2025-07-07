@@ -1,17 +1,25 @@
 <template>
-  <div class="w-full max-w-xl mx-auto bg-white p-4 rounded-xl shadow space-y-4">
-    <div class="text-xl font-jua text-center">신고페이지</div>
-    <h1>신고자 : {{ reporter }}</h1>
-    <div v-if="viewType === ReportStatus.CHAT_ROOM">
-      <h1>채팅방 신고</h1>
+  <div class="flex flex-col h-[86vh] p-6 lg:px-60 bg-[#FFFFF6] rounded-[12px]">
+    <div
+      class="flex items-center justify-center text-[#2E383A] bg-[#EAF9EA] rounded-tl-[12px] rounded-tr-[12px] p-4"
+    >
+      <h2 class="font-hahmlet text-lg lg:text-3xl font-bold">신고 페이지</h2>
     </div>
-    <div v-else-if="viewType === ReportStatus.POST">
-      <h1>게시글 신고</h1>
-    </div>
-    <div v-else>
-      <h1>기타 신고</h1>
-    </div>
-    <div class="text-md">
+    <div
+      class="mb-4 bg-[#FFFCEF] shadow-lg p-4 rounded-br-[12px] rounded-bl-[12px]"
+    >
+      <span class="mb-2 font-semibold font-hahmlet text-[#2E383A]"
+        >신고자 :
+      </span>
+      <span class="font-hahmlet text-[#2E383A]">
+        {{ reporter }}
+      </span>
+      <div class="mb-4"></div>
+      <label
+        class="block mb-2 font-semibold font-hahmlet text-[#2E383A]"
+        for="review"
+        >리뷰 내용</label
+      >
       <textarea
         v-model="content"
         rows="5"
