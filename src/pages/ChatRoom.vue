@@ -62,8 +62,8 @@
                 :class="[
                     'rounded-tl-none rounded-tr-none rounded-br-none',
                     isRestricted
-                        ? 'bg-gray-300 text-[#F72E1B] placeholder:text-[#F72E1B]'
-                        : 'bg-white hover:bg-gray-100',
+            ? 'bg-gray-300 placeholder-custom'
+            : 'bg-white hover:bg-gray-100 placeholder-gray',
                 ]"
             />
             <BaseButton
@@ -286,3 +286,13 @@ const goPost = (productId) => {
     router.push(`/post/${productId}`);
 };
 </script>
+
+<style scoped>
+.placeholder-custom::placeholder {
+  color: #f72e1b;
+}
+
+.placeholder-gray::placeholder {
+  color: #9ca3af;
+}
+</style>
