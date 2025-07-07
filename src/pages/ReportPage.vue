@@ -18,7 +18,7 @@
       <label
         class="block mb-2 font-semibold font-hahmlet text-[#2E383A]"
         for="review"
-        >리뷰 내용</label
+        >신고 내용</label
       >
       <textarea
         v-model="content"
