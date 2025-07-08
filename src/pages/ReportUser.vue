@@ -142,6 +142,7 @@ async function approveReport(id, status) {
 await userReportList();
         setTimeout(async () => {
             const res = await userReportList();
+            ReportList.value=res.data.data;
         }, 1000);
     } catch (error) {
         modal.open({
@@ -161,6 +162,7 @@ async function rejectUser(id, status) {
 
         setTimeout(async () => {
             const res = await userReportList();
+            ReportList.value=res.data.data;
         }, 1000);
     } catch (error) {
         modal.open({
