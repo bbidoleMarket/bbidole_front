@@ -41,7 +41,7 @@
           <img
             :src="postDetail?.writerImageUrl || defaultImg"
             alt="userProfileImage"
-            class="md:w-full h-full object-cover"
+            class="md:w-full h-full object-cover rounded-full"
           />
         </div>
         <div>
